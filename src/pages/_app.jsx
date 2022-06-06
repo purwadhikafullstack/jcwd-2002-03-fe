@@ -1,4 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react"
+import BottomNavBar from "./component/BottomNavBar"
 import NavBar from "./component/NavBar"
 
 const MyApp = ({ Component, pageProps }) => {
@@ -6,6 +7,7 @@ const MyApp = ({ Component, pageProps }) => {
     <ChakraProvider>
       <NavBar />
       <Component {...pageProps} />
+      <BottomNavBar />
     </ChakraProvider>
   )
 }
