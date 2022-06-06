@@ -1,22 +1,17 @@
-import React from "react";
-import { Divider } from "@chakra-ui/react";
-import BottomBanner from "../component/BotomBanner"
-import PromotionCard from "../component/PromotionCard"
-import ResepBanner from "../component/ResepBanner"
-import SlideShow from "../component/SlideShow"
+import { Center, Spinner } from "@chakra-ui/react";
+
 
 const Index = () => {
   return (
-    <>
-      <SlideShow />
-      <Divider />
-      <ResepBanner />
-      <Divider />
-      <PromotionCard />
-      <Divider />
-      <BottomBanner />
-
-    </>
+    <Center>
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="md"
+      />
+    </Center>
   );
 };
 
