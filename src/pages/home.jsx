@@ -1,11 +1,17 @@
 import React from "react"
+import BottomBanner from "./component/BotomBanner"
 import PromotionCard from "./component/PromotionCard"
+import ResepBanner from "./component/ResepBanner"
+import SlideShow from "./component/SlideShow"
 
 const Home = () => {
     return (
         <>
-            <div>Home</div>
+            <SlideShow />
+            <ResepBanner />
             <PromotionCard />
+            <BottomBanner />
+
         </>
     )
 }
