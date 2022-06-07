@@ -3,6 +3,7 @@ import React from "react"
 
 const BottomNavBar = () => {
     return (
+
         <Grid
             color="#F6FAFB"
             background="#F6FAFB"
@@ -17,6 +18,7 @@ const BottomNavBar = () => {
             right={0}
             position="fixed"
             mt={5}
+
         >
             <GridItem colSpan={1}>
                 <Img src="berandaLogo.svg" />
