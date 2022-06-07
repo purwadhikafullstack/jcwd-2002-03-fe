@@ -17,21 +17,21 @@ const BottomNavBar = () => {
             left={0}
             right={0}
             position="fixed"
-            mt={10}
+            mt={5}
 
         >
             <GridItem colSpan={1}>
-                <Img src="/berandaLogo.svg" />
+                <Img src="berandaLogo.svg" />
             </GridItem>
-            <Img src="/kategoriLogo.svg" />
+            <Img src="kategoriLogo.svg" />
             <GridItem colSpan={1}>
-                <Img src="/transaksiLogo.svg" />
-            </GridItem>
-            <GridItem colSpan={1}>
-                <Img src="/bantuanLogo.svg" />
+                <Img src="transaksiLogo.svg" />
             </GridItem>
             <GridItem colSpan={1}>
-                <Img src="/profilLogo.svg" />
+                <Img src="bantuanLogo.svg" />
+            </GridItem>
+            <GridItem colSpan={1}>
+                <Img src="profilLogo.svg" />
             </GridItem>
         </Grid>
     )
