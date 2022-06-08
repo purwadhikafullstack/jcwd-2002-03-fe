@@ -4,7 +4,6 @@ import { MdExpandLess } from "react-icons/md"
 import Slider from "react-slick";
 
 const SlideShow = () => {
-
     const [slider, setSlider] = React.useState();
     const top = useBreakpointValue({ base: "50%", md: "50%" });
     const side = useBreakpointValue({ base: "-10px", md: "10px" });
@@ -23,6 +22,19 @@ const SlideShow = () => {
         "https://images.unsplash.com/photo-1627875764093-315831ac12f7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
         "https://images.unsplash.com/photo-1571432248690-7fd6980a1ae2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
     ];
+
+    // Settings for the slider
+    const settings = {
+        dots: true,
+        arrows: false,
+        fade: true,
+        infinite: true,
+        autoplay: true,
+        speed: 500,
+        autoplaySpeed: 5000,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    };
 
     return (
         <Box
