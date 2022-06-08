@@ -38,7 +38,9 @@ const ResepBanner = () => {
                 >
                     <GridItem colSpan={1} justifyContent="center" display="flex">
                         <Img
+
                             src="/unggahReseplg.svg"
+
                             height="232px"
                         />
                     </GridItem>

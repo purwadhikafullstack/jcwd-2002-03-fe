@@ -11,7 +11,9 @@ const AboutCompany = () => {
                 spacingX={20}
             >
                 <SimpleGrid >
+
                     <Img src="/contacCompany.svg" />
+
                 </SimpleGrid>
                 <SimpleGrid >
                     <Text fontWeight={600} fontSize={18} color="#213360">Tentang Kami</Text>
@@ -38,7 +40,6 @@ const AboutCompany = () => {
             {showHide}
         </Center>
     )
-
 }
 
 export default AboutCompany

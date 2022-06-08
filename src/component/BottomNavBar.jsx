@@ -32,6 +32,7 @@ const BottomNavBar = () => {
             </GridItem>
             <GridItem colSpan={1}>
                 <Img src="/profilLogo.svg" />
+
             </GridItem>
         </Grid>
     )

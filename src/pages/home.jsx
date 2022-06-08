@@ -15,6 +15,7 @@ const Home = () => {
             <PromotionCard />
             <Divider />
             <BottomBanner />
+
         </>
     )
 }

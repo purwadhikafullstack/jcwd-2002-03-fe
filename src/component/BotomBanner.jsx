@@ -17,6 +17,7 @@ const BottomBanner = () => {
                 </Box>
             </SimpleGrid >
         </>
+
     )
 }
 
