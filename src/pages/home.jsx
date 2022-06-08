@@ -1,3 +1,4 @@
+import ProductCard from "component/ProductCard"
 import React from "react"
 import BottomBanner from "../component/BotomBanner"
 import PromotionCard from "../component/PromotionCard"
@@ -11,6 +12,7 @@ const Home = () => {
             <ResepBanner />
             <PromotionCard />
             <BottomBanner />
+            <ProductCard />
 
         </>
     )
