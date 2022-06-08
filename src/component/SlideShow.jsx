@@ -3,19 +3,6 @@ import { Box, IconButton, useBreakpointValue } from "@chakra-ui/react";
 import { MdExpandLess } from "react-icons/md"
 import Slider from "react-slick";
 
-// Settings for the slider
-const settings = {
-    dots: true,
-    arrows: false,
-    fade: true,
-    infinite: true,
-    autoplay: true,
-    speed: 500,
-    autoplaySpeed: 5000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-};
-
 const SlideShow = () => {
 
     const [slider, setSlider] = React.useState();
