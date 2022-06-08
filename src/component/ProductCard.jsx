@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Image, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, HStack, Image, Img, Stack, Text } from "@chakra-ui/react";
 
 const ProductCard = () => {
   return (
@@ -9,11 +9,15 @@ const ProductCard = () => {
       borderRadius="xl"
       boxShadow=" 1px 2px 3px 4px rgba(237,248,248)"
       overflow="hidden"
-      marginLeft="10px"
-      marginBottom="100px"
     >
-      <Stack px="40px" pt="35px">
+      <Stack direction="row" justifyContent="end" px="40px" pt="35px">
         <Image src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//109/MTA-7979383/panadol_panadol_flu_-_batuk_-1_box-10_catch_cover-1_blister-10_tablet-_hijau_full01_rk8ov96d.jpg" />
+        <Box position="absolute">
+          <Img src="iconhati.svg" />
+        </Box>
+        <Box position="absolute">
+          <Img src="iconhati.svg" />
+        </Box>
       </Stack>
       <Stack pl="24px" pr="10px" pt="3">
         <Text fontSize="14px" fontWeight="700" fontFamily="sans-serif">
