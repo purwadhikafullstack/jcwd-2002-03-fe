@@ -7,11 +7,12 @@ import {
   Input,
   Stack,
   Text,
+  Link
 } from "@chakra-ui/react";
 
 const RightSectionAdminLogin = () => {
   return (
-    <Stack>
+    <Stack ml="10" mt="4">
       <Heading>
         <Text ml="28px" mt="77px" fontSize="24px">
           Masuk
@@ -79,6 +80,11 @@ const RightSectionAdminLogin = () => {
           mt="12">
             G Masuk Dengan Google</Button>
       </Box>
+
+      <Text pt="12" textAlign="center" pr="28">
+        <Text as="span">Belum Punya Akun? </Text>
+        <Link color="blue.300">Daftar</Link>
+      </Text>
     </Stack>
   );
 };
