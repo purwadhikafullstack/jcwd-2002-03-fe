@@ -41,7 +41,9 @@ const ProductCard = () => {
       </Stack>
       <Stack pl="24px" pr="10px" pt="3">
         <Text
-          fontSize="14px" fontWeight="700" fontFamily="sans-serif"
+          fontSize="14px"
+          fontWeight="700"
+          fontFamily="sans-serif"
           variant="mini-title"
         >
           PANADOL FLU DAN BATUK
@@ -75,15 +77,10 @@ const ProductCard = () => {
           </Text>
         </Stack>
         <HStack paddingBottom="10px">
-          <Text
-            mr="10"
-            variant="caption"
-          >
+          <Text mr="10" variant="caption">
             Rp. 13.000
           </Text>
-          <Text variant="caption">
-            / Strip
-          </Text>
+          <Text variant="caption">/ Strip</Text>
         </HStack>
 
         <Button variant="main-outline" w="92%">
