@@ -4,7 +4,6 @@ import Slider from "react-slick";
 import { HiPlus, HiMinus, HiShoppingCart, HiOutlineHeart } from "react-icons/hi"
 
 const ProdukDetail = () => {
-
     const settings = {
         dots: true,
         infinite: true,

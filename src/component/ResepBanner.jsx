@@ -5,7 +5,7 @@ const ResepBanner = () => {
     const banner = useBreakpointValue({
         base: (
             <Img
-                src="unggahResep.svg"
+                src="/unggahResep.svg"
                 // position="relative"
                 width="95%"
                 overflow="hidden"
@@ -38,7 +38,7 @@ const ResepBanner = () => {
                 >
                     <GridItem colSpan={1} justifyContent="center" display="flex">
                         <Img
-                            src="unggahReseplg.svg"
+                            src="/unggahReseplg.svg"
                             height="232px"
                         />
                     </GridItem>

@@ -38,9 +38,10 @@ const NavBar = () => {
             boxShadow="0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)"
             padding={[5, 5, 10]}
             h="92"
+            maxWidth="100%"
         >
             <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]} >
-                <Img src="logo.svg" />
+                <Img src="/logo.svg" />
             </GridItem>
             <GridItem colSpan={[4, 3, 3]}>
                 <InputGroup>
