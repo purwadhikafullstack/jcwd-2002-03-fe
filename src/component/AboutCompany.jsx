@@ -9,6 +9,9 @@ const AboutCompany = () => {
             <SimpleGrid
                 columns={4}
                 spacingX={20}
+                marginBottom={[3, 8, 8]}
+                marginLeft="auto"
+                marginRight="auto"
             >
                 <SimpleGrid >
 

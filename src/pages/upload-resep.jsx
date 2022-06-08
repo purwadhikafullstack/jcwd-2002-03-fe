@@ -67,10 +67,10 @@ const uploadResep = () => {
                     justifyContent="right"
                     alignItems="center"
                 >
-                    <Button marginRight={[3, 6, 6]} variant="outline" colorSchame="teal">
+                    <Button marginRight={[3, 6, 6]} variant="outline" colorScheme="teal">
                         Cancel
                     </Button>
-                    <Button marginRight={[3, 6, 6]} variant="solid" colorSchame="teal">
+                    <Button marginRight={[3, 6, 6]} variant="solid" colorScheme="teal">
                         Unggah
                     </Button>
                 </Box>
