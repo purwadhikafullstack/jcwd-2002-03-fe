@@ -1,22 +1,18 @@
-import ProductCard from "component/ProductCard"
-import React from "react"
-import BottomBanner from "../component/BotomBanner"
-import PromotionCard from "../component/PromotionCard"
-import ResepBanner from "../component/ResepBanner"
-import SlideShow from "../component/SlideShow"
-import UpLeftCategory from "component/UpLeftCategory"
+import React from "react";
+import BottomBanner from "../component/BotomBanner";
+import PromotionCard from "../component/PromotionCard";
+import ResepBanner from "../component/ResepBanner";
+import SlideShow from "../component/SlideShow";
 
 const Home = () => {
-    return (
-        <>
-            <SlideShow />
-            <ResepBanner />
-            <PromotionCard />
-            <BottomBanner />
-            <ProductCard />
-            <UpLeftCategory />
-        </>
-    )
-}
+  return (
+    <>
+      <SlideShow />
+      <ResepBanner />
+      <PromotionCard />
+      <BottomBanner />
+    </>
+  );
+};
 
-export default Home
+export default Home;

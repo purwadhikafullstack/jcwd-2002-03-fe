@@ -1,4 +1,13 @@
-import { Box, Button, HStack, Image, Img, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  HStack,
+  Icon,
+  Image,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { BsFillCircleFill, BsSuitHeartFill } from "react-icons/bs";
 
 const ProductCard = () => {
   return (
@@ -10,13 +19,20 @@ const ProductCard = () => {
       boxShadow=" 1px 2px 3px 4px rgba(237,248,248)"
       overflow="hidden"
     >
-      <Stack direction="row" justifyContent="end" px="40px" pt="35px">
-        <Image src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//109/MTA-7979383/panadol_panadol_flu_-_batuk_-1_box-10_catch_cover-1_blister-10_tablet-_hijau_full01_rk8ov96d.jpg" />
-        <Box position="absolute">
-          <Img src="iconhati.svg" />
+      <Stack direction="row" justifyContent="end">
+        <Stack px="40px" pt="35px">
+          <Image
+            w="133px"
+            h="104px"
+            objectFit="cover"
+            src="https://lifepack.id/wp-content/uploads/2020/12/94-1.jpg"
+          />
+        </Stack>
+        <Box pt="14px" pr="22px" position="absolute">
+          <Icon as={BsFillCircleFill} color="gray.100" w="44px" h="44px" />
         </Box>
-        <Box position="absolute">
-          <Img src="iconhati.svg" />
+        <Box pt="25px" pr="30.5px" position="absolute">
+          <Icon as={BsSuitHeartFill} color="gray.400" w="26.32px" h="23.69" />
         </Box>
       </Stack>
       <Stack pl="24px" pr="10px" pt="3">

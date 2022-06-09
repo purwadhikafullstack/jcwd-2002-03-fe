@@ -1,4 +1,5 @@
-import { Box, Img, Stack, Text } from "@chakra-ui/react";
+import { Box, Icon, Stack, Text } from "@chakra-ui/react";
+import { IoIosArrowUp } from "react-icons/io";
 
 const UpLeftCategory = () => {
   return (
@@ -20,7 +21,7 @@ const UpLeftCategory = () => {
           >
             KATEGORI
           </Text>
-          <Img src="iconhati.svg"/>
+          <Icon as={IoIosArrowUp} />
         </Stack>
         <Text fontSize="14px" fontWeight="700" fontFamily="sans-serif">
           Obat-Obatan
