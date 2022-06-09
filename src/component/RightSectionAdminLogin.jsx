@@ -18,7 +18,7 @@ const RightSectionAdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <Stack ml="10" mt="4">
+    <Stack ml="14" mt="4">
       <Heading>
         <Text ml="28px" mt="77px" fontSize="24px">
           Masuk
@@ -50,7 +50,7 @@ const RightSectionAdminLogin = () => {
           />
           <InputRightElement h="full">
             <Button
-              mr="264px"
+              mr="232px"
               mt="9px"
               variant="ghost"
               onClick={() => setShowPassword((showPassword) => !showPassword)}
@@ -75,7 +75,7 @@ const RightSectionAdminLogin = () => {
           fontSize="12px"
           _hover={{ cursor: "pointer" }}
         >
-          Lupa Kata Sandi ?
+          <Link>Lupa Kata Sandi ?</Link>
         </Text>
       </Box>
 
