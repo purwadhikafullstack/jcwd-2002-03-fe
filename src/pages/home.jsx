@@ -1,5 +1,6 @@
 import ProductCard from "component/ProductCard"
 import React from "react"
+import { Divider } from "@chakra-ui/react"
 import BottomBanner from "../component/BotomBanner"
 import PromotionCard from "../component/PromotionCard"
 import ResepBanner from "../component/ResepBanner"
@@ -10,8 +11,11 @@ const Home = () => {
     return (
         <>
             <SlideShow />
+            <Divider />
             <ResepBanner />
+            <Divider />
             <PromotionCard />
+            <Divider />
             <BottomBanner />
             <ProductCard />
             <UpLeftCategory />
