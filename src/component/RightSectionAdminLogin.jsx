@@ -7,11 +7,18 @@ import {
   Input,
   Stack,
   Text,
+  Link,
+  InputRightElement,
+  InputGroup,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 const RightSectionAdminLogin = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
-    <Stack>
+    <Stack ml="14" mt="4">
       <Heading>
         <Text ml="28px" mt="77px" fontSize="24px">
           Masuk
@@ -32,13 +39,27 @@ const RightSectionAdminLogin = () => {
         <Text ml="37px" mt="20px" fontSize="14px">
           Password
         </Text>
-        <Input
-          mt="2"
-          ml="37px"
-          w="531px"
-          placeholder="Masukkan Password"
-          htmlSize="531px"
-        />
+        <InputGroup>
+          <Input
+            mt="2"
+            ml="37px"
+            w="531px"
+            placeholder="Masukkan Password"
+            htmlSize="531px"
+            type={showPassword ? "text" : "password"}
+          />
+          <InputRightElement h="full">
+            <Button
+              mr="232px"
+              mt="9px"
+              variant="ghost"
+              onClick={() => setShowPassword((showPassword) => !showPassword)}
+            >
+              {" "}
+              {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+            </Button>
+          </InputRightElement>
+        </InputGroup>
       </Box>
 
       <Box>
@@ -47,8 +68,14 @@ const RightSectionAdminLogin = () => {
             Ingat Saya
           </Text>
         </Checkbox>
-        <Text ml="359px" as="span" color="gray" fontSize="12px" _hover={{ cursor:"pointer" }}>
-          Lupa Kata Sandi ?
+        <Text
+          ml="359px"
+          as="span"
+          color="gray"
+          fontSize="12px"
+          _hover={{ cursor: "pointer" }}
+        >
+          <Link>Lupa Kata Sandi ?</Link>
         </Text>
       </Box>
 
@@ -67,18 +94,23 @@ const RightSectionAdminLogin = () => {
           Masuk
         </Button>
       </Box>
-      
+
       <Box>
-          <Text mt="12" mr="28" textAlign="center">Atau Masuk Dengan</Text>
+        <Text mt="12" mr="28" textAlign="center">
+          Atau Masuk Dengan
+        </Text>
       </Box>
 
       <Box>
-          <Button
-          ml="37px"
-          w="531px"
-          mt="12">
-            G Masuk Dengan Google</Button>
+        <Button ml="37px" w="531px" mt="12">
+          G Masuk Dengan Google
+        </Button>
       </Box>
+
+      <Text pt="12" textAlign="center" pr="28">
+        <Text as="span">Belum Punya Akun? </Text>
+        <Link color="blue.300">Daftar</Link>
+      </Text>
     </Stack>
   );
 };
