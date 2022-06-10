@@ -1,4 +1,3 @@
-
 import React, { useState } from "react"
 import { Badge, Box, Button, Grid, GridItem, Icon, IconButton, Table, TableContainer, Tbody, Td, Text, Tr, useBreakpointValue } from "@chakra-ui/react"
 import { HiPlus, HiMinus, HiShoppingCart, HiOutlineHeart, HiOutlineShare, HiOutlineChat } from "react-icons/hi"
