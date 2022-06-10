@@ -12,16 +12,14 @@ import {
 } from "@chakra-ui/react"
 import { BsSearch } from "react-icons/bs"
 import { FaShoppingCart, FaBell } from "react-icons/fa"
-import { useRouter } from "next/router"
 
-const DesktopNavBar = () => {
-    const router = useRouter()
+const NavBar = () => {
 
     const buttonOrIcon = useBreakpointValue({
         base: (
             <>
                 <Icon as={FaBell} color="#008D8F" _hover={{ color: "white" }} />
-                <Icon as={FaShoppingCart} color="#008D8F" _hover={{ color: "white" }} onClick={() => router.push("/cart")} />
+                <Icon as={FaShoppingCart} color="#008D8F" _hover={{ color: "white" }} />
             </>
         ), md: (
             <>
@@ -42,11 +40,12 @@ const DesktopNavBar = () => {
             padding={[5, 5, 10]}
             h="92"
             maxWidth="100%"
-            background="linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12)"
+            background="linear-gradient(to left, #fde600, #8bd64c, #00b87a, #00948e, #006d7f);"
 
         >
-            <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]}  >
+            <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]} >
                 <Img src="/logo.svg" />
+
             </GridItem>
             <GridItem colSpan={[4, 3, 3]}>
                 <InputGroup>
@@ -64,4 +63,4 @@ const DesktopNavBar = () => {
     )
 }
 
-export default DesktopNavBar
+export default NavBar
