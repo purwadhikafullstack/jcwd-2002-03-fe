@@ -1,15 +1,22 @@
-import { Center, Img, SimpleGrid, Text } from "@chakra-ui/react"
+import { Center, Img, SimpleGrid, Text, useBreakpointValue } from "@chakra-ui/react"
 import React from "react"
 
 const AboutCompany = () => {
-    return (
-        <Center>
+    const showHide = useBreakpointValue({
+
+        base: "",
+        md: (
             <SimpleGrid
                 columns={4}
                 spacingX={20}
+                marginBottom={[3, 8, 8]}
+                marginLeft="auto"
+                marginRight="auto"
             >
                 <SimpleGrid >
-                    <Img src="contacCompany.svg" />
+
+                    <Img src="/contacCompany.svg" />
+
                 </SimpleGrid>
                 <SimpleGrid >
                     <Text fontWeight={600} fontSize={18} color="#213360">Tentang Kami</Text>
@@ -25,9 +32,15 @@ const AboutCompany = () => {
                     <Text fontWeight={600} fontSize={18} color="#213360">Diagnosis</Text>
                 </SimpleGrid>
                 <SimpleGrid>
-                    <Img src="ikutiKami.svg" />
+                    <Img src="/ikutiKami.svg" />
                 </SimpleGrid>
             </SimpleGrid>
+        )
+    })
+
+    return (
+        <Center>
+            {showHide}
         </Center>
     )
 }
