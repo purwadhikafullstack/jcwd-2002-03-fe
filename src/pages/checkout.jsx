@@ -20,22 +20,32 @@ const checkOut = () => {
                     boxShadow="0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)"
                     borderRadius="16px"
                 >
-                    <Text fontWeight={700} fontSize={[20, 24, 24]}>Alamat Pengiriman</Text>
+
+                    <Text
+                        // fontWeight={700}
+                        // fontSize={[20, 24, 24]}
+                        variant="title"
+                    >Alamat Pengiriman</Text>
+
                     <Box
                         justifyContent="space-between"
                         display="flex"
                         borderBottom="1px solid teal"
                         borderTop="1px solid teal"
                     >
-                        <Text fontWeight={700} fontSize={[14, 20, 20]}>Jane Doe, +02123456789</Text>
-                        <Text fontWeight={700} fontSize={[14, 20, 20]}>Pilih Alamat Lain</Text>
+
+                        <Text variant="subtitle">Jane Doe, +02123456789</Text>
+                        <Text variant="subtitle">Pilih Alamat Lain</Text>
+
                     </Box>
                     <Box>
                         <Text>alamat lengkap</Text>
                     </Box>
                     <Box borderTop="1px solid teal" display="flex" alignItems="center">
                         <Icon as={BsPlusCircle} mr={2} />
-                        <Text fontWeight={400} fontSize={[14, 20, 20]}>Tambah Alamat Baru</Text>
+
+                        <Text variant="subtitle">Tambah Alamat Baru</Text>
+
                     </Box>
                 </GridItem>
 
@@ -47,7 +57,9 @@ const checkOut = () => {
                     padding={4}
                 >
                     <Box>
-                        <Text fontWeight={700} fontSize={[20, 24, 24]}>Total</Text>
+
+                        <Text variant="title">Total</Text>
+
                     </Box>
                     <Box justifyContent="space-between" display="flex" alignItems="center">
                         <Text>Sub Total</Text>
@@ -58,16 +70,19 @@ const checkOut = () => {
                         <Text>Rp. 9.000</Text>
                     </Box>
                     <Box justifyContent="space-between" display="flex" alignItems="center" borderTop="1px solid black">
-                        <Text fontWeight={700} fontSize={[20, 24, 24]}>Total</Text>
-                        <Text fontWeight={700} fontSize={[20, 24, 24]}>Rp. 22.000</Text>
+
+                        <Text variant="title">Total</Text>
+                        <Text variant="title">Rp. 22.000</Text>
                     </Box>
                     <Box justifyContent="space-between" display="blok" alignItems="center" borderTop="1px solid black">
                         <Box>
-                            <Text fontWeight={700} fontSize={[20, 24, 24]}>Metode Pembayaran</Text>
+                            <Text variant="title">Metode Pembayaran</Text>
                             <Text>Silahkan pilih metode pembayaran anda disini</Text>
                         </Box>
                         <Box>
-                            <Button colorScheme="teal" width="full">Pilih Metode Pembayaran</Button>
+                            <Button mb={5} variant="main" width="full">Pilih Metode Pembayaran</Button>
+                            <Button variant="main-outline" width="full">Pilih Metode Pembayaran</Button>
+
                         </Box>
                     </Box>
                 </GridItem>
@@ -79,7 +94,9 @@ const checkOut = () => {
                     padding={4}
                 >
                     <Box borderBottom="1px solid teal">
-                        <Text fontWeight={700} fontSize={[20, 24, 24]}>Ringkasan Order</Text>
+
+                        <Text variant="title">Ringkasan Order</Text>
+
                     </Box>
                     <Grid templateColumns="repeat(5, 1fr)" gap={2} templateRows='repeat(2, 1fr)' >
                         <GridItem colSpan={1} rowSpan={2}>
