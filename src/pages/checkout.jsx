@@ -22,8 +22,6 @@ const checkOut = () => {
                 >
 
                     <Text
-                        // fontWeight={700}
-                        // fontSize={[20, 24, 24]}
                         variant="title"
                     >Alamat Pengiriman</Text>
 
@@ -33,7 +31,6 @@ const checkOut = () => {
                         borderBottom="1px solid teal"
                         borderTop="1px solid teal"
                     >
-
                         <Text variant="subtitle">Jane Doe, +02123456789</Text>
                         <Text variant="subtitle">Pilih Alamat Lain</Text>
 
@@ -43,9 +40,7 @@ const checkOut = () => {
                     </Box>
                     <Box borderTop="1px solid teal" display="flex" alignItems="center">
                         <Icon as={BsPlusCircle} mr={2} />
-
                         <Text variant="subtitle">Tambah Alamat Baru</Text>
-
                     </Box>
                 </GridItem>
 
@@ -57,9 +52,7 @@ const checkOut = () => {
                     padding={4}
                 >
                     <Box>
-
                         <Text variant="title">Total</Text>
-
                     </Box>
                     <Box justifyContent="space-between" display="flex" alignItems="center">
                         <Text>Sub Total</Text>
@@ -70,7 +63,6 @@ const checkOut = () => {
                         <Text>Rp. 9.000</Text>
                     </Box>
                     <Box justifyContent="space-between" display="flex" alignItems="center" borderTop="1px solid black">
-
                         <Text variant="title">Total</Text>
                         <Text variant="title">Rp. 22.000</Text>
                     </Box>
@@ -82,7 +74,6 @@ const checkOut = () => {
                         <Box>
                             <Button mb={5} variant="main" width="full">Pilih Metode Pembayaran</Button>
                             <Button variant="main-outline" width="full">Pilih Metode Pembayaran</Button>
-
                         </Box>
                     </Box>
                 </GridItem>
@@ -94,9 +85,7 @@ const checkOut = () => {
                     padding={4}
                 >
                     <Box borderBottom="1px solid teal">
-
                         <Text variant="title">Ringkasan Order</Text>
-
                     </Box>
                     <Grid templateColumns="repeat(5, 1fr)" gap={2} templateRows='repeat(2, 1fr)' >
                         <GridItem colSpan={1} rowSpan={2}>
@@ -111,7 +100,6 @@ const checkOut = () => {
                             </Box>
                             <Text>4 tablet</Text>
                         </GridItem>
-
                         <GridItem colSpan={1} rowSpan={1} padding={2}>
                             <Text>Rp.13.000</Text>
                         </GridItem>

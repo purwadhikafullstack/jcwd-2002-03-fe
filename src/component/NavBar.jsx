@@ -14,11 +14,12 @@ import { BsSearch } from "react-icons/bs"
 import { FaShoppingCart, FaBell } from "react-icons/fa"
 
 const NavBar = () => {
+
     const buttonOrIcon = useBreakpointValue({
         base: (
             <>
-                <Icon as={FaBell} color="#009B90" />
-                <Icon as={FaShoppingCart} color="#009B90" />
+                <Icon as={FaBell} color="#008D8F" _hover={{ color: "white" }} />
+                <Icon as={FaShoppingCart} color="#008D8F" _hover={{ color: "white" }} />
             </>
         ), md: (
             <>
@@ -50,7 +51,7 @@ const NavBar = () => {
                 <InputGroup>
                     <Input h={["36px", "44px", "44px"]} />
                     <InputRightElement>
-                        <Icon as={BsSearch} color="#B4B9C7" />
+                        <Icon as={BsSearch} color="#FFFFF" />
                     </InputRightElement>
                 </InputGroup>
             </GridItem >
