@@ -40,19 +40,14 @@ const LeftCategory = () => {
       borderRadius="16px"
     >
       <Box pl="33px" mb="-6.5px" pt="24px">
-        <Button w="211px">
+        <Button variant="main-outline" w="211px">
           <Text>Hapus Semua Filter</Text>
         </Button>
       </Box>
       <Divider mb="20px" mt="20px" />
       <Stack pl="28px" spacing="-0.5" pr="28px">
         <Stack direction="row" justifyContent="space-between">
-          <Text
-            mb="16px"
-            fontSize="16px"
-            fontWeight="700"
-            fontFamily="sans-serif"
-          >
+          <Text mb="16px" variant="caption-bold" fontWeight="600">
             KELUHAN
           </Text>
           {keluhanArrow ? (
@@ -71,52 +66,35 @@ const LeftCategory = () => {
           <CheckboxGroup borderRadius="4px">
             <Stack spacing="10px" direction={["column", "none"]}>
               <Checkbox>
-                <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-                  Batuk & Flu
-                </Text>
+                <Text variant="caption">Batuk & Flu</Text>
               </Checkbox>
               <Checkbox>
-                <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-                  Demam
-                </Text>
+                <Text variant="caption">Demam</Text>
               </Checkbox>
               <Checkbox>
-                <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-                  Imun Booster
-                </Text>
+                <Text variant="caption">Imun Booster</Text>
               </Checkbox>
               <Checkbox>
-                <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-                  Kesehatan Seksual
-                </Text>
+                <Text variant="caption">Kesehatan Seksual</Text>
               </Checkbox>
               <Checkbox>
-                <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-                  Mata & Mulut
-                </Text>
+                <Text variant="caption">Mata & Mulut</Text>
               </Checkbox>
               <Checkbox>
-                <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-                  Obat Diare
-                </Text>
+                <Text variant="caption">Obat Diare</Text>
               </Checkbox>
               <Checkbox>
-                <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-                  Pelancar BAB
-                </Text>
+                <Text variant="caption">Pelancar BAB</Text>
               </Checkbox>
               <Checkbox>
-                <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-                  Sakit Gigi
-                </Text>
+                <Text variant="caption">Sakit Gigi</Text>
               </Checkbox>
             </Stack>
           </CheckboxGroup>
           <Text
             mt="12px"
-            fontSize="14px"
-            fontWeight="400"
-            fontFamily="sans-serif"
+            variant="caption"
+            _hover={{ cursor: "pointer", color: "#586193" }}
           >
             Lihat Lebih Lengkap
           </Text>
@@ -126,12 +104,7 @@ const LeftCategory = () => {
 
       <Stack pl="28px" pr="28px" spacing="-0.5">
         <Stack direction="row" justifyContent="space-between">
-          <Text
-            mb="16px"
-            fontSize="16px"
-            fontWeight="700"
-            fontFamily="sans-serif"
-          >
+          <Text mb="16px" fontWeight="600" variant="caption-bold">
             HARGA
           </Text>
           {hargaArrow ? (
@@ -147,18 +120,18 @@ const LeftCategory = () => {
           )}
         </Stack>
         <Collapse in={hargaIsOpen} animateOpacity>
-          <Stack>
+          <Stack spacing="4">
             <InputGroup>
               <InputLeftElement
                 pointerEvents="none"
-                children={<Text>Rp.</Text>}
+                children={<Text variant="caption">Rp.</Text>}
               />
               <Input type="tel" placeholder="Harga Minimum" />
             </InputGroup>
             <InputGroup>
               <InputLeftElement
                 pointerEvents="none"
-                children={<Text>Rp.</Text>}
+                children={<Text variant="caption">Rp.</Text>}
               />
               <Input type="tel" placeholder="Harga Maksimal" />
             </InputGroup>
@@ -168,12 +141,7 @@ const LeftCategory = () => {
       <Divider mb="20px" mt="20px" />
       <Stack pl="28px" pr="28px" spacing="-0.5">
         <Stack direction="row" justifyContent="space-between">
-          <Text
-            mb="16px"
-            fontSize="16px"
-            fontWeight="700"
-            fontFamily="sans-serif"
-          >
+          <Text mb="16px" variant="caption-bold" fontWeight="600">
             JENIS OBAT
           </Text>
           {jenisArrow ? (
@@ -193,84 +161,35 @@ const LeftCategory = () => {
             <CheckboxGroup borderRadius="16px">
               <Stack spacing="10px" direction={["column", "none"]}>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Drop
-                  </Text>
+                  <Text variant="caption">Drop</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Gel
-                  </Text>
+                  <Text variant="caption">Gel</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Strip
-                  </Text>
+                  <Text variant="caption">Strip</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Emulsi
-                  </Text>
+                  <Text variant="caption">Emulsi</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Balsem
-                  </Text>
+                  <Text variant="caption">Balsem</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Cairan
-                  </Text>
+                  <Text variant="caption">Cairan</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Koyo
-                  </Text>
+                  <Text variant="caption">Koyo</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Serbuk
-                  </Text>
+                  <Text variant="caption">Serbuk</Text>
                 </Checkbox>
               </Stack>
             </CheckboxGroup>
             <Text
               mb="20px"
-              fontSize="14px"
-              fontWeight="400"
-              fontFamily="sans-serif"
+              variant="caption"
+              _hover={{ cursor: "pointer", color: "#586193" }}
             >
               Lihat Lebih Lengkap
             </Text>
@@ -280,12 +199,7 @@ const LeftCategory = () => {
       <Divider mb="20px" mt="20px" />
       <Stack pl="28px" pr="28px" spacing="-0.5">
         <Stack direction="row" justifyContent="space-between">
-          <Text
-            mb="18px"
-            fontSize="16px"
-            fontWeight="700"
-            fontFamily="sans-serif"
-          >
+          <Text mb="18px" variant="caption-bold" fontWeight="600">
             BRAND OBAT
           </Text>
           {brandArrow ? (
@@ -307,89 +221,40 @@ const LeftCategory = () => {
                 pointerEvents="none"
                 children={<Icon as={IoSearchOutline} color="gray.300" />}
               />
-              <Input type="tel" placeholder="Cari Brand" />
+              <Input type="text" placeholder="Cari Brand" />
             </InputGroup>
             <CheckboxGroup borderRadius="16px">
               <Stack spacing="10px" direction={["column", "none"]}>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Drop
-                  </Text>
+                  <Text variant="caption">Drop</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Gel
-                  </Text>
+                  <Text variant="caption">Gel</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Strip
-                  </Text>
+                  <Text variant="caption">Strip</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Emulsi
-                  </Text>
+                  <Text variant="caption">Emulsi</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Balsem
-                  </Text>
+                  <Text variant="caption">Balsem</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Cairan
-                  </Text>
+                  <Text fvariant="caption">Cairan</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Koyo
-                  </Text>
+                  <Text variant="caption">Koyo</Text>
                 </Checkbox>
                 <Checkbox>
-                  <Text
-                    fontSize="14px"
-                    fontWeight="400"
-                    fontFamily="sans-serif"
-                  >
-                    Serbuk
-                  </Text>
+                  <Text variant="caption">Serbuk</Text>
                 </Checkbox>
               </Stack>
             </CheckboxGroup>
             <Text
               pb="30px"
-              fontSize="14px"
-              fontWeight="400"
-              fontFamily="sans-serif"
+              variant="caption"
+              _hover={{ cursor: "pointer", color: "#586193" }}
             >
               Lihat Lebih Lengkap
             </Text>

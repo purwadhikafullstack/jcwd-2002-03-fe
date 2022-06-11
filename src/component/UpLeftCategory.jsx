@@ -24,12 +24,7 @@ const UpLeftCategory = () => {
     >
       <Stack pl="28px" py="29px" pr="28px">
         <Stack direction="row" justifyContent="space-between">
-          <Text
-            mb="16px"
-            fontSize="16px"
-            fontWeight="700"
-            fontFamily="sans-serif"
-          >
+          <Text mb="16px" variant="caption-bold" fontWeight="600">
             KATEGORI
           </Text>
           {kategoriArrow ? (
@@ -45,27 +40,13 @@ const UpLeftCategory = () => {
           )}
         </Stack>
         <Collapse in={kategoriIsOpen} animateOpacity>
-          <Text fontSize="14px" fontWeight="700" fontFamily="sans-serif">
-            Obat-Obatan
-          </Text>
-          <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-            Nutrisi
-          </Text>
-          <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-            Herbal
-          </Text>
-          <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-            Vitamin & Suplemen
-          </Text>
-          <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-            Alat Kesehatan
-          </Text>
-          <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-            Perawatan Tubuh
-          </Text>
-          <Text fontSize="14px" fontWeight="400" fontFamily="sans-serif">
-            Ibu & Anak
-          </Text>
+          <Text variant="mini-title">Obat-Obatan</Text>
+          <Text variant="caption">Nutrisi</Text>
+          <Text variant="caption">Herbal</Text>
+          <Text variant="caption">Vitamin & Suplemen</Text>
+          <Text variant="caption">Alat Kesehatan</Text>
+          <Text variant="caption">Perawatan Tubuh</Text>
+          <Text variant="caption">Ibu & Anak</Text>
         </Collapse>
       </Stack>
     </Box>

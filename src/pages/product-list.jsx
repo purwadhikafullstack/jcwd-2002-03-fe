@@ -26,15 +26,21 @@ const ProductList = () => {
       <GridItem rowSpan={1} colSpan={1}>
         <Breadcrumb marginLeft="30px" mb="38px" mt="36px">
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/home">
+              <Text variant="caption">Home</Text>
+            </BreadcrumbLink>
           </BreadcrumbItem>
 
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Docs</BreadcrumbLink>
+            <BreadcrumbLink href="#">
+              <Text variant="caption">Kategori</Text>
+            </BreadcrumbLink>
           </BreadcrumbItem>
 
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href="#">Breadcrumb</BreadcrumbLink>
+            <BreadcrumbLink href="#">
+              <Text variant="caption">Obat</Text>
+            </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
         <UpLeftCategory />
@@ -42,28 +48,14 @@ const ProductList = () => {
       </GridItem>
       <GridItem mt="100px" colSpan={4}>
         <Box mr="30px">
-          <Text fontSize="24px" fontWeight="700" fontFamily="sans-serif">
-            Obat
-          </Text>
+          <Text variant="title">Obat</Text>
           <Divider pr="85px" />
           <Stack direction="row" justifyContent="space-between">
-            <Text
-              pt="31px"
-              pb="45px"
-              fontSize="14px"
-              fontWeight="400"
-              fontFamily="sans-serif"
-            >
+            <Text pt="31px" pb="45px" variant="caption">
               45 Produk di Vitamin & Suplemen
             </Text>
             <Stack spacing="50px" direction="row" pt="20px" pr="165px">
-              <Text
-                mt="18px"
-                mr="52px"
-                fontSize="14px"
-                fontWeight="400"
-                fontFamily="sans-serif"
-              >
+              <Text mt="18px" mr="52px" variant="caption">
                 Urutkan
               </Text>
               <UrutanProList />

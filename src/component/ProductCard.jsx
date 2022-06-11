@@ -41,7 +41,10 @@ const ProductCard = () => {
         </Box>
       </Stack>
       <Stack pl="24px" pr="10px" pt="3">
-        <Text fontSize="14px" fontWeight="700" fontFamily="sans-serif">
+        <Text 
+        fontSize="14px" fontWeight="700" fontFamily="sans-serif"
+        variant="mini-title"
+        >
           PANADOL FLU DAN BATUK
         </Text>
         <Stack direction="row">
@@ -66,9 +69,8 @@ const ProductCard = () => {
           <Text
             textDecorationLine="line-through"
             textDecorationColor="#737A8D"
-            fontSize="14px"
             pl="12px"
-            fontWeight="100"
+            variant="caption"
           >
             Rp. 17.000
           </Text>
@@ -76,18 +78,18 @@ const ProductCard = () => {
         <HStack paddingBottom="10px">
           <Text
             mr="10"
-            fontSize="14px"
-            fontWeight="700"
-            fontFamily="sans-serif"
+            variant="caption"
           >
             Rp. 13.000
           </Text>
-          <Text fontSize="14px" fontWeight="700" fontFamily="sans-serif">
+          <Text variant="caption">
             / Strip
           </Text>
         </HStack>
 
-        <Button w="92%">Keranjang</Button>
+        <Button variant="main-outline" w="92%">
+          Keranjang
+        </Button>
       </Stack>
     </Box>
   );

@@ -32,9 +32,7 @@ const UrutanProList = () => {
         pb="15px"
         pl="15px"
       >
-        <Text fontSize="14px" fontWeight="200" fontFamily="sans-serif">
-          Terpopuler
-        </Text>
+        <Text variant="caption">Terpopuler</Text>
         {urutanArrow ? (
           <Icon
             as={IoIosArrowUp}
@@ -50,21 +48,11 @@ const UrutanProList = () => {
       <Collapse in={urutanIsOpen} animateOpacity>
         <Divider mb="15px" />
         <Stack pl="15px" spacing="16px" mb="14px">
-          <Text fontSize="14px" fontWeight="200" fontFamily="sans-serif">
-            Terpopuler
-          </Text>
-          <Text fontSize="14px" fontWeight="200" fontFamily="sans-serif">
-            Termahal
-          </Text>
-          <Text fontSize="14px" fontWeight="200" fontFamily="sans-serif">
-            Termurah
-          </Text>
-          <Text fontSize="14px" fontWeight="200" fontFamily="sans-serif">
-            Ulasan
-          </Text>
-          <Text fontSize="14px" fontWeight="200" fontFamily="sans-serif">
-            Terbaru
-          </Text>
+          <Text variant="caption">Terpopuler</Text>
+          <Text variant="caption">Termahal</Text>
+          <Text variant="caption">Termurah</Text>
+          <Text variant="caption">Ulasan</Text>
+          <Text variant="caption">Terbaru</Text>
         </Stack>
       </Collapse>
     </Box>
