@@ -16,6 +16,8 @@ import { Icon } from "@chakra-ui/icons";
 const { default: AdminNavbar } = require("component/AdminNavbar");
 
 const AdminSideBar = () => {
+  const { isOpen, onToggle } = useDisclosure();
+
   return (
     <>
       <Box zIndex="docked" minH="100vh">
