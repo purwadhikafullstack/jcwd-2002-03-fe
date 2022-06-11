@@ -12,12 +12,17 @@ import { BsFillCircleFill, BsSuitHeartFill } from "react-icons/bs";
 const ProductCard = () => {
   return (
     <Box
-      maxW="213px"
+      W="213px"
       h="331px"
       borderWidth="1px"
       borderRadius="xl"
-      boxShadow=" 1px 2px 3px 4px rgba(237,248,248)"
       overflow="hidden"
+      boxShadow=" 1px 2px 3px 4px rgba(245,251,251)"
+      mr="5px"
+      mb="5px"
+      _hover={{
+        boxShadow: " 1px 2px 3px 4px rgba(237,248,248)",
+      }}
     >
       <Stack direction="row" justifyContent="end">
         <Stack px="40px" pt="35px">
