@@ -19,6 +19,8 @@ import Link from "next/link";
 const { default: AdminNavbar } = require("./AdminNavbar");
 
 const AdminSideBar = () => {
+  const { isOpen, onToggle } = useDisclosure();
+
   return (
     <SimpleGrid zIndex="overlay">
       <Box w="full">
