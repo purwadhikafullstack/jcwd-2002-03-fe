@@ -51,7 +51,6 @@ const uploadResep = () => {
             </Text>
 
             <Box
-                // display="flex"
                 justifyContent="center"
                 alignItems="center"
                 width={["100%", "70%", "70%"]}
