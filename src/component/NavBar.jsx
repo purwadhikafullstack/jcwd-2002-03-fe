@@ -22,8 +22,8 @@ const NavBar = () => {
             </>
         ), md: (
             <>
-                <Button colorScheme="teal" variant="outline">Masuk</Button>
-                <Button colorScheme="teal" variant="solid">Daftar</Button>
+                <Button width='40%' variant="main-outline">Masuk</Button>
+                <Button width='40%' variant="main">Daftar</Button>
             </>
         )
     })
@@ -39,6 +39,8 @@ const NavBar = () => {
             padding={[5, 5, 10]}
             h="92"
             maxWidth="100%"
+            background="linear-gradient(to left, #fde600, #8bd64c, #00b87a, #00948e, #006d7f);"
+
         >
             <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]} >
                 <Img src="/logo.svg" />
