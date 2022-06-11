@@ -2,12 +2,12 @@ import {
   Box,
   Button,
   Checkbox,
-  color,
+  // color,
   Heading,
   Input,
   Stack,
   Text,
-  Link,
+  // Link,
   InputRightElement,
   InputGroup,
 } from "@chakra-ui/react";
@@ -53,7 +53,7 @@ const RightSectionAdminLogin = () => {
               mr="232px"
               mt="9px"
               variant="ghost"
-              onClick={() => setShowPassword((showPassword) => !showPassword)}
+              onClick={() => setShowPassword(!showPassword)}
             >
               {" "}
               {showPassword ? <ViewIcon /> : <ViewOffIcon />}
@@ -75,7 +75,7 @@ const RightSectionAdminLogin = () => {
           fontSize="12px"
           _hover={{ cursor: "pointer" }}
         >
-          <Link>Lupa Kata Sandi ?</Link>
+          {/* <Link>Lupa Kata Sandi ?</Link> */}
         </Text>
       </Box>
 
@@ -109,7 +109,7 @@ const RightSectionAdminLogin = () => {
 
       <Text pt="12" textAlign="center" pr="28">
         <Text as="span">Belum Punya Akun? </Text>
-        <Link color="blue.300">Daftar</Link>
+        {/* <Link color="blue.300">Daftar</Link> */}
       </Text>
     </Stack>
   );
