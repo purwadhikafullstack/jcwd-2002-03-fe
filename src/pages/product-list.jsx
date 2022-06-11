@@ -26,21 +26,27 @@ const ProductList = () => {
       <GridItem rowSpan={1} colSpan={1}>
         <Breadcrumb marginLeft="30px" mb="38px" mt="36px">
           <BreadcrumbItem>
-            <BreadcrumbLink href="/home">
-              <Text variant="caption">Home</Text>
+            <BreadcrumbLink href="/home" fontWeight="600">
+              <Text variant="caption" fontWeight="600">
+                Home
+              </Text>
             </BreadcrumbLink>
           </BreadcrumbItem>
 
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">
-              <Text variant="caption">Kategori</Text>
-            </BreadcrumbLink>
+            <Text
+              variant="caption"
+              fontWeight="600"
+              _hover={{ cursor: "pointer" }}
+            >
+              Kategori
+            </Text>
           </BreadcrumbItem>
 
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href="#">
-              <Text variant="caption">Obat</Text>
-            </BreadcrumbLink>
+            <Text variant="caption" _hover={{ cursor: "pointer" }}>
+              Obat
+            </Text>
           </BreadcrumbItem>
         </Breadcrumb>
         <UpLeftCategory />
