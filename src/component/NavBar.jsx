@@ -43,7 +43,7 @@ const NavBar = () => {
             h="92"
             maxWidth="100%"
         >
-            <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]} >
+            <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]}  >
                 <Img src="/logo.svg" />
             </GridItem>
             <GridItem colSpan={[4, 3, 3]}>
