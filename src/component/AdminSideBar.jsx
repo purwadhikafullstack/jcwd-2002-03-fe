@@ -1,40 +1,26 @@
 import {
-  IconButton,
-  Avatar,
   Box,
   CloseButton,
-  useDisclosure,
   Flex,
-  Text,
-  Stack,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   Img,
-  Button,
-  ScaleFade,
-  Collapse,
   Accordion,
   AccordionItem,
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
 } from "@chakra-ui/react";
-import { FiHome, FiChevronDown, FiTrendingUp } from "react-icons/fi";
+import { FiHome, FiTrendingUp } from "react-icons/fi";
 import { FaPills } from "react-icons/fa";
 import { MdReceipt } from "react-icons/md";
 import { Icon } from "@chakra-ui/icons";
-const { default: AdminNavbar } = require("component/AdminNavbar")
+const { default: AdminNavbar } = require("component/AdminNavbar");
 
 const AdminSideBar = () => {
-  const { isOpen, onToggle } = useDisclosure();
-
   return (
     <>
       <Box minH="100vh">
         <Box w="100%" pos="absolute">
-        <AdminNavbar />
+          <AdminNavbar />
         </Box>
         <Box
           bgColor="gray.100"
@@ -49,7 +35,6 @@ const AdminSideBar = () => {
             <CloseButton display={{ base: "flex", md: "none" }} />
           </Flex>
           <Box mt="8">
-
             <Accordion border="transparent" allowMultiple lineHeight="10">
               <AccordionItem>
                 <Box>
@@ -70,8 +55,18 @@ const AdminSideBar = () => {
                     <AccordionIcon ml="113px" />
                   </AccordionButton>
                 </Box>
-                <AccordionPanel  _hover={{cursor:"Pointer", bgColor:"gray.200"}} pl="14">Daftar Produk</AccordionPanel>
-                <AccordionPanel _hover={{cursor:"Pointer", bgColor:"gray.200"}} pl="14">Tambah Produk</AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Daftar Produk
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Tambah Produk
+                </AccordionPanel>
               </AccordionItem>
             </Accordion>
 
@@ -84,12 +79,42 @@ const AdminSideBar = () => {
                     <AccordionIcon ml="100px" />
                   </AccordionButton>
                 </Box>
-                <AccordionPanel  _hover={{cursor:"Pointer", bgColor:"gray.200"}} pl="14">Semua Pesanan</AccordionPanel>
-                <AccordionPanel _hover={{cursor:"Pointer", bgColor:"gray.200"}} pl="14">Pesanan Baru</AccordionPanel>
-                <AccordionPanel _hover={{cursor:"Pointer", bgColor:"gray.200"}} pl="14">Siap Kirim</AccordionPanel>
-                <AccordionPanel _hover={{cursor:"Pointer", bgColor:"gray.200"}} pl="14">Dalam Pengiriman</AccordionPanel>
-                <AccordionPanel _hover={{cursor:"Pointer", bgColor:"gray.200"}} pl="14">Selesai</AccordionPanel>
-                <AccordionPanel _hover={{cursor:"Pointer", bgColor:"gray.200"}} pl="14">Dibatalkan</AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Semua Pesanan
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Pesanan Baru
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Siap Kirim
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Dalam Pengiriman
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Selesai
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Dibatalkan
+                </AccordionPanel>
               </AccordionItem>
             </Accordion>
 
@@ -102,9 +127,24 @@ const AdminSideBar = () => {
                     <AccordionIcon ml="45px" />
                   </AccordionButton>
                 </Box>
-                <AccordionPanel  _hover={{cursor:"Pointer", bgColor:"gray.200"}} pl="14">Ringkasan Statistik</AccordionPanel>
-                <AccordionPanel _hover={{cursor:"Pointer", bgColor:"gray.200"}} pl="14">Buku Kas</AccordionPanel>
-                <AccordionPanel _hover={{cursor:"Pointer", bgColor:"gray.200"}} pl="14">Laba Rugi</AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Ringkasan Statistik
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Buku Kas
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Laba Rugi
+                </AccordionPanel>
               </AccordionItem>
             </Accordion>
           </Box>
