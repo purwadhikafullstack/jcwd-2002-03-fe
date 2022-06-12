@@ -17,8 +17,6 @@ import { Icon } from "@chakra-ui/icons";
 const { default: AdminNavbar } = require("component/AdminNavbar");
 
 const AdminSideBar = () => {
-  const { isOpen, onToggle } = useDisclosure();
-
   return (
     <>
       <SimpleGrid zIndex="overlay">
