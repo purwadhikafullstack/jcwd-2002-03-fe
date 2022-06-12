@@ -25,6 +25,7 @@ import { FiHome, FiChevronDown, FiTrendingUp } from "react-icons/fi";
 import { FaPills } from "react-icons/fa";
 import { MdReceipt } from "react-icons/md";
 import { Icon } from "@chakra-ui/icons";
+const { default: AdminNavbar } = require("component/AdminNavbar")
 
 const AdminSideBar = () => {
   const { isOpen, onToggle } = useDisclosure();
@@ -32,6 +33,9 @@ const AdminSideBar = () => {
   return (
     <>
       <Box minH="100vh">
+        <Box w="100%" pos="absolute">
+        <AdminNavbar />
+        </Box>
         <Box
           bgColor="gray.100"
           transition="3s ease"
@@ -46,7 +50,7 @@ const AdminSideBar = () => {
           </Flex>
           <Box mt="8">
 
-            <Accordion allowMultiple lineHeight="10">
+            <Accordion border="transparent" allowMultiple lineHeight="10">
               <AccordionItem>
                 <Box>
                   <AccordionButton>
@@ -57,7 +61,7 @@ const AdminSideBar = () => {
               </AccordionItem>
             </Accordion>
 
-            <Accordion allowMultiple lineHeight="10">
+            <Accordion border="transparent" allowMultiple lineHeight="10">
               <AccordionItem>
                 <Box>
                   <AccordionButton>
@@ -71,7 +75,7 @@ const AdminSideBar = () => {
               </AccordionItem>
             </Accordion>
 
-            <Accordion allowMultiple lineHeight="10">
+            <Accordion border="transparent" allowMultiple lineHeight="10">
               <AccordionItem>
                 <Box>
                   <AccordionButton>
@@ -89,7 +93,7 @@ const AdminSideBar = () => {
               </AccordionItem>
             </Accordion>
 
-            <Accordion allowMultiple lineHeight="10">
+            <Accordion border="transparent" allowMultiple lineHeight="10">
               <AccordionItem>
                 <Box>
                   <AccordionButton>
