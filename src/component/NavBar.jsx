@@ -45,9 +45,8 @@ const NavBar = () => {
             background="linear-gradient(to left, #fde600, #8bd64c, #00b87a, #00948e, #006d7f);"
 
         >
-            <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]} >
+            <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]}  >
                 <Img src="/logo.svg" />
-
             </GridItem>
             <GridItem colSpan={[4, 3, 3]}>
                 <InputGroup>

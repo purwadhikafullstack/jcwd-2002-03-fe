@@ -2,17 +2,16 @@ import {
   Box,
   Button,
   Checkbox,
-  // color,
   Heading,
   Input,
   Stack,
   Text,
-  // Link,
   InputRightElement,
   InputGroup,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import Link from "next/link";
 
 const RightSectionAdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -75,7 +74,7 @@ const RightSectionAdminLogin = () => {
           fontSize="12px"
           _hover={{ cursor: "pointer" }}
         >
-          {/* <Link>Lupa Kata Sandi ?</Link> */}
+          <Link href="/">Lupa Kata Sandi ?</Link>
         </Text>
       </Box>
 
