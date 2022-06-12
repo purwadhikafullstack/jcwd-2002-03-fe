@@ -15,9 +15,8 @@ const Home = () => {
             <PromotionCard />
             <Divider />
             <BottomBanner />
-
         </>
     )
 }
 
-export default Home
+export default Home;
