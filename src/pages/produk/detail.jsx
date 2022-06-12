@@ -1,3 +1,4 @@
+
 import React, { useState } from "react"
 import { Badge, Box, Button, Grid, GridItem, Icon, IconButton, Table, TableContainer, Tbody, Td, Text, Tr, useBreakpointValue } from "@chakra-ui/react"
 import { HiPlus, HiMinus, HiShoppingCart, HiOutlineHeart, HiOutlineShare, HiOutlineChat } from "react-icons/hi"
@@ -139,6 +140,7 @@ const detail = () => {
                 alignItems="center"
                 justifyContent="center"
                 display="flex-Box"
+                boxShadow="xl"
             >
                 <Box
                     position="relative"
@@ -173,7 +175,9 @@ const detail = () => {
                         top={top}
                         transform="translate(0%, -50%)"
                         zIndex={2}
-                        onClick={() => slider?.slickPrev()}>
+                        onClick={() => slider?.slickPrev()}
+                        display={["none", "flex"]}
+                    >
                         <BiLeftArrowAlt />
                     </IconButton>
                     {/* Right Icon */}
@@ -184,9 +188,11 @@ const detail = () => {
                         position="absolute"
                         right={side}
                         top={top}
-                        transform="translate(0%, -50%)"
+                        transform="translate(0%, -60%)"
                         zIndex={2}
-                        onClick={() => slider?.slickNext()}>
+                        onClick={() => slider?.slickNext()}
+                        display={["none", "flex"]}
+                    >
                         <BiRightArrowAlt />
                     </IconButton>
                     {/* Slider */}
@@ -194,7 +200,7 @@ const detail = () => {
                         {cards.map((url) => (
                             <Box
                                 key={url}
-                                height={[180, 300, 300]}
+                                height={[180, 250, 250]}
                                 width={["full", 405, 405]}
                                 position="relative"
                                 backgroundPosition="center"
@@ -217,7 +223,7 @@ const detail = () => {
                     </Button>
                 </Box>
             </GridItem>
-            <GridItem hight={["auto", "auto", "auto"]} padding={3} colSpan={[1, 3, 3]} rowSpan={[1, 1, 1]} bg='papayawhip' >
+            <GridItem hight={["auto", "auto", "auto"]} padding={3} colSpan={[1, 3, 3]} rowSpan={[1, 1, 1]} boxShadow="xl" >
                 <Box>
                     <Text variant='mini-title'>Bisolvon</Text>
                     <Text variant="caption-ligth">Bisolvon 8MG 4 Tablet</Text>
@@ -248,11 +254,13 @@ const detail = () => {
                         <Button width="30%" variant="main" ml={5}>
                             Beli
                         </Button>
-                        <Icon ml={5} as={HiOutlineHeart} />
+                        <IconButton variant="outline" ml={5}>
+                            <Icon as={HiOutlineHeart} />
+                        </IconButton>
                     </Box>
                 </Box>
             </GridItem>
-            <GridItem padding={3} colSpan={[1, 3, 3]} rowSpan={[1, 2, 2]} >
+            <GridItem padding={3} colSpan={[1, 3, 3]} rowSpan={[1, 2, 2]} boxShadow="xl" >
                 <Box
                     display="flex"
                     alignItems="center"

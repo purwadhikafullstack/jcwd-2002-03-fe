@@ -1,6 +1,5 @@
 import { Center, Spinner } from "@chakra-ui/react";
 
-
 const Index = () => {
   return (
     <Center>
