@@ -1,7 +1,7 @@
 import React from "react"
 import { useBreakpointValue } from "@chakra-ui/react"
 import { useRouter } from "next/router"
-import navLinks from "../utils/data"
+import navLinks from "../../utils/data"
 
 
 const NavBar = () => {
@@ -14,8 +14,7 @@ const NavBar = () => {
                     return <div key={val.name}>{val.base}</div>
                 }
                 return undefined
-            }
-            )
+            })
         ),
         md: (
             navLinks.map((val) => {
