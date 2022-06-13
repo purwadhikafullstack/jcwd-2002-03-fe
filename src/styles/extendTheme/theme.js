@@ -5,7 +5,7 @@ import Button from "./button"
 const theme = extendTheme({
     components: {
         Text,
-        Button
+        Button,
     }
 })
 
