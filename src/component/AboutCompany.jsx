@@ -30,7 +30,7 @@ const AboutCompany = () => {
                     <Text fontWeight={600} fontSize={18} color="#213360">Diagnosis</Text>
                 </SimpleGrid>
                 <SimpleGrid>
-                    <Img src="/ikutiKami.svg" />
+                    <Img src="/IkutiKami.svg" />
                 </SimpleGrid>
             </SimpleGrid>
         )
