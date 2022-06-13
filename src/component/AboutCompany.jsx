@@ -14,7 +14,9 @@ const AboutCompany = () => {
                 marginRight="auto"
             >
                 <SimpleGrid >
+
                     <Img src="/contacCompany.svg" />
+
                 </SimpleGrid>
                 <SimpleGrid >
                     <Text fontWeight={600} fontSize={18} color="#213360">Tentang Kami</Text>
@@ -30,7 +32,7 @@ const AboutCompany = () => {
                     <Text fontWeight={600} fontSize={18} color="#213360">Diagnosis</Text>
                 </SimpleGrid>
                 <SimpleGrid>
-                    <Img src="/IkutiKami.svg" />
+                    <Img src="/ikutiKami.svg" />
                 </SimpleGrid>
             </SimpleGrid>
         )
