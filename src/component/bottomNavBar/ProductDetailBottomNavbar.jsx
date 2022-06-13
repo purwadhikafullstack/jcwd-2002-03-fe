@@ -29,7 +29,7 @@ const ProductDetailBottomNavbar = () => {
                 </IconButton>
             </GridItem>
             <GridItem colSpan={4} display="flex" alignItems="center" justifyContent="center">
-                <Button width="207px" height="46px" variant="main"> Beli Sekarang </Button>
+                <Button width="full" variant="main"> Beli Sekarang </Button>
             </GridItem>
         </Grid>
     )
