@@ -18,7 +18,7 @@ const { default: AdminNavbar } = require("component/AdminNavbar");
 const AdminSideBar = () => {
   return (
     <>
-      <Box minH="100vh">
+      <Box zIndex="docked" minH="100vh">
         <Box w="100%" pos="absolute">
           <AdminNavbar />
         </Box>
@@ -28,7 +28,7 @@ const AdminSideBar = () => {
           borderRight="1px"
           w={{ base: "full", md: "64" }}
           pos="absolute"
-          h="full"
+          h="100%"
         >
           <Flex h="20" align="center" mx="8" justifyContent="space-between">
             <Img src="Logo.svg"></Img>
@@ -40,7 +40,7 @@ const AdminSideBar = () => {
                 <Box>
                   <AccordionButton>
                     <Icon as={FiHome} boxSize="6" />
-                    <Box ml="4">Produk</Box>
+                    <Box ml="4">Dashboard</Box>
                   </AccordionButton>
                 </Box>
               </AccordionItem>

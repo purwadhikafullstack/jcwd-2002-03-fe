@@ -1,10 +1,4 @@
-import {
-    // Heading,
-    Stack,
-    Img,
-    // Container,
-    // Box
-} from "@chakra-ui/react"
+import { Heading, Stack, Img, Container, Box } from "@chakra-ui/react"
 
 const LeftSectionAdminLogin = () => {
     return (
