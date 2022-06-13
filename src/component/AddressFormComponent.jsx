@@ -69,7 +69,10 @@ const AddressFormComponent = () => {
       <Text mt="52px" mb="36px" variant="mini-title">
         Info Penerima
       </Text>
-      <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]} gap={[0, 4, 4]}>
+      <Grid
+        templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+        gap={[0, 4, 4]}
+      >
         <GridItem colspan={[1, 1, 1]} mb="36px">
           <Text mb="16px" variant="caption">
             Nama Depan
