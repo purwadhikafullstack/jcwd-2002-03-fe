@@ -1,102 +1,156 @@
 import {
-  IconButton,
-  Avatar,
   Box,
   CloseButton,
-  useDisclosure,
   Flex,
-  Text,
-  Stack,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   Img,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
 } from "@chakra-ui/react";
-import { FiHome, FiChevronDown, FiTrendingUp } from "react-icons/fi";
+import { FiHome, FiTrendingUp } from "react-icons/fi";
 import { FaPills } from "react-icons/fa";
 import { MdReceipt } from "react-icons/md";
 import { Icon } from "@chakra-ui/icons";
+const { default: AdminNavbar } = require("component/AdminNavbar");
 
 const AdminSideBar = () => {
   return (
-    <Box minH="100vh">
-      <Box
-        bgColor="gray.100"
-        transition="3s ease"
-        borderRight="1px"
-        w={{ base: "full", md: "64" }}
-        pos="fixed"
-        h="full"
-      >
-        <Flex h="20" align="center" mx="8" justifyContent="space-between">
-          <Img src="Logo.svg"></Img>
-          <CloseButton display={{ base: "flex", md: "none" }} />
-        </Flex>
-        <Box mt="8" ml="5">
-          <Box>
-            <Menu>
-              <MenuButton>
-                <Flex>
-                  <Icon boxSize="6" as={FiHome} />
-                  <Text ml="4">Transaksi</Text>
-                </Flex>
-              </MenuButton>
-            </Menu>
-          </Box>
+    <>
+      <Box minH="100vh">
+        <Box w="100%" pos="absolute">
+          <AdminNavbar />
+        </Box>
+        <Box
+          bgColor="gray.100"
+          transition="3s ease"
+          borderRight="1px"
+          w={{ base: "full", md: "64" }}
+          pos="absolute"
+          h="full"
+        >
+          <Flex h="20" align="center" mx="8" justifyContent="space-between">
+            <Img src="Logo.svg"></Img>
+            <CloseButton display={{ base: "flex", md: "none" }} />
+          </Flex>
           <Box mt="8">
-            <Menu>
-              <MenuButton>
-                <Flex>
-                  <Icon boxSize="6" as={FaPills} />
-                  <Text ml="4">Produk</Text>
-                  <Icon ml="123px" mt="1" as={FiChevronDown} />
-                </Flex>
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Daftar Produk</MenuItem>
-                <MenuItem>Tambah Produk</MenuItem>
-              </MenuList>
-            </Menu>
-          </Box>
-          <Box mt="8">
-            <Menu>
-              <MenuButton>
-                <Flex>
-                  <Icon boxSize="6" as={MdReceipt} />
-                  <Text ml="4">Transaksi</Text>
-                  <Icon ml="109px" mt="1" as={FiChevronDown} />
-                </Flex>
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Semua Pesanan</MenuItem>
-                <MenuItem>Pesanan Baru</MenuItem>
-                <MenuItem>Siap Kirim</MenuItem>
-                <MenuItem>Dalam Pengiriman</MenuItem>
-                <MenuItem>Selesai</MenuItem>
-                <MenuItem>Dibatalkan</MenuItem>
-              </MenuList>
-            </Menu>
-          </Box>
-          <Box mt="8">
-            <Menu>
-              <MenuButton>
-                <Flex>
-                  <Icon boxSize="6" as={FiTrendingUp} />
-                  <Text ml="4">Sales & Revenue</Text>
-                  <Icon ml="55px" mt="1" as={FiChevronDown} />
-                </Flex>
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Ringkasan Statistik</MenuItem>
-                <MenuItem>Buku Kas</MenuItem>
-                <MenuItem>Laba Rugi</MenuItem>
-              </MenuList>
-            </Menu>
+            <Accordion border="transparent" allowMultiple lineHeight="10">
+              <AccordionItem>
+                <Box>
+                  <AccordionButton>
+                    <Icon as={FiHome} boxSize="6" />
+                    <Box ml="4">Produk</Box>
+                  </AccordionButton>
+                </Box>
+              </AccordionItem>
+            </Accordion>
+
+            <Accordion border="transparent" allowMultiple lineHeight="10">
+              <AccordionItem>
+                <Box>
+                  <AccordionButton>
+                    <Icon as={FaPills} boxSize="6" />
+                    <Box ml="4">Produk</Box>
+                    <AccordionIcon ml="113px" />
+                  </AccordionButton>
+                </Box>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Daftar Produk
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Tambah Produk
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+
+            <Accordion border="transparent" allowMultiple lineHeight="10">
+              <AccordionItem>
+                <Box>
+                  <AccordionButton>
+                    <Icon as={MdReceipt} boxSize="6" />
+                    <Box ml="4">Transaksi</Box>
+                    <AccordionIcon ml="100px" />
+                  </AccordionButton>
+                </Box>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Semua Pesanan
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Pesanan Baru
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Siap Kirim
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Dalam Pengiriman
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Selesai
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Dibatalkan
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+
+            <Accordion border="transparent" allowMultiple lineHeight="10">
+              <AccordionItem>
+                <Box>
+                  <AccordionButton>
+                    <Icon as={FiTrendingUp} boxSize="6" />
+                    <Box ml="4">Sales & Revenue</Box>
+                    <AccordionIcon ml="45px" />
+                  </AccordionButton>
+                </Box>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Ringkasan Statistik
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Buku Kas
+                </AccordionPanel>
+                <AccordionPanel
+                  _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
+                  pl="14"
+                >
+                  Laba Rugi
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
           </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 
