@@ -10,10 +10,10 @@ import {
   BreadcrumbLink,
   Stack,
 } from "@chakra-ui/react";
-import UpLeftCategory from "component/UpLeftCategory";
-import ProductCard from "component/ProductCard";
-import LeftCategory from "component/LeftCategory";
-import UrutanProList from "component/UrutanProList";
+import ProductCard from "../component/ProductCard";
+import LeftCategory from "../component/LeftCategory";
+import UrutanProList from "../component/UrutanProList";
+import UpLeftCategory from "../component/UpLeftCategory";
 
 const ProductList = () => {
   return (

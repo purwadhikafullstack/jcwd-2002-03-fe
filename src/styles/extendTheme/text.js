@@ -38,7 +38,7 @@ const Text = {
             }
         },
         "caption-bold": {
-            fontWeight: 400,
+            fontWeight: 600,
             color: "#213360",
             fontSize: {
                 base: "14px",
@@ -56,7 +56,7 @@ const Text = {
             }
         },
         "mini-title": {
-            fontWeight: 700,
+            fontWeight: 600,
             color: "#213360",
             fontSize: {
                 base: "12px",

@@ -2,17 +2,16 @@ import {
   Box,
   Button,
   Checkbox,
-  color,
   Heading,
   Input,
   Stack,
   Text,
-  Link,
   InputRightElement,
   InputGroup,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import Link from "next/link";
 
 const RightSectionAdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -53,7 +52,7 @@ const RightSectionAdminLogin = () => {
               mr="232px"
               mt="9px"
               variant="ghost"
-              onClick={() => setShowPassword((showPassword) => !showPassword)}
+              onClick={() => setShowPassword(!showPassword)}
             >
               {" "}
               {showPassword ? <ViewIcon /> : <ViewOffIcon />}
@@ -75,7 +74,7 @@ const RightSectionAdminLogin = () => {
           fontSize="12px"
           _hover={{ cursor: "pointer" }}
         >
-          <Link>Lupa Kata Sandi ?</Link>
+          <Link href="/">Lupa Kata Sandi ?</Link>
         </Text>
       </Box>
 
@@ -109,7 +108,7 @@ const RightSectionAdminLogin = () => {
 
       <Text pt="12" textAlign="center" pr="28">
         <Text as="span">Belum Punya Akun? </Text>
-        <Link color="blue.300">Daftar</Link>
+        {/* <Link color="blue.300">Daftar</Link> */}
       </Text>
     </Stack>
   );

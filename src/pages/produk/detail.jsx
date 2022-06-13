@@ -1,8 +1,34 @@
-import React from "react"
+
+import React, { useState } from "react"
 import { Badge, Box, Button, Grid, GridItem, Icon, IconButton, Table, TableContainer, Tbody, Td, Text, Tr, useBreakpointValue } from "@chakra-ui/react"
 import { HiPlus, HiMinus, HiShoppingCart, HiOutlineHeart, HiOutlineShare, HiOutlineChat } from "react-icons/hi"
+import Slider from "react-slick"
+import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 
 const detail = () => {
+
+    const top = useBreakpointValue({ base: "40%", md: "50%" });
+    const side = useBreakpointValue({ base: "10px", md: "10px" });
+
+    const [slider, setSlider] = useState(null);
+
+    const settings = {
+        dots: true,
+        arrows: false,
+        fade: true,
+        infinite: true,
+        autoplay: true,
+        speed: 500,
+        autoplaySpeed: 5000,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    };
+
+    const cards = [
+        "https://images.unsplash.com/photo-1612852098516-55d01c75769a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1627875764093-315831ac12f7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1571432248690-7fd6980a1ae2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
+    ];
 
     const tabelShow = useBreakpointValue({
         base: (
@@ -100,17 +126,93 @@ const detail = () => {
         <Grid
             templateRows={["repeat(3)", "repeat(3, 1fr)", "repeat(3, 1fr)"]}
             templateColumns={["repeat(1, 1fr)", "repeat(5, 1fr)", "repeat(5, 1fr)"]}
-            gap={4}
+            gap={[2, 2, 4]}
             alignContent="center"
             w={["100%", "90", "90%"]}
             marginLeft="auto"
             marginRight="auto"
+            mb={[10, 8, 8]}
         >
+            <GridItem
+                rowSpan={[1, 2, 2]}
+                colSpan={[1, 2, 2]}
+                padding={[2, 6, 6]}
+                alignItems="center"
+                justifyContent="center"
+                display="flex-Box"
+                boxShadow="xl"
+            >
+                <Box
+                    position="relative"
+                    height={[250, 300, 300]}
+                    width={[300, 405, 405]}
+                    maxW="100%"
+                    overflow="hidden"
+                    alignItems="center"
+                    justifyContent="center"
+                    marginRight="auto"
+                    marginLeft="auto"
+                >
+                    {/* CSS files for react-slick */}
+                    <link
+                        rel="stylesheet"
+                        type="text/css"
+                        charSet="UTF-8"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+                    />
+                    <link
+                        rel="stylesheet"
+                        type="text/css"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+                    />
+                    {/* Left Icon */}
+                    <IconButton
+                        aria-label="left-arrow"
+                        colorScheme="messenger"
+                        borderRadius="full"
+                        position="absolute"
+                        left={side}
+                        top={top}
+                        transform="translate(0%, -50%)"
+                        zIndex={2}
+                        onClick={() => slider?.slickPrev()}
+                        display={["none", "flex"]}
+                    >
+                        <BiLeftArrowAlt />
+                    </IconButton>
+                    {/* Right Icon */}
+                    <IconButton
+                        aria-label="right-arrow"
+                        colorScheme="messenger"
+                        borderRadius="full"
+                        position="absolute"
+                        right={side}
+                        top={top}
+                        transform="translate(0%, -60%)"
+                        zIndex={2}
+                        onClick={() => slider?.slickNext()}
+                        display={["none", "flex"]}
+                    >
+                        <BiRightArrowAlt />
+                    </IconButton>
+                    {/* Slider */}
+                    <Slider {...settings} ref={() => setSlider(slider)}>
+                        {cards.map((url) => (
+                            <Box
+                                key={url}
+                                height={[180, 250, 250]}
+                                width={["full", 405, 405]}
+                                position="relative"
+                                backgroundPosition="center"
+                                backgroundRepeat="no-repeat"
+                                backgroundSize="cover"
+                                backgroundImage={`url(${url})`}
+                            />
+                        ))}
+                    </Slider>
+                </Box>
 
-            <GridItem rowSpan={[1, 2, 2]} colSpan={[1, 2, 2]} bg='tomato' padding={6}  >
-                <Box mb={[3, 8, 8]} />
-
-                <Box>
+                <Box mt={2} display={["none", "flex", "flex"]}>
                     <Button width="40%" variant="main" mr={5} borderRadius="130px" alignItems="center"  >
                         <Icon mr={2} as={HiOutlineChat} />
                         Chat Admin
@@ -121,7 +223,7 @@ const detail = () => {
                     </Button>
                 </Box>
             </GridItem>
-            <GridItem hight={["auto", "auto", "auto"]} padding={3} colSpan={[1, 3, 3]} rowSpan={[1, 1, 1]} bg='papayawhip' >
+            <GridItem hight={["auto", "auto", "auto"]} padding={3} colSpan={[1, 3, 3]} rowSpan={[1, 1, 1]} boxShadow="xl" >
                 <Box>
                     <Text variant='mini-title'>Bisolvon</Text>
                     <Text variant="caption-ligth">Bisolvon 8MG 4 Tablet</Text>
@@ -152,11 +254,13 @@ const detail = () => {
                         <Button width="30%" variant="main" ml={5}>
                             Beli
                         </Button>
-                        <Icon ml={5} as={HiOutlineHeart} />
+                        <IconButton variant="outline" ml={5}>
+                            <Icon as={HiOutlineHeart} />
+                        </IconButton>
                     </Box>
                 </Box>
             </GridItem>
-            <GridItem padding={3} colSpan={[1, 3, 3]} rowSpan={[1, 2, 2]} >
+            <GridItem padding={3} colSpan={[1, 3, 3]} rowSpan={[1, 2, 2]} boxShadow="xl" >
                 <Box
                     display="flex"
                     alignItems="center"
