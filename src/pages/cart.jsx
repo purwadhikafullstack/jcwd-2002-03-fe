@@ -1,166 +1,94 @@
-import React, { useState } from "react"
-import { Box, Button, Checkbox, Divider, Grid, GridItem, Icon, IconButton, Img, Stack, Text } from "@chakra-ui/react"
+import React from "react"
+import { Badge, Box, Button, Checkbox, Divider, Grid, GridItem, Icon, IconButton, Img, Text } from "@chakra-ui/react"
 import { RiDeleteBin6Line } from "react-icons/ri"
-import { AddIcon, MinusIcon } from "@chakra-ui/icons"
+import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai"
 
 const cart = () => {
-    const [amount, setAmount] = useState(1)
-
-    const addAmount = () => {
-        return setAmount(amount + 1)
-    }
-    const lessAmount = () => {
-        if (amount < 2) {
-            return 1
-        }
-        return setAmount(amount - 1)
-    }
 
     return (
-        <Grid templateColumns="repeat(6,1fr)" paddingX={[4, 6, 6]}>
-            <GridItem colSpan={6} padding={2} >
-                <Text variant="title">Keranjang Saya</Text>
-            </GridItem>
-            <GridItem colSpan={[6, 4, 4]}>
+        <Grid templateColumns="repeat(6,1fr)" gap={[0, 6, 6]} margin={[0, 6, 6]} templateRows={["none", "repeat(2,1fr)"]}>
+            <GridItem
+                colSpan={[6, 4, 4]}
+                rowSpan={[1, 2, 2]}
+            >
                 <Box padding={4}
                     boxShadow={["none", "0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08);"]}>
-                    <Grid templateColumns="repeat(5, 1fr)" gap={2}>
-                        <GridItem colSpan={5} paddingX={2} alignItems="Center">
-                            <Checkbox>
-                                Pilih Semua
-                            </Checkbox>
-                        </GridItem>
-                        <GridItem colSpan={5} padding={2} alignItems="Center">
-                            <Divider />
-                        </GridItem>
-                        <GridItem colSpan={5} padding={2}>
-                            <Checkbox>
-                                <Stack
-                                    ml={[-4, -2.5, 0]}
-                                    direction="row"
-                                    justifyContent="space-between"
-                                >
-                                    <Box>
-                                        <Text
-                                            mb="3px"
-                                            variant="caption-ligth"
-                                            fontSize={{
-                                                base: "12px",
-                                                md: "16px",
-                                                lg: "16px",
-                                            }}
-                                            fontWeight="500"
-                                        >
-                                            Panadol Flu Dan Batuk
-                                        </Text>
-                                        <Text
-                                            mb="22px"
-                                            variant="caption"
-                                            fontSize={{
-                                                base: "10px",
-                                                md: "14px",
-                                                lg: "14px",
-                                            }}
-                                        >
-                                            1 Strip
-                                        </Text>
-                                        <Text
-                                            variant="caption"
-                                            fontSize={{
-                                                base: "10px",
-                                                md: "14px",
-                                                lg: "14px",
-                                            }}
-                                            _hover={{ cursor: "pointer", color: "#586193" }}
-                                        >
-                                            Tampilkan Detail
-                                        </Text>
+                    <Box padding={4} display="flex" alignItems="Center">
+                        <Checkbox>
+                            Pilih Semua
+                        </Checkbox>
+                    </Box>
+                    <Divider />
+                    <Box>
+                        <Checkbox>
+                            <Grid templateColumns="repeat(5, 1fr)" gap={2} templateRows='repeat(2, 1fr)' >
+                                <GridItem colSpan={1} rowSpan={2}>
+                                    <Img src="https://static.hdmall.id/system/image_attachments/images/000/008/720/original/bisolvon-8mg-tab-str-4s-1.jpg" />
+                                </GridItem>
+                                <GridItem colSpan={3} rowSpan={1} padding={2} alignItems="center">
+                                    <Box justifyContent="space-between" display="flex" alignItems="center">
+                                        <Text variant="caption-bold">Bisolovon</Text>
+                                        <Badge>
+                                            <Text as='s'>Rp.17.000</Text>
+                                        </Badge>
                                     </Box>
-                                    <Text variant="caption-ligth" fontWeight="700" fontSize="14px">
-                                        Rp13.000
-                                    </Text>
-                                </Stack>
-                                <Divider display={["none", "none", "flex"]} mt="10px" mb="12px" />
-                                <Stack
-                                    display={["none", "none", "flex"]}
-                                    direction="row"
-                                    justifyContent="space-between"
-                                >
-                                    <Text variant="caption-ligth" fontSize="16px" fontWeight="500">
-                                        Subtotal
-                                    </Text>
-                                    <Text variant="caption-ligth" fontSize="14px" fontWeight="700">
-                                        Rp22.000
-                                    </Text>
-                                </Stack>
-
-                            </Checkbox>
-                            {/* <Grid
-                                    templateColumns="repeat(8, 1fr)"
-                                    justifyContent="space-between"
-                                >
-                                    <GridItem colSpan={2}>
-                                        <Img
-                                            width={["71px", "86px", "86px"]}
-                                            height={["71px", "86px", "86px"]}
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTkLtNE0Wv8KXQyoHZA58I0meYBMO2Br-vMA&usqp=CAU" />
-                                    </GridItem>
-                                    <GridItem colSpan={2} >
-                                        <Text variant="caption-bold">Bisolvon 8MG</Text>
-                                        <Text variant="caption">1 strip</Text>
-                                    </GridItem>
-                                    <GridItem colSpan={2} bgColor="blue">
-                                        <Text variant="caption-bold">4 Tablet</Text>
-                                    </GridItem>
-                                    <GridItem
-                                        colSpan={2}
-                                        display={["block", "flex", "flex"]}
-                                        justifyContent="space-between"
-                                        bgColor="blue"
-                                    >
-                                        <Text as="del" color="#B4B9C7" fontSize={["14px"]}>Rp.17.000</Text>
-                                        <Text variant="subtitle-bold">
-                                            Rp.13.000
-                                        </Text>
-                                    </GridItem>
-                                </Grid> */}
-                            {/* </Checkbox> */}
-                        </GridItem>
-                        <GridItem colSpan={5} padding={4} mx={4} alignItems="center">
-                            <Box display="flex" justifyContent="right">
+                                    <Text variant="caption-bold">4 tablet</Text>
+                                </GridItem>
+                                <GridItem colSpan={1} rowSpan={1} padding={2}>
+                                    <Text variant="caption-bold">Rp.13.000</Text>
+                                </GridItem>
+                            </Grid>
+                            <Box display="flex" alignItems="center" justifyContent={["space-between", "right"]} >
                                 <Box display="flex" alignItems="center">
-                                    <Box borderRight="1px solid teal" >
-                                        <Text color="teal" mr={2} variant="caption">Pindahkan ke Wishlist</Text>
-                                    </Box>
-                                    <Box ml={2} mr={4}>
-                                        <Icon color="teal" as={RiDeleteBin6Line} />
-                                    </Box>
-                                    <Box display="flex" alignItems="center" height="30px" background="#F6FAFB">
-                                        <IconButton
-                                            onClick={() => lessAmount()}
-                                            borderLeftRadius="8px"
-                                            background="#F6FAFB"
-                                            boxSize="30px"
-                                        >
-                                            <Icon color="teal" as={MinusIcon} />
-                                        </IconButton>
-                                        <Text mx={6}>{amount}</Text>
-                                        <IconButton
-                                            onClick={() => addAmount()}
-                                            borderRightRadius="8px"
-                                            background="#F6FAFB"
-                                            boxSize="30px"
-                                        >
-                                            <Icon color="teal" as={AddIcon} />
-                                        </IconButton>
-                                    </Box>
+                                    <Text variant="mini-title">
+                                        Pindahkan ke Wishlist
+                                    </Text>
+                                    <Icon marginLeft={3} as={RiDeleteBin6Line} />
+                                </Box>
+                                <Box marginLeft={6} display="flex" alignItems="center">
+                                    <IconButton>
+                                        <Icon as={AiOutlineMinus} />
+                                    </IconButton>
+                                    <Text marginLeft={6} marginRight={6}>
+                                        1
+                                    </Text>
+                                    <IconButton>
+                                        <Icon as={AiOutlinePlus} />
+                                    </IconButton>
                                 </Box>
                             </Box>
-                        </GridItem>
-                    </Grid>
+                        </Checkbox>
+                    </Box>
+                    <Box />
                 </Box>
             </GridItem>
-            <GridItem colSpan={[6, 2, 2]} />
+            <GridItem
+                colSpan={2}
+                rowSpan={1}
+                boxShadow="0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08);"
+                padding={3}
+                display={["none", "block", "block"]}
+            >
+                <Box>
+                    <Text variant="title" display={["none", "flex", "flex"]}>Total</Text>
+                </Box>
+                <Divider />
+                <Box mt={2} justifyContent="space-between" display="flex" alignItems="center">
+                    <Text variant="caption-bold">Sub Total</Text>
+                    <Text variant="caption-bold">Rp. 13.000</Text>
+                </Box>
+                <Divider />
+                <Box my={2} justifyContent="space-between" display="flex" alignItems="center" >
+                    <Text variant="title">Total</Text>
+                    <Text variant="title">Rp. 22.000</Text>
+                </Box>
+                <Divider />
+                <Box justifyContent="space-between" display="blok" alignItems="center" >
+                    <Box mt={5}>
+                        <Button variant="main" width="full">Pilih Metode Pembayaran</Button>
+                    </Box>
+                </Box>
+            </GridItem>
         </Grid >
     )
 }
