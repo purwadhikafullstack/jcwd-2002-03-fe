@@ -33,11 +33,11 @@ const LeftCategory = () => {
   return (
     <Box
       boxShadow=" 1px 2px 3px 4px rgba(237,248,248)"
-      marginLeft="20px"
       marginBottom="10px"
       w="280px"
       maxH="1370px"
       borderRadius="16px"
+      display={["none", "grid", "grid"]}
     >
       <Box pl="33px" mb="-6.5px" pt="24px">
         <Button variant="main-outline" w="211px">

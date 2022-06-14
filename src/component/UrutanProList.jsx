@@ -20,7 +20,6 @@ const UrutanProList = () => {
       bg="white"
       borderRadius="8px"
       border="1px solid #E5E7E9"
-      ml="10px"
       position="absolute"
       style={{ zIndex: 10 }}
     >
