@@ -6,10 +6,12 @@ import TotalPemesanan from "component/TotalPemesanan";
 import SisaStok from "component/SisaStok";
 import CartPentingHariIni from "component/CartPentingHariIni";
 import CartKadaluwarsaObat from "component/CartKadaluwarsaObat";
+import ProfitCart from "component/ProfitCart";
+import CartPenjualanObat from "component/CartPenjualanObat";
 
 const AdminDashboard = () => {
   return (
-    <Stack>
+    <Stack mb="8" h="1130px" w="full" borderBottom="1px"> 
       <AdminSideBar />
       <Flex direction="column" pos="absolute">
         <Text fontWeight="700" fontSize="20px" mt="28" ml="80">
@@ -40,7 +42,7 @@ const AdminDashboard = () => {
       </Flex>
       <CartPentingHariIni />
 
-      <Flex direction="column" pos="absolute">
+      <Flex direction="column" position="absolute">
         <Text fontWeight="700" fontSize="20px" mt="375px" ml="900px">
           Kadaluwarsa Obat
         </Text>
@@ -51,6 +53,9 @@ const AdminDashboard = () => {
         </HStack>
       </Flex>
       <CartKadaluwarsaObat />
+
+      <ProfitCart />
+      <CartPenjualanObat />
     </Stack>
   );
 };
