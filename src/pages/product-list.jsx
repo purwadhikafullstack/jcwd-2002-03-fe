@@ -18,13 +18,20 @@ import UrutanProList from "component/UrutanProList";
 const ProductList = () => {
   return (
     <Grid
-      templateColumns="repeat(5, 1fr)"
+      templateColumns={["repeat(2, 1fr)", "repeat(5, 1fr)"]}
       templateRows="repeat(1, 1fr)"
       gap={10}
       mb="40px"
+      mx="auto"
+      w="90%"
     >
       <GridItem rowSpan={1} colSpan={1}>
-        <Breadcrumb marginLeft="30px" mb="38px" mt="36px">
+        <Breadcrumb
+          display={["none", "grid", "grid"]}
+          marginLeft="30px"
+          mb="38px"
+          mt="36px"
+        >
           <BreadcrumbItem>
             <BreadcrumbLink href="/home" fontWeight="600">
               <Text variant="caption" fontWeight="600">
@@ -52,23 +59,21 @@ const ProductList = () => {
         <UpLeftCategory />
         <LeftCategory />
       </GridItem>
-      <GridItem mt="100px" colSpan={4}>
-        <Box mr="30px">
+      <GridItem mt={[5, 10, 10]} colSpan={4}>
+        <Box display={["none", "grid", "grid"]}>
           <Text variant="title">Obat</Text>
-          <Divider pr="85px" />
-          <Stack direction="row" justifyContent="space-between">
-            <Text pt="31px" pb="45px" variant="caption">
-              45 Produk di Vitamin & Suplemen
-            </Text>
-            <Stack spacing="50px" direction="row" pt="20px" pr="165px">
-              <Text mt="18px" mr="52px" variant="caption">
+          <Divider />
+          {/* <Stack direction="row" justifyContent="space-between">
+            <Text variant="caption">45 Produk di Vitamin & Suplemen</Text>
+            <Stack direction="row">
+              <Text mt="18px" variant="caption">
                 Urutkan
               </Text>
               <UrutanProList />
             </Stack>
-          </Stack>
+          </Stack> */}
         </Box>
-        <SimpleGrid columns={4} spacing={2} mr="40px">
+        <SimpleGrid columns={[2, 4, 4]} spacing={2}>
           <ProductCard />
           <ProductCard />
           <ProductCard />
