@@ -18,7 +18,6 @@ const ProductCard = () => {
       borderRadius="xl"
       overflow="hidden"
       boxShadow=" 1px 2px 3px 4px rgba(245,251,251)"
-      mr="5px"
       mb="5px"
       _hover={{
         boxShadow: " 1px 2px 3px 4px rgba(237,248,248)",
