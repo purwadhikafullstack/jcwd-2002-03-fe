@@ -27,7 +27,7 @@ const AdminDashboard = () => {
       <ProfitHariIni />
       <TotalPemesanan />
       <SisaStok />
-      
+
       <Flex direction="column" pos="absolute">
         <Text fontWeight="700" fontSize="20px" mt="375px" ml="80">
           Penting Hari Ini
@@ -46,7 +46,7 @@ const AdminDashboard = () => {
         </Text>
         <HStack>
           <Text color="#737A8D" ml="900px">
-          Cek tanggal kedaluwarsa untuk mengorganisir stok obat 
+            Cek tanggal kedaluwarsa untuk mengorganisir stok obat
           </Text>
         </HStack>
       </Flex>

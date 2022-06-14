@@ -14,9 +14,7 @@ const AboutCompany = () => {
                 marginRight="auto"
             >
                 <SimpleGrid >
-
                     <Img src="/contacCompany.svg" />
-
                 </SimpleGrid>
                 <SimpleGrid >
                     <Text fontWeight={600} fontSize={18} color="#213360">Tentang Kami</Text>
@@ -32,7 +30,7 @@ const AboutCompany = () => {
                     <Text fontWeight={600} fontSize={18} color="#213360">Diagnosis</Text>
                 </SimpleGrid>
                 <SimpleGrid>
-                    <Img src="/ikutiKami.svg" />
+                    <Img src="/IkutiKami.svg" />
                 </SimpleGrid>
             </SimpleGrid>
         )
@@ -43,6 +41,7 @@ const AboutCompany = () => {
             {showHide}
         </Center>
     )
+
 }
 
 export default AboutCompany

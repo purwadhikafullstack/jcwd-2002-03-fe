@@ -24,6 +24,7 @@ const Index = () => {
       <PromotionCard />
       <Divider />
       <BottomBanner />
+
     </>
   );
 };
