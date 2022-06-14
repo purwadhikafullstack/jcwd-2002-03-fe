@@ -25,10 +25,10 @@ const AdminSideBar = () => {
         <Box
           bgColor="gray.100"
           transition="3s ease"
-          borderRight="1px"
+          borderBottom="1px"
           w={{ base: "full", md: "64" }}
           pos="absolute"
-          h="100%"
+          h="1130px"
         >
           <Flex h="20" align="center" mx="8" justifyContent="space-between">
             <Img src="Logo.svg"></Img>
