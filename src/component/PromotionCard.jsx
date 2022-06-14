@@ -11,7 +11,6 @@ const PromotionCard = () => {
                 <Img width="100%" src="/idulFitri.svg" />
             </Box>
         </SimpleGrid>
-
     )
 }
 

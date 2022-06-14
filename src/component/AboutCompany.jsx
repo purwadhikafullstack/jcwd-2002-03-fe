@@ -43,6 +43,7 @@ const AboutCompany = () => {
             {showHide}
         </Center>
     )
+
 }
 
 export default AboutCompany

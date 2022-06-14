@@ -12,13 +12,16 @@ import {
 } from "@chakra-ui/react"
 import { BsSearch } from "react-icons/bs"
 import { FaShoppingCart, FaBell } from "react-icons/fa"
+import { useRouter } from "next/router"
 
-const NavBar = () => {
+const DesktopNavBar = () => {
+    const router = useRouter()
+
     const buttonOrIcon = useBreakpointValue({
         base: (
             <>
-                <Icon as={FaBell} color="#009B90" />
-                <Icon as={FaShoppingCart} color="#009B90" />
+                <Icon as={FaBell} color="#008D8F" _hover={{ color: "white" }} />
+                <Icon as={FaShoppingCart} color="#008D8F" _hover={{ color: "white" }} onClick={() => router.push("/cart")} />
             </>
         ), md: (
             <>
@@ -42,15 +45,14 @@ const NavBar = () => {
             background="linear-gradient(to left, #fde600, #8bd64c, #00b87a, #00948e, #006d7f);"
 
         >
-            <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]} >
+            <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]}  >
                 <Img src="/logo.svg" />
-
             </GridItem>
             <GridItem colSpan={[4, 3, 3]}>
                 <InputGroup>
                     <Input h={["36px", "44px", "44px"]} />
                     <InputRightElement>
-                        <Icon as={BsSearch} color="#B4B9C7" />
+                        <Icon as={BsSearch} color="#FFFFF" />
                     </InputRightElement>
                 </InputGroup>
             </GridItem >
@@ -62,4 +64,4 @@ const NavBar = () => {
     )
 }
 
-export default NavBar
+export default DesktopNavBar
