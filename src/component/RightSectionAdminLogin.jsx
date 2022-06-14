@@ -108,7 +108,7 @@ const RightSectionAdminLogin = () => {
 
       <Text pt="12" textAlign="center" pr="28">
         <Text as="span">Belum Punya Akun? </Text>
-        <Link color="blue.300">Daftar</Link>
+        {/* <Link color="blue.300">Daftar</Link> */}
       </Text>
     </Stack>
   );
