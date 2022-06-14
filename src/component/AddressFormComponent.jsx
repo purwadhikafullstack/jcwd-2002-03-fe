@@ -9,6 +9,8 @@ import {
   InputLeftAddon,
   InputRightAddon,
   Icon,
+  GridItem,
+  Grid,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -50,8 +52,14 @@ const AddressFormComponent = () => {
   };
 
   return (
-    <Box ml="412px" mr="412px" mb="100px">
-      <Text mb="68px" mt="94px" variant="title">
+    <Box
+      display={["block", "block", "block"]}
+      mx="auto"
+      w={["90%", "60%", "40%"]}
+      mb="100px"
+      justifyContent={"center"}
+    >
+      <Text mb="68px" variant="title">
         Alamat Pengiriman
       </Text>
       <Text mb="16px" variant="mini-title">
@@ -61,20 +69,20 @@ const AddressFormComponent = () => {
       <Text mt="52px" mb="36px" variant="mini-title">
         Info Penerima
       </Text>
-      <Stack direction="row" justifyContent="space-between">
-        <Stack mb="36px">
+      <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]} gap={[0, 4, 4]}>
+        <GridItem colspan={[1, 1, 1]} mb="36px">
           <Text mb="16px" variant="caption">
             Nama Depan
           </Text>
           <Input onChange={inputHandler} name="namaDepan" />
-        </Stack>
-        <Stack>
+        </GridItem>
+        <GridItem colspan={[1, 1, 1]}>
           <Text mb="16px" variant="caption">
             Nama Belakang
           </Text>
           <Input onChange={inputHandler} name="namaBelakang" />
-        </Stack>
-      </Stack>
+        </GridItem>
+      </Grid>
       <Text mb="16px" variant="caption">
         Nomor HP
       </Text>
@@ -93,8 +101,8 @@ const AddressFormComponent = () => {
         />
         <Input mb="36px" type="tel" onChange={inputHandler} name="nomorHp" />
       </InputGroup>
-      <Stack direction="row" justifyContent="space-between">
-        <Stack mb="36px">
+      <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+        <GridItem colspan={[2, 1, 1]} mb="36px">
           <Text mb="16px" variant="caption">
             Provinsi
           </Text>
@@ -105,8 +113,8 @@ const AddressFormComponent = () => {
               children={<Icon as={IoIosArrowDown} />}
             />
           </InputGroup>
-        </Stack>
-        <Stack>
+        </GridItem>
+        <GridItem colspan={[2, 1, 1]}>
           <Text mb="16px" variant="caption">
             Kota/Kabupaten
           </Text>
@@ -117,8 +125,8 @@ const AddressFormComponent = () => {
               children={<Icon as={IoIosArrowDown} />}
             />
           </InputGroup>
-        </Stack>
-      </Stack>
+        </GridItem>
+      </Grid>
       <Text mb="16px" variant="caption">
         Kecamatan
       </Text>
@@ -145,33 +153,19 @@ const AddressFormComponent = () => {
           <Button variant="main-outline" w="300px">
             <Text>Batalkan</Text>
           </Button>
-          {isDisabled ? (
-            <Button
-              isDisabled={isDisabled}
-              _hover={{
-                bgColor: "#006D7F",
-                color: "#FFFFF0",
-              }}
-              variant="main"
-              w="300px"
-              onClick={formik.handleSubmit}
-            >
-              <Text>Simpan Alamat</Text>
-            </Button>
-          ) : (
-            <Button
-              // isDisabled={isDisabled}
-              // _hover={{
-              //   bgColor: "#006D7F",
-              //   color: "#FFFFF0",
-              // }}
-              variant="main"
-              w="300px"
-              onClick={formik.handleSubmit}
-            >
-              <Text>Simpan Alamat</Text>
-            </Button>
-          )}
+          <Button
+            // tinggal formik.values. apa trs dibalik tandaseru
+            isDisabled={formik.values}
+            _hover={{
+              bgColor: "#006D7F",
+              color: "#FFFFF0",
+            }}
+            variant="main"
+            w="300px"
+            onClick={formik.handleSubmit}
+          >
+            <Text>Simpan Alamat</Text>
+          </Button>
         </Stack>
       </Stack>
     </Box>
