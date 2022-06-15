@@ -91,7 +91,7 @@ const ProductList = () => {
                 <option>Terbaru</option>
               </Select>
             </Stack>
-          </Stack> */}
+          </Stack>
         </Box>
         <Box display={["grid", "grid", "none"]}>
           <Tabs colorScheme="#000000" maxW="100vw">
