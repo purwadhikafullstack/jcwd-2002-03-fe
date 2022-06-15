@@ -6,10 +6,12 @@ import TotalPemesanan from "component/TotalPemesanan";
 import SisaStok from "component/SisaStok";
 import CartPentingHariIni from "component/CartPentingHariIni";
 import CartKadaluwarsaObat from "component/CartKadaluwarsaObat";
+import ProfitCart from "component/ProfitCart";
+import CartPenjualanObat from "component/CartPenjualanObat";
 
 const AdminDashboard = () => {
   return (
-    <Stack>
+    <Stack mb="8" h="1130px" w="full" borderBottom="1px"> 
       <AdminSideBar />
       <Flex direction="column" pos="absolute">
         <Text fontWeight="700" fontSize="20px" mt="28" ml="80">
@@ -27,7 +29,7 @@ const AdminDashboard = () => {
       <ProfitHariIni />
       <TotalPemesanan />
       <SisaStok />
-
+      
       <Flex direction="column" pos="absolute">
         <Text fontWeight="700" fontSize="20px" mt="375px" ml="80">
           Penting Hari Ini
@@ -40,17 +42,20 @@ const AdminDashboard = () => {
       </Flex>
       <CartPentingHariIni />
 
-      <Flex direction="column" pos="absolute">
+      <Flex direction="column" position="absolute">
         <Text fontWeight="700" fontSize="20px" mt="375px" ml="900px">
           Kadaluwarsa Obat
         </Text>
         <HStack>
           <Text color="#737A8D" ml="900px">
-            Cek tanggal kedaluwarsa untuk mengorganisir stok obat
+          Cek tanggal kedaluwarsa untuk mengorganisir stok obat 
           </Text>
         </HStack>
       </Flex>
       <CartKadaluwarsaObat />
+
+      <ProfitCart />
+      <CartPenjualanObat />
     </Stack>
   );
 };
