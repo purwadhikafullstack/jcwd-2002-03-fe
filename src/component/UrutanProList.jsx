@@ -1,11 +1,11 @@
 import {
-  Box,
   Collapse,
   Divider,
   Icon,
   Stack,
   Text,
   useDisclosure,
+  Box,
 } from "@chakra-ui/react";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
@@ -13,6 +13,7 @@ import { useState } from "react";
 const UrutanProList = () => {
   const { isOpen: urutanIsOpen, onToggle: urutanOnToggle } = useDisclosure();
   const [urutanArrow, setUrutanArrow] = useState(false);
+  // select option
   return (
     <Box
       w="200px"

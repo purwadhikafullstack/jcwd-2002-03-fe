@@ -18,16 +18,18 @@ const ProductCard = () => {
       borderRadius="xl"
       overflow="hidden"
       boxShadow=" 1px 2px 3px 4px rgba(245,251,251)"
-      mb="5px"
+      mb={5}
       _hover={{
         boxShadow: " 1px 2px 3px 4px rgba(237,248,248)",
+        transform: "translate(0px, -8px)",
+        transitionDuration: "0.7s"
       }}
     >
       <Stack direction="row" justifyContent="end">
         <Stack px="40px" pt="35px">
           <Image
-            w="133px"
-            h="104px"
+            w="100%"
+            h="100%"
             objectFit="cover"
             src="https://lifepack.id/wp-content/uploads/2020/12/94-1.jpg"
           />
