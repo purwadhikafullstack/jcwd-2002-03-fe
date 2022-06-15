@@ -37,7 +37,7 @@ const LeftCategory = () => {
       w="280px"
       maxH="1370px"
       borderRadius="16px"
-      display={["none", "grid", "grid"]}
+      display={["none", "none", "none", "grid"]}
     >
       <Box pl="33px" mb="-6.5px" pt="24px">
         <Button variant="main-outline" w="211px">
@@ -66,7 +66,7 @@ const LeftCategory = () => {
           <CheckboxGroup borderRadius="4px">
             <Stack spacing="10px" direction={["column", "none"]}>
               <Checkbox>
-                <Text variant="caption">Batuk & Flu</Text>
+                <Text variant="caption">Batuk &amp; Flu</Text>
               </Checkbox>
               <Checkbox>
                 <Text variant="caption">Demam</Text>
@@ -78,7 +78,7 @@ const LeftCategory = () => {
                 <Text variant="caption">Kesehatan Seksual</Text>
               </Checkbox>
               <Checkbox>
-                <Text variant="caption">Mata & Mulut</Text>
+                <Text variant="caption">Mata &amp; Mulut</Text>
               </Checkbox>
               <Checkbox>
                 <Text variant="caption">Obat Diare</Text>
@@ -122,18 +122,24 @@ const LeftCategory = () => {
         <Collapse in={hargaIsOpen} animateOpacity>
           <Stack spacing="4">
             <InputGroup>
-              <InputLeftElement
-                pointerEvents="none"
-                children={<Text variant="caption">Rp.</Text>}
+              <InputLeftElement pointerEvents="none">
+                <Text variant="caption">Rp.</Text>
+              </InputLeftElement>
+              <Input
+                _focus={{ outline: 0 }}
+                type="tel"
+                placeholder="Harga Minimum"
               />
-              <Input type="tel" placeholder="Harga Minimum" />
             </InputGroup>
             <InputGroup>
-              <InputLeftElement
-                pointerEvents="none"
-                children={<Text variant="caption">Rp.</Text>}
+              <InputLeftElement pointerEvents="none">
+                <Text variant="caption">Rp.</Text>
+              </InputLeftElement>
+              <Input
+                _focus={{ outline: 0 }}
+                type="tel"
+                placeholder="Harga Maksimal"
               />
-              <Input type="tel" placeholder="Harga Maksimal" />
             </InputGroup>
           </Stack>
         </Collapse>
@@ -217,10 +223,9 @@ const LeftCategory = () => {
         <Collapse in={brandIsOpen} animateOpacity>
           <Stack>
             <InputGroup mb="18px">
-              <InputRightElement
-                pointerEvents="none"
-                children={<Icon as={IoSearchOutline} color="gray.300" />}
-              />
+              <InputRightElement pointerEvents="none">
+                <Icon as={IoSearchOutline} color="gray.300" />
+              </InputRightElement>
               <Input type="text" placeholder="Cari Brand" />
             </InputGroup>
             <CheckboxGroup borderRadius="16px">

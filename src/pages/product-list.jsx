@@ -16,9 +16,11 @@ import UrutanProList from "../component/UrutanProList";
 import UpLeftCategory from "../component/UpLeftCategory";
 
 const ProductList = () => {
+  // overflow={scroll}
+  // tabs
   return (
     <Grid
-      templateColumns={["repeat(2, 1fr)", "repeat(5, 1fr)"]}
+      templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(5, 1fr)"]}
       templateRows="repeat(1, 1fr)"
       gap={10}
       mb="40px"
@@ -27,7 +29,7 @@ const ProductList = () => {
     >
       <GridItem rowSpan={1} colSpan={1}>
         <Breadcrumb
-          display={["none", "grid", "grid"]}
+          display={["none", "none", "none", "grid"]}
           marginLeft="30px"
           mb="38px"
           mt="36px"
@@ -60,18 +62,22 @@ const ProductList = () => {
         <LeftCategory />
       </GridItem>
       <GridItem mt={[5, 10, 10]} colSpan={4}>
-        <Box display={["none", "grid", "grid"]}>
+        <Box display={["none", "none", "none", "grid"]}>
           <Text variant="title">Obat</Text>
           <Divider />
-          {/* <Stack direction="row" justifyContent="space-between">
-            <Text variant="caption">45 Produk di Vitamin & Suplemen</Text>
-            <Stack direction="row">
+          <Stack direction="row" justifyContent="space-between">
+            <Text my={10} variant="caption">
+              45 Produk di Vitamin & Suplemen
+            </Text>
+            <Stack py={6} direction="row" w="31.9%">
               <Text mt="18px" variant="caption">
-                Urutkan
+                Urutkan:
               </Text>
-              <UrutanProList />
+              <Box>
+                <UrutanProList />
+              </Box>
             </Stack>
-          </Stack> */}
+          </Stack>
         </Box>
         <SimpleGrid columns={[2, 4, 4]} spacing={2}>
           <ProductCard />

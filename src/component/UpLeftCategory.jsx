@@ -20,7 +20,7 @@ const UpLeftCategory = () => {
       maxW="280px"
       maxH="309px"
       borderRadius="16px"
-      display={["none", "grid", "grid"]}
+      display={["none", "none", "none", "grid"]}
     >
       <Stack pl="28px" py="29px" pr="28px">
         <Stack direction="row" justifyContent="space-between">
