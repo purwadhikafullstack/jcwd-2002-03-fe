@@ -75,7 +75,7 @@ const CartPenjualanObat = () => {
     <Flex pos="absolute">
       <Stack
         borderRadius="lg"
-        ml="900px"
+        ml="890px"
         mt="705px"
         bg="gray.100"
         w="537px"
