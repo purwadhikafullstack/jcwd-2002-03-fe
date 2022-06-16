@@ -7,7 +7,7 @@ const CartKadaluwarsaObat = () => {
         w="353px"
         h="202px"
         bg="gray.100"
-        ml="900px"
+        ml="890px"
         mt="450px"
         borderRadius="lg"
       >
