@@ -1,6 +1,5 @@
-import { Stack, Box, Text, Flex, HStack, Container } from "@chakra-ui/react";
+import { Stack, Text, Flex, HStack } from "@chakra-ui/react";
 const { default: AdminSideBar } = require("component/AdminSideBar");
-const { default: AdminNavbar } = require("component/AdminNavbar");
 import ProfitHariIni from "component/ProfitHariIni";
 import TotalPemesanan from "component/TotalPemesanan";
 import SisaStok from "component/SisaStok";
@@ -11,7 +10,7 @@ import CartPenjualanObat from "component/CartPenjualanObat";
 
 const AdminDashboard = () => {
   return (
-    <Stack mb="8" h="1130px" w="full" borderBottom="1px"> 
+    <Stack mb="8" w="1519px" h="1140px" borderBottom="1px">
       <AdminSideBar />
       <Flex direction="column" pos="absolute">
         <Text fontWeight="700" fontSize="20px" mt="28" ml="80">
@@ -29,7 +28,7 @@ const AdminDashboard = () => {
       <ProfitHariIni />
       <TotalPemesanan />
       <SisaStok />
-      
+
       <Flex direction="column" pos="absolute">
         <Text fontWeight="700" fontSize="20px" mt="375px" ml="80">
           Penting Hari Ini
@@ -43,12 +42,12 @@ const AdminDashboard = () => {
       <CartPentingHariIni />
 
       <Flex direction="column" position="absolute">
-        <Text fontWeight="700" fontSize="20px" mt="375px" ml="900px">
+        <Text fontWeight="700" fontSize="20px" mt="375px" ml="890px">
           Kadaluwarsa Obat
         </Text>
         <HStack>
-          <Text color="#737A8D" ml="900px">
-          Cek tanggal kedaluwarsa untuk mengorganisir stok obat 
+          <Text width="630px" color="#737A8D" ml="890px">
+            Cek tanggal kedaluwarsa untuk mengorganisir stok obat
           </Text>
         </HStack>
       </Flex>

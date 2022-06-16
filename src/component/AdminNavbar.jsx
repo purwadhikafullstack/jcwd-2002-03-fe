@@ -13,7 +13,7 @@ import { IoMdNotifications } from "react-icons/io";
 
 const NavBarItem = () => {
   return (
-    <Box bgColor="gray.100" px={10} position="sticky" py="1.5">
+    <Box bgColor="gray.100" px={10} py="1.5">
       <Flex h={16} alignItems="center" justifyContent="right">
         <Flex alignItems="center">
           <Menu>
