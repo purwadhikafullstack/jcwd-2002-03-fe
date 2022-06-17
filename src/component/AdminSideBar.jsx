@@ -8,6 +8,7 @@ import {
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { FiHome, FiTrendingUp } from "react-icons/fi";
 import { FaPills } from "react-icons/fa";
@@ -18,8 +19,8 @@ const { default: AdminNavbar } = require("component/AdminNavbar");
 const AdminSideBar = () => {
   return (
     <>
-      <Box zIndex="docked" minH="100vh">
-        <Box w="100%" pos="absolute">
+      <SimpleGrid zIndex="overlay">
+        <Box w="full">
           <AdminNavbar />
         </Box>
         <Box
@@ -28,7 +29,8 @@ const AdminSideBar = () => {
           borderBottom="1px"
           w={{ base: "full", md: "64" }}
           pos="absolute"
-          h="1130px"
+          h="full"
+          boxShadow="md"
         >
           <Flex h="20" align="center" mx="8" justifyContent="space-between">
             <Img src="Logo.svg"></Img>
@@ -149,7 +151,7 @@ const AdminSideBar = () => {
             </Accordion>
           </Box>
         </Box>
-      </Box>
+      </SimpleGrid>
     </>
   );
 };
