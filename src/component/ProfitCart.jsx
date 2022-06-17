@@ -54,7 +54,7 @@ const ProfitCart = () => {
   };
 
   return (
-    <Flex pos="absolute">
+    <Flex pos="absolute" zIndex="docked">
       <Stack
         borderRadius="lg"
         ml="80"
