@@ -5,13 +5,11 @@ import { BiCategoryAlt } from "react-icons/bi"
 import { RiBillLine } from "react-icons/ri"
 import { TbHeadset } from "react-icons/tb"
 import { FaRegUserCircle } from "react-icons/fa"
-import Link from "next/link"
 
 const HomeBottomNavBar = () => {
     return (
 
         <Grid
-            // color="#F6FAFB"
             background="#F6FAFB"
             templateColumns="repeat(5, 1fr)"
             display={["flex", "none", "none"]}
@@ -24,37 +22,26 @@ const HomeBottomNavBar = () => {
             right={0}
             position="fixed"
             mt={10}
-        // alignItems="center"
 
         >
             <GridItem colSpan={1} alignItems="center" display="block" justifyContent="center" textAlign="center">
-                <Link href="/">
-                    <Icon as={HiHome} boxSize="35px" color="#B4B9C7" />
-                </Link>
+                <Icon as={HiHome} boxSize="35px" color="#B4B9C7" />
                 <Text>Beranda</Text>
             </GridItem>
             <GridItem colSpan={1} alignItems="center" display="block" justifyContent="center" textAlign="center">
-                <Link href="/product-list">
-                    <Icon as={BiCategoryAlt} boxSize="35px" color="#B4B9C7" />
-                </Link>
+                <Icon as={BiCategoryAlt} boxSize="35px" color="#B4B9C7" />
                 <Text>Kategori</Text>
             </GridItem>
             <GridItem colSpan={1} alignItems="center" display="block" justifyContent="center" textAlign="center">
-                <Link href="/cart">
-                    <Icon as={RiBillLine} boxSize="35px" color="#B4B9C7" />
-                </Link>
+                <Icon as={RiBillLine} boxSize="35px" color="#B4B9C7" />
                 <Text>Transaksi</Text>
             </GridItem>
             <GridItem colSpan={1} alignItems="center" display="block" justifyContent="center" textAlign="center">
-                <Link href="/help">
-                    <Icon as={TbHeadset} boxSize="35px" color="#B4B9C7" />
-                </Link>
+                <Icon as={TbHeadset} boxSize="35px" color="#B4B9C7" />
                 <Text>Bantuan</Text>
             </GridItem>
             <GridItem colSpan={1} alignItems="center" display="block" justifyContent="center" textAlign="center">
-                <Link href="/profile">
-                    <Icon as={FaRegUserCircle} boxSize="35px" color="#B4B9C7" />
-                </Link>
+                <Icon as={FaRegUserCircle} boxSize="35px" color="#B4B9C7" />
                 <Text>Profile</Text>
             </GridItem>
         </Grid >

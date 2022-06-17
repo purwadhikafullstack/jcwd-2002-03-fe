@@ -77,11 +77,11 @@ const navLinks = [
 
     },
     {
-        name: "admin-login",
-        path: "/admin-login",
-        title: "Alamat Pengiriman",
-        base: undefined,
-        md: undefined,
+        name: "product-list",
+        path: "/product-list",
+        title: "product-list",
+        base: <DesktopNavBar />,
+        md: <DesktopNavBar />,
         bottomNav: undefined
 
     },
