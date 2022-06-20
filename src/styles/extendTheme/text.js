@@ -23,9 +23,9 @@ const Text = {
             fontWeight: 700,
             color: "#213360",
             fontSize: {
-                base: "16px",
-                md: "22px",
-                lg: "22px"
+                base: "14px",
+                md: "16px",
+                lg: "16px"
             }
         },
         "caption": {

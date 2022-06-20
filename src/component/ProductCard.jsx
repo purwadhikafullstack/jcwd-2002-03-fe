@@ -12,7 +12,7 @@ import { BsFillCircleFill, BsSuitHeartFill } from "react-icons/bs";
 const ProductCard = () => {
   return (
     <Box
-      W="213px"
+      w="213px"
       h="331px"
       borderWidth="1px"
       borderRadius="xl"
@@ -40,9 +40,9 @@ const ProductCard = () => {
         </Box>
       </Stack>
       <Stack pl="24px" pr="10px" pt="3">
-        <Text 
-        fontSize="14px" fontWeight="700" fontFamily="sans-serif"
-        variant="mini-title"
+        <Text
+          fontSize="14px" fontWeight="700" fontFamily="sans-serif"
+          variant="mini-title"
         >
           PANADOL FLU DAN BATUK
         </Text>

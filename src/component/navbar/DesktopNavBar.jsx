@@ -42,7 +42,7 @@ const DesktopNavBar = () => {
             padding={[5, 5, 10]}
             h="92"
             maxWidth="100%"
-            background="linear-gradient(to left, #fde600, #8bd64c, #00b87a, #00948e, #006d7f);"
+            background="linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12)"
 
         >
             <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]}  >
