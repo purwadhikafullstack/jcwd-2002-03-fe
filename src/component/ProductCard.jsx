@@ -22,7 +22,7 @@ const ProductCard = () => {
       _hover={{
         boxShadow: " 1px 2px 3px 4px rgba(237,248,248)",
         transform: "translate(0px, -8px)",
-        transitionDuration: "0.7s"
+        transitionDuration: "0.5s",
       }}
     >
       <Stack direction="row" justifyContent="end">

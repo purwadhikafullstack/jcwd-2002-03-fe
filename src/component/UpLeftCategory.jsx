@@ -43,10 +43,10 @@ const UpLeftCategory = () => {
           <Text variant="mini-title">Obat-Obatan</Text>
           <Text variant="caption">Nutrisi</Text>
           <Text variant="caption">Herbal</Text>
-          <Text variant="caption">Vitamin & Suplemen</Text>
+          <Text variant="caption">Vitamin &amp; Suplemen</Text>
           <Text variant="caption">Alat Kesehatan</Text>
           <Text variant="caption">Perawatan Tubuh</Text>
-          <Text variant="caption">Ibu & Anak</Text>
+          <Text variant="caption">Ibu &amp; Anak</Text>
         </Collapse>
       </Stack>
     </Box>

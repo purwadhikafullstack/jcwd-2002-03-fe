@@ -13,10 +13,14 @@ import {
   InputRightElement,
   useDisclosure,
   Collapse,
+  FormControl,
+  FormHelperText,
 } from "@chakra-ui/react";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const LeftCategory = () => {
   // terpopuler
@@ -30,6 +34,19 @@ const LeftCategory = () => {
   const [keluhanArrow, setKeluhanArrow] = useState(false);
   const [jenisArrow, setJenisArrow] = useState(false);
   const [hargaArrow, setHargaArrow] = useState(false);
+
+  const formik = useFormik({
+    initialValues: {
+      hargaMinimum: "",
+      hargaMaksimum: "",
+    },
+
+    validationSchema: Yup.object().shape({
+      labelAlamat: Yup.string().required("This field is required"),
+      namaDepan: Yup.string().required("This field is required"),
+    }),
+    validateOnChange: false,
+  });
   return (
     <Box
       boxShadow=" 1px 2px 3px 4px rgba(237,248,248)"
@@ -121,26 +138,32 @@ const LeftCategory = () => {
         </Stack>
         <Collapse in={hargaIsOpen} animateOpacity>
           <Stack spacing="4">
-            <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <Text variant="caption">Rp.</Text>
-              </InputLeftElement>
-              <Input
-                _focus={{ outline: 0 }}
-                type="tel"
-                placeholder="Harga Minimum"
-              />
-            </InputGroup>
-            <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <Text variant="caption">Rp.</Text>
-              </InputLeftElement>
-              <Input
-                _focus={{ outline: 0 }}
-                type="tel"
-                placeholder="Harga Maksimal"
-              />
-            </InputGroup>
+            <FormControl isInvalid={formik.errors.hargaMinimum}>
+              <InputGroup>
+                <InputLeftElement pointerEvents="none">
+                  <Text variant="caption">Rp.</Text>
+                </InputLeftElement>
+                <Input
+                  _focus={{ outline: 0 }}
+                  type="number"
+                  placeholder="Harga Minimum"
+                />
+              </InputGroup>
+              <FormHelperText>{formik.errors.hargaMinimum}</FormHelperText>
+            </FormControl>
+            <FormControl isInvalid={formik.errors.hargaMinimum}>
+              <InputGroup>
+                <InputLeftElement pointerEvents="none">
+                  <Text variant="caption">Rp.</Text>
+                </InputLeftElement>
+                <Input
+                  _focus={{ outline: 0 }}
+                  type="number"
+                  placeholder="Harga Maksimal"
+                />
+              </InputGroup>
+              <FormHelperText>{formik.errors.hargaMinimum}</FormHelperText>
+            </FormControl>
           </Stack>
         </Collapse>
       </Stack>
