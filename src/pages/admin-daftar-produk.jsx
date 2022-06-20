@@ -26,6 +26,14 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   IconButton,
+  Modal,
+  useDisclosure,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  Stack,
 } from "@chakra-ui/react";
 import {
   ArrowRightIcon,
@@ -35,11 +43,40 @@ import {
 } from "@chakra-ui/icons";
 import AdminSideBar from "component/AdminSideBar";
 import { FiSearch, FiDownload } from "react-icons/fi";
-import React from "react";
+import { useState } from "react";
 import { useTable, useSortBy, usePagination } from "react-table";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import React from "react";
+import { TbWriting } from "react-icons/tb";
+import { useNumberInput } from "@chakra-ui/react";
 
 const AdminDaftarProduk = () => {
+  const {
+    isOpen: isTambahObatOpen,
+    onOpen: onTambahObatOpen,
+    onClose: onTambahObatClose,
+  } = useDisclosure();
+  const {
+    isOpen: isTambahStokOpen,
+    onOpen: onTambahStokOpen,
+    onClose: onTambahStokClose,
+  } = useDisclosure();
+
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
+
+  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
+    useNumberInput({
+      step: 1,
+      defaultValue: 0,
+      min: 0,
+      precision: 0,
+    });
+
+  const inc = getIncrementButtonProps();
+  const dec = getDecrementButtonProps();
+  const input = getInputProps();
+
   const data = React.useMemo(
     () => [
       {
@@ -397,10 +434,6 @@ const AdminDaftarProduk = () => {
         accessor: "satuan",
       },
       {
-        Header: "Nilai Barang",
-        accessor: "nilaiBarang",
-      },
-      {
         Header: "Nilai Jual",
         accessor: "nilaiJual",
       },
@@ -437,7 +470,12 @@ const AdminDaftarProduk = () => {
   return (
     <>
       <AdminSideBar />
-      <Box bg="linear-gradient(155.7deg, #D6F5F3 -45.88%, #F7FCFC 45.77%, #F1F5FC 117.72%)" color="white" ml="64" pb="32px">
+      <Box
+        bg="linear-gradient(155.7deg, #D6F5F3 -45.88%, #F7FCFC 45.77%, #F1F5FC 117.72%)"
+        color="white"
+        ml="64"
+        pb="32px"
+      >
         <Text
           color="#213360"
           fontWeight="bold"
@@ -448,13 +486,7 @@ const AdminDaftarProduk = () => {
           Daftar Obat
         </Text>
 
-        <Center
-          flexDirection="column"
-          mr="48px"
-          ml="48px"
-          mt="38px"
-          bg="white"
-        >
+        <Center flexDirection="column" mr="48px" ml="48px" mt="38px" bg="white">
           <Flex minW="full" justify="space-between">
             <HStack ml="32px" spacing="16px">
               <InputGroup
@@ -486,16 +518,28 @@ const AdminDaftarProduk = () => {
                 </Select>
               </InputGroup>
             </HStack>
-            <Button
-              fontSize="12px"
-              p="5"
-              leftIcon={<FiDownload size="20" />}
-              mr="32px"
-              colorScheme="teal"
-              mt="32px"
-            >
-              Tambah Obat
-            </Button>
+            <HStack>
+              <Button
+                onClick={onTambahStokOpen}
+                fontSize="12px"
+                p="5"
+                colorScheme="teal"
+                leftIcon={<TbWriting size="20" />}
+              >
+                Tambah Stok
+              </Button>
+              <Button
+                onClick={onTambahObatOpen}
+                fontSize="12px"
+                p="5"
+                leftIcon={<FiDownload size="20" />}
+                mr="32px"
+                colorScheme="teal"
+                mt="32px"
+              >
+                Tambah Obat
+              </Button>
+            </HStack>
           </Flex>
           <Divider my="38px" w="full" maxW="1056px" />
           <Center flexDirection="column">
@@ -658,6 +702,193 @@ const AdminDaftarProduk = () => {
           </Center>
         </Center>
       </Box>
+
+      {/* Tambah obat page */}
+      <Modal
+        isCentered={true}
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isTambahObatOpen}
+        onClose={onTambahObatClose}
+        size="2xl"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader fontSize="20px" fontWeight="bold">
+            Tambah Obat
+          </ModalHeader>
+          <ModalCloseButton />
+
+          <ModalBody mt="30px">
+            <HStack mb="12px">
+              <Text mr="85px">Nama Obat</Text>
+              <Input
+                fontSize="12px"
+                w="auto"
+                minW="226px"
+                placeholder="Masukkan nama obat"
+              />
+            </HStack>
+
+            <HStack mb="12px">
+              <Text mr="104px">No. Obat</Text>
+              <Input
+                fontSize="12px"
+                w="auto"
+                minW="226px"
+                placeholder="Masukkan no. obat"
+              />
+            </HStack>
+
+            <HStack mb="12px">
+              <Text mr="94px">No. BPOM</Text>
+              <Input
+                fontSize="12px"
+                w="auto"
+                minW="226px"
+                placeholder="Masukkan no. BPOM"
+              />
+            </HStack>
+
+            <HStack mb="12px">
+              <Text mr="105px">Nilai Jual</Text>
+              <Input
+                fontSize="12px"
+                w="auto"
+                minW="226px"
+                placeholder="Masukkan nilai jual"
+              />
+            </HStack>
+
+            <HStack mb="12px">
+              <Text mr="108px">Kategori</Text>
+              <Select
+                fontSize="12px"
+                w="auto"
+                minW="141px"
+                bg="white"
+                color="black"
+              >
+                <option value="option1">Obat Bebas</option>
+                <option value="option2">Obat Racik</option>
+                <option value="option3">Obat Resep</option>
+              </Select>
+            </HStack>
+
+            <HStack mb="12px">
+              <Text mr="52px">Tgl. Kadaluwarsa</Text>
+              <Input
+                placeholder="DD-MM-YYYY"
+                fontSize="12px"
+                w="auto"
+                type="date"
+              />
+            </HStack>
+
+            <Divider border="2px" mt="20px" minW="full" />
+
+            <Flex ml="32px" mb="16px" mt="16px" justify="right">
+              <Button
+                onClick={onTambahObatClose}
+                colorScheme="yellow"
+                fontSize="14px"
+                w="auto"
+                minW="156px"
+              >
+                Batal
+              </Button>
+              <Button
+                ml="3"
+                colorScheme="teal"
+                fontSize="14px"
+                w="auto"
+                minW="156px"
+              >
+                Simpan
+              </Button>
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      {/* Tambah stok page */}
+      <Modal
+        isCentered={true}
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isTambahStokOpen}
+        onClose={onTambahStokClose}
+        size="2xl"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader fontSize="20px" fontWeight="bold">
+            Tambah Stok
+          </ModalHeader>
+          <ModalCloseButton />
+
+          <ModalBody mt="30px">
+
+            <HStack mb="12px">
+              <Text mr="104px">Kuantitas</Text>
+              <HStack maxW="320px">
+                <Button {...dec}>-</Button>
+                <Input textAlign="center" maxW="55px" {...input} />
+                <Button {...inc}>+</Button>
+              </HStack>
+            </HStack>
+
+            <HStack mb="12px">
+              <Text mr="91px">Nama obat</Text>
+              <Select
+                fontSize="12px"
+                w="auto"
+                minW="141px"
+                bg="white"
+                color="black"
+                placeholder="Pilih Obat"
+              >
+                <option value="option1">Actived</option>
+                <option value="option2">Vit C</option>
+                <option value="option3">Bodrex</option>
+              </Select>
+            </HStack>
+
+            <HStack mb="12px">
+              <Text mr="105px">Nilai Jual</Text>
+              <Input
+                fontSize="12px"
+                w="auto"
+                minW="226px"
+                placeholder="Masukkan nilai jual"
+              />
+            </HStack>
+
+            <Divider border="2px" mt="20px" minW="full" />
+
+            <Flex ml="32px" mb="16px" mt="16px" justify="right">
+              <Button
+                onClick={onTambahStokClose}
+                colorScheme="yellow"
+                fontSize="14px"
+                w="auto"
+                minW="156px"
+              >
+                Batal
+              </Button>
+              <Button
+                ml="3"
+                colorScheme="teal"
+                fontSize="14px"
+                w="auto"
+                minW="156px"
+              >
+                Simpan
+              </Button>
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
