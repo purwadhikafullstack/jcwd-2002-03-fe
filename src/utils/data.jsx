@@ -85,6 +85,15 @@ const navLinks = [
         bottomNav: undefined
 
     },
+    {
+        name: "register",
+        path: "/auth/register",
+        title: undefined,
+        base: <MobileNavbar />,
+        md: undefined,
+        bottomNav: undefined
+
+    },
 
 ]
 
