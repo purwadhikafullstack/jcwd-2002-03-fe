@@ -1,37 +1,32 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Box, Button, Container, Divider, Grid, GridItem, Input, List, ListIcon, ListItem, Text } from "@chakra-ui/react"
+import { Box, Button, Container, Divider, FormControl, FormLabel, Grid, GridItem, Input, List, ListIcon, ListItem, Text } from "@chakra-ui/react"
 import { MdCheckCircle } from "react-icons/md"
 import { useDropzone } from "react-dropzone"
 
 const uploadResep = () => {
     const inputFileRef = useRef()
     const [show, setShow] = useState(false)
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-        accept: {
-            "image/jpeg": [".png", ".jpg", ".jpeg"],
-        },
+
+    const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
+        // Disable click and keydown behavior
         noClick: true,
         noKeyboard: true
     });
 
-    const trigerShow = () => {
-        if (acceptedFiles.length) {
-            setShow(true)
-        }
+    const files = () => {
+        return (
+            <List >
+                <ListItem >
+                    <ListIcon as={MdCheckCircle} color='green.500' />
+                    {acceptedFiles.values}
+                </ListItem>
+            </List>
+        )
     }
 
-    const files = acceptedFiles.map((file) => (
-        <List >
-            <ListItem key={file.path}>
-                <ListIcon as={MdCheckCircle} color='green.500' />
-                {file.path} - {file.size} bytes
-            </ListItem>
-        </List>
-    ));
-
-    useEffect(() => {
-        trigerShow()
-    }, [acceptedFiles])
+    // useEffect(() => {
+    //     trigerShow()
+    // }, [acceptedFiles])
 
     return (
         <Container
@@ -74,29 +69,22 @@ const uploadResep = () => {
                         Tak perlu antre &amp; obat langsung dikirimkan ke lokasi anda! <b>Foto tidak boleh lebih dari 10 MB</b>
                     </Text>
                 </Box>
+                <Box height="400px" width="100%" border="1px dashed teal" borderRadius="16px">
 
-                <Box
-                    border="1px dashed teal"
-                    borderRadius="16px"
-                    display="flex"
-                    justifyContent="center"
-                    width="100%"
-                    height="75%"
-                    alignItems="center"
-                    background="#F6FAFB"
-                    {...getRootProps({ className: "dropzone" })}
-                >
-
+                    {/* 
                     <Box>
-                        <Text textAlign="center" display={["none", "block", "block"]}>Tarik &amp; Letakan File </Text>
-                        <Text textAlign="center" display={["none", "block", "block"]}>atau </Text>
-                        <Input {...getInputProps()} ref={inputFileRef} />
-                        <Button onClick={() => inputFileRef.current.click()} variant="main">
-                            Unggah Resep
-                        </Button>
-                    </Box>
-                </Box>
+                    <Text textAlign="center" display={["none", "block", "block"]}>Tarik &amp; Letakan File </Text>
+                    <Text textAlign="center" display={["none", "block", "block"]}>atau </Text>
 
+                    {/* <Button onClick={() => inputFileRef.current.click()} variant="main">
+                    Unggah Resep
+                </Button> */}
+                    {/* </Box> */}
+
+                    <Input {...getInputProps()} />
+                    <Button varian="main" type="button" onClick={open}>upload resep</Button>
+                    {/* </FormControl> */}
+                </Box>
 
                 <Grid
                     templateColumns={["repeat(1, 1fr)", "repeat(3, 1fr)"]} gap={2}
@@ -110,14 +98,13 @@ const uploadResep = () => {
                                 <Button variant="main-outline">
                                     Cancel
                                 </Button>
-                                <Button variant="main">
+                                <Button variant="main" onClick={() => console.log("upload berhasil")}>
                                     Unggah
                                 </Button>
                             </>
                             : ""
                         }
                     </GridItem>
-
                 </Grid>
             </Box>
         </Container >

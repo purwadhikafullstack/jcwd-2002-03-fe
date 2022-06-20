@@ -1,18 +1,15 @@
 import React, { useState } from "react"
-import { Box, Button, Checkbox, Divider, FormControl, FormLabel, Grid, GridItem, Icon, Img, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text, useBreakpointValue, useToast } from "@chakra-ui/react"
+import { Box, Button, Checkbox, Divider, FormControl, FormLabel, Grid, GridItem, Icon, Img, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text, useBreakpointValue } from "@chakra-ui/react"
 import { FcGoogle } from "react-icons/fc"
 import { BsFacebook } from "react-icons/bs"
 import { CgProfile } from "react-icons/cg"
 import { MdEmail } from "react-icons/md"
 import { IoIosLock } from "react-icons/io"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import { useFormik } from "formik"
-import * as Yup from "yup"
-import api from "../../lib/api"
 
 const register = () => {
     const [hidden, setHidden] = useState(false)
-    const toast = useToast();
+
 
     const logoButton = useBreakpointValue({
         base: {
@@ -25,49 +22,6 @@ const register = () => {
         }
 
     })
-
-    const formik = useFormik({
-        initialValues: {
-            name: "",
-            password: "",
-            email: "",
-        },
-        validationSchema: Yup.object().shape({
-            name: Yup.string().required("This field is required"),
-            password: Yup.string()
-                .required("This field is required")
-                .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"),
-            email: Yup.string().required("This field is required").email("invalid email"),
-        }),
-        validateOnChange: false,
-        onSubmit: (values) => {
-            console.log(values);
-            setTimeout(async () => {
-                try {
-                    const res = await api.post("/auth/register", values);
-
-                    if (res.data.message !== undefined) {
-                        toast({
-                            title: "Account created.",
-                            description: `${res.data.message} check your email for verify your new account `,
-                            status: "success",
-                            duration: 9000,
-                            isClosable: true,
-                        });
-                    }
-                    formik.setSubmitting(false);
-                } catch (err) {
-                    console.log(err);
-                    formik.setSubmitting(false);
-                }
-            }, 3000);
-        },
-    });
-
-    const inputHandler = (event) => {
-        const { value, name } = event.target;
-        formik.setFieldValue(name, value);
-    };
 
     return (
         <Grid templateColumns="repeat(2,1fr)" margin="auto" width="100%">
@@ -116,7 +70,7 @@ const register = () => {
                                 >
                                     <Icon as={CgProfile} />
                                 </InputLeftElement>
-                                <Input placeholder="name" onChange={inputHandler} />
+                                <Input placeholder="username" />
                             </InputGroup>
                         </FormControl>
                         <FormControl>
@@ -127,7 +81,7 @@ const register = () => {
                                 >
                                     <Icon as={MdEmail} />
                                 </InputLeftElement>
-                                <Input placeholder="Email Address" type="email" onChange={inputHandler} />
+                                <Input placeholder="Email Address" type="email" />
                             </InputGroup>
                         </FormControl>
                         <FormControl>
@@ -138,7 +92,7 @@ const register = () => {
                                 >
                                     <Icon as={IoIosLock} />
                                 </InputLeftElement>
-                                <Input placeholder="password" type={hidden ? "text" : "password"} onChange={inputHandler} />
+                                <Input placeholder="password" type={hidden ? "text" : "password"} />
                                 <InputRightElement>
                                     <Icon as={hidden ? AiOutlineEye : AiOutlineEyeInvisible} onClick={() => setHidden(!hidden)} />
                                 </InputRightElement>
@@ -150,14 +104,7 @@ const register = () => {
                             Saya setuju dengan <b color="teal"> persyaratan </b> &amp; <b color="teal"> ketentuan </b>
                         </Text>
                     </Checkbox>
-                    <Button
-                        variant="main"
-                        width="100%"
-                        height={["48px"]}
-                        onClick={formik.handleSubmit}
-                        type="submit"
-                        disabled={formik.isSubmitting}
-                    >
+                    <Button variant="main" width="100%" height={["48px"]}>
                         Register
                     </Button>
                 </Box>
