@@ -28,7 +28,7 @@ import { IoIosLock } from "react-icons/io";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import api from "../lib/api";
+import api from "../../lib/api";
 
 const register = () => {
   const [hidden, setHidden] = useState(false);
