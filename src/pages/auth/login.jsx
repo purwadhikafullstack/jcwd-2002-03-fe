@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Button,
   Checkbox,
   Divider,
   FormControl,
+  FormHelperText,
   FormLabel,
   Grid,
   GridItem,
@@ -23,16 +24,21 @@ import {
 } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
-import { CgProfile } from "react-icons/cg";
 import { IoIosLock } from "react-icons/io";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { MdEmail } from "react-icons/md";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import api from "../../lib/api";
+import jsCookies from "js-cookie"
+import { useSelector, useDispatch } from "react-redux"
+import { useRouter } from "next/router"
 
-const register = () => {
+const login = () => {
   const [hidden, setHidden] = useState(false);
   const toast = useToast();
+  const authSelector = useSelector((state) => state.auth)
+  const router = useRouter()
 
   const logoButton = useBreakpointValue({
     base: {
@@ -47,51 +53,56 @@ const register = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
+      credential: "",
       password: "",
-      email: "",
     },
     validationSchema: Yup.object().shape({
-      name: Yup.string().required("This field is required"),
-      password: Yup.string()
-        .required("This field is required")
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-          "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-        ),
-      email: Yup.string()
-        .required("This field is required")
-        .email("invalid email"),
+      credential: Yup.string().required("This field is required"),
+      password: Yup.string().required("This field is required"),
     }),
     validateOnChange: false,
     onSubmit: (values) => {
       console.log(values);
-      setTimeout(async () => {
+      setTimeout(async (dispatch) => {
         try {
-          const res = await api.post("/auth/register", values);
+          const res = await api.post("/auth/signin", values);
 
-          if (res.data.message !== undefined) {
-            toast({
-              title: "Account created.",
-              description: `${res.data.message} check your email for verify your new account `,
-              status: "success",
-              duration: 9000,
-              isClosable: true,
-            });
-          }
+          const userResponse = res.data.result
+
+          jsCookies.set("user_token", userResponse.token)
+
+        //   dispatch({
+        //     type: "LOGIN_USER",
+        //     payload: userResponse.user,
+        //   });
+
           formik.setSubmitting(false);
+          router.push("/home")
         } catch (err) {
           console.log(err);
+          toast({
+            title: "Login failed",
+            description: "Wrong email or password",
+            status: "error",
+            position: "top"
+          })
           formik.setSubmitting(false);
         }
       }, 3000);
     },
   });
 
-  const inputHandler = (event) => {
-    const { value, name } = event.target;
-    formik.setFieldValue(name, value);
-  };
+//   const inputHandler = (event) => {
+//     const { email, password } = event.target;
+//     formik.setFieldValue(email, password);
+//   };
+
+useEffect(() => {
+    if (authSelector.id) {
+        router.push("/home")
+    }
+}, [authSelector.id])
+
 
   return (
     <Grid templateColumns="repeat(2,1fr)" margin="auto" width="100%">
@@ -118,17 +129,18 @@ const register = () => {
             templateColumns="repeat(2,1fr)"
             spacing={["12px", "24px"]}
           >
-            <FormControl>
-              <FormLabel htmlFor="username">Username</FormLabel>
+            <FormControl isInvalid={formik.errors.credential}>
+              <FormLabel htmlFor="email">Email</FormLabel>
               <InputGroup>
                 <InputLeftElement pointerEvents="none">
-                  <Icon as={CgProfile} />
+                  <Icon as={MdEmail} />
                 </InputLeftElement>
-                <Input placeholder="username" onChange={inputHandler} />
+                <Input placeholder="email" onChange={(event) => formik.setFieldValue("credential", event.target.value)}/>
               </InputGroup>
+              <FormHelperText>{formik.errors.credential}</FormHelperText>
             </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="username">Password</FormLabel>
+            <FormControl isInvalid={formik.errors.password}>
+              <FormLabel htmlFor="password">Password</FormLabel>
               <InputGroup>
                 <InputLeftElement pointerEvents="none">
                   <Icon as={IoIosLock} />
@@ -136,7 +148,7 @@ const register = () => {
                 <Input
                   placeholder="password"
                   type={hidden ? "text" : "password"}
-                  onChange={inputHandler}
+                  onChange={(event) => formik.setFieldValue("password", event.target.value)}
                 />
                 <InputRightElement>
                   <Icon
@@ -145,6 +157,7 @@ const register = () => {
                   />
                 </InputRightElement>
               </InputGroup>
+              <FormHelperText>{formik.errors.password}</FormHelperText>
             </FormControl>
           </Stack>
           <HStack justify="space-between">
@@ -208,4 +221,4 @@ const register = () => {
   );
 };
 
-export default register;
+export default login;
