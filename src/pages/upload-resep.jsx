@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Box, Button, Container, Divider, Grid, GridItem, Input, List, ListIcon, ListItem, Text } from "@chakra-ui/react"
-import { useDropzone } from "react-dropzone";
 import { MdCheckCircle } from "react-icons/md"
+import { useDropzone } from "react-dropzone"
 
 const uploadResep = () => {
     const inputFileRef = useRef()

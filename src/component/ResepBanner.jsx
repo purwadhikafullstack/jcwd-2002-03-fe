@@ -1,7 +1,10 @@
 import React from "react"
 import { Box, Button, Grid, GridItem, Img, Text, useBreakpointValue } from "@chakra-ui/react"
+import { useRouter } from "next/router"
 
 const ResepBanner = () => {
+    const router = useRouter()
+
     const banner = useBreakpointValue({
         base: (
             <Img
@@ -11,7 +14,10 @@ const ResepBanner = () => {
                 overflow="hidden"
                 marginLeft="auto"
                 marginRight="auto"
-                mb={[5, 10, 10]} />
+                mb={[5, 10, 10]}
+                onClick={() => router.push("/upload-resep")}
+                cursor="pointer"
+            />
 
 
         ), md: (
@@ -24,7 +30,7 @@ const ResepBanner = () => {
                 marginRight="auto"
                 mb={10}
                 borderRadius="16px"
-                ustifyContent="center"
+                justifyContent="center"
                 alignItems="center"
                 display="flex"
             >
@@ -59,6 +65,7 @@ const ResepBanner = () => {
                             borderRadius="8px"
                             fontSize="18px"
                             fontWeight="400"
+                            onClick={() => router.push("/upload-resep")}
                         >
                             Unggah Resep
                         </Button>
