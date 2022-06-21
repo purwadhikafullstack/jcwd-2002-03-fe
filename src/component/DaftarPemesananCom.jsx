@@ -11,6 +11,7 @@ import {
   TabPanel,
   Button,
   Icon,
+  Select,
 } from "@chakra-ui/react";
 import { BiSort } from "react-icons/bi";
 import DaftarPemesananCardMp from "./DaftarPemesananCardMP";
@@ -42,7 +43,7 @@ const DaftarPemesanan = () => {
           w={[745, 200, 800]}
           h="846px"
           boxShadow=" 1px 2px 3px 4px rgba(237,248,248)"
-          display={["none", "none", "grid"]}
+          display={["none", "grid", "grid"]}
         >
           <Text pl="40px" pt="28px" variant="subtitle">
             Daftar Pemesanan
@@ -71,11 +72,10 @@ const DaftarPemesanan = () => {
 
             <TabPanels>
               <TabPanel p="0">
-                <Box pl="1px" mb="40px">
-                  <Stack direction="row">
-                    <Stack pt={10} direction="row">
+                <Box pl="1px" mb="40px" pr="35px">
+                  <Stack direction="row" justifyContent="space-between">
+                    <Stack pt={10} direction="row" alignItems="center">
                       <Text
-                        mt="5px"
                         variant="mini-title"
                         display={["none", "none", "none", "grid"]}
                       >
@@ -109,16 +109,15 @@ const DaftarPemesanan = () => {
                     <Stack
                       display={["none", "none", "none", "flex"]}
                       pl="46px"
-                      pt={7}
+                      pt={10}
                       direction="row"
-                      w="31.9%"
+                      alignItems="center"
                     >
-                      <Text mt="17px" variant="caption">
-                        Urutkan:
-                      </Text>
-                      <Box>
-                        <UrutanProList />
-                      </Box>
+                      <Text variant="caption">Urutkan:</Text>
+                      <Select _focus={{ outline: 0 }} placeholder="Terbaru">
+                        <option>Terbaru</option>
+                        <option>Terlama</option>
+                      </Select>
                     </Stack>
                   </Stack>
                 </Box>
