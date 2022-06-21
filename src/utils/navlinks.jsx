@@ -3,6 +3,7 @@ import { HiDotsVertical } from "react-icons/hi"
 import CartBotomNavbar from "../component/bottomNavBar/CartBotomNavbar"
 import HomeBottomNavBar from "../component/bottomNavBar/HomeBottomNavBar"
 import ProductDetailBottomNavbar from "../component/bottomNavBar/ProductDetailBottomNavbar"
+import AboutCompany from "../component/aboutCompany/AboutCompany"
 import DesktopNavBar from "../component/navbar/DesktopNavBar"
 import Checkout from "../component/bottomNavBar/Checkout"
 import MobileNavbar from "../component/navbar/MobileNavbar"
@@ -13,7 +14,8 @@ const navLinks = [
         path: "/product/detail",
         base: <MobileNavbar key="kategori" title="Kategori" icon1={FaShoppingCart} icon2={HiDotsVertical} />,
         md: <DesktopNavBar />,
-        bottomNav: <ProductDetailBottomNavbar />
+        bottomNav: <ProductDetailBottomNavbar />,
+        displayAboutCompany: <AboutCompany />
     },
     {
         name: "checkout",
@@ -21,7 +23,8 @@ const navLinks = [
         title: "Rincian",
         base: <MobileNavbar key="Rincian" title="Rincian" />,
         md: <DesktopNavBar />,
-        bottomNav: <Checkout />
+        bottomNav: <Checkout />,
+        displayAboutCompany: <AboutCompany />
 
     },
     {
@@ -30,7 +33,8 @@ const navLinks = [
         title: "Unggah File",
         base: <MobileNavbar key="Unggah File" title="Unggah File" />,
         md: <DesktopNavBar />,
-        bottomNav: undefined
+        bottomNav: undefined,
+        displayAboutCompany: <AboutCompany />
 
     },
     {
@@ -39,7 +43,8 @@ const navLinks = [
         title: "Keranjang Saya",
         base: <MobileNavbar key="keranjang Saya" title="keranjang Saya" />,
         md: <DesktopNavBar />,
-        bottomNav: <CartBotomNavbar />
+        bottomNav: <CartBotomNavbar />,
+        displayAboutCompany: <AboutCompany />
 
     },
     {
@@ -48,7 +53,8 @@ const navLinks = [
         title: "Alamat Pengiriman",
         base: <MobileNavbar key="alamat Pengiriman" title="Alamat Pengiriman" />,
         md: <DesktopNavBar />,
-        bottomNav: <ProductDetailBottomNavbar />
+        bottomNav: <ProductDetailBottomNavbar />,
+        displayAboutCompany: <AboutCompany />
 
     },
     {
@@ -64,7 +70,8 @@ const navLinks = [
         title: "home",
         base: <DesktopNavBar />,
         md: <DesktopNavBar />,
-        bottomNav: <HomeBottomNavBar />
+        bottomNav: <HomeBottomNavBar />,
+        displayAboutCompany: <AboutCompany />
 
     },
     {
@@ -82,7 +89,8 @@ const navLinks = [
         title: "product-list",
         base: <DesktopNavBar />,
         md: <DesktopNavBar />,
-        bottomNav: undefined
+        bottomNav: undefined,
+        displayAboutCompany: <AboutCompany />
 
     },
     {
@@ -91,7 +99,16 @@ const navLinks = [
         title: undefined,
         base: <MobileNavbar />,
         md: undefined,
-        bottomNav: undefined
+        bottomNav: undefined,
+
+    },
+    {
+        name: "verification",
+        path: "/verification",
+        title: undefined,
+        base: <DesktopNavBar />,
+        md: <DesktopNavBar />,
+        bottomNav: undefined,
 
     },
 
