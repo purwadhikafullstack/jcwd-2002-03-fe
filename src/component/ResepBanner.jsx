@@ -48,18 +48,25 @@ const ResepBanner = () => {
                             height="232px"
                         />
                     </GridItem>
-                    <GridItem w="100%" mt="auto" mb="auto" ml="auto" justifyContent="center" alignItems="center" display="block" colSpan={1}>
-                        <Text variant="subtitle"
+                    <GridItem mt="auto" mb="auto" ml="auto" justifyContent="center" alignItems="center" display="block" colSpan={1}>
+                        <Text
+                            fontSize="20px"
+                            fontWeight="700"
+                            color="#213360"
                         >Punya Resep Dokter ?</Text>
-                        <Text variant="caption-bold"
-                        >Tak perlu antre &amp; obat langsung dikirim ke lokasi anda! <b>
-                                Foto tidak boleh lebih dari 10 MB
-                            </b>
-                        </Text>
+                        <Text
+                            fontSize="18px"
+                            fontWeight="400"
+                            color="#525252"
+                        >Tak perlu antre &amp; obat langsung dikirim ke lokasi</Text>
+                        <Text
+                            fontSize="18px"
+                            fontWeight="400"
+                            color="#525252">anda! Foto tidak boleh lebih dari 10 MB</Text>
                     </GridItem>
                     <GridItem justifyContent="center" alignItems="center" display="flex" colSpan={1}>
                         <Button
-                            variant="main"
+                            colorScheme="teal"
                             w="274px"
                             h="48px"
                             borderRadius="8px"

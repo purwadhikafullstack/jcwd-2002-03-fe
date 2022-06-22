@@ -1,10 +1,11 @@
 import { ChakraProvider } from "@chakra-ui/react"
+import { Provider } from "react-redux";
 import theme from "../styles/extendTheme/theme"
-import AboutCompany from "../component/AboutCompany"
 import NavBar from "../component/navbar/NavBar"
 import BottomNavBar from "../component/bottomNavBar/BottomNavbar"
 import { store } from "../redux/store"
 import { Provider } from "react-redux"
+import CompanyBanner from "../component/aboutCompany/CompanyBanner";
 
 const MyApp = ({ Component, pageProps }) => {
   return (

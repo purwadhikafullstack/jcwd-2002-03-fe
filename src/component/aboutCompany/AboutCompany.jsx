@@ -4,6 +4,7 @@ import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa"
 
 const AboutCompany = () => {
 
+
     return useBreakpointValue({
         base: undefined,
         md: (
