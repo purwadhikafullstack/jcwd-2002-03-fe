@@ -19,10 +19,10 @@ const MobileNavbar = ({ title, icon1, icon2 }) => {
                 <Icon as={FaLessThan} onClick={() => window.history.back()} />
                 <Text ml={3} textAlign="left" variant="title">{title}</Text>
             </GridItem>
-            <GridItem colSpan={1}>
+            <GridItem colSpan={1} justifyContent="center" alignItems="center">
                 {icon1 ? <Icon as={icon1} /> : undefined}
             </GridItem>
-            <GridItem colSpan={1}>
+            <GridItem colSpan={1} justifyContent="center" alignItems="center">
                 {icon2 ? <Icon as={icon2} /> : undefined}
             </GridItem>
         </Grid>

@@ -1,7 +1,7 @@
 import React from "react"
 import { useBreakpointValue } from "@chakra-ui/react"
 import { useRouter } from "next/router"
-import navLinks from "../../utils/data"
+import navLinks from "../../utils/navlinks"
 
 
 const NavBar = () => {

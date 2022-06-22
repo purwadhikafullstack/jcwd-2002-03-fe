@@ -17,7 +17,7 @@ const BottomNavBar = () => {
             left={0}
             right={0}
             position="fixed"
-            mt={5}
+            mt={10}
 
         >
             <GridItem colSpan={1}>

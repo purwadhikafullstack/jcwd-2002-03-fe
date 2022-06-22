@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Button, Checkbox, Divider, Grid, GridItem, Icon, IconButton, Img, Stack, Text } from "@chakra-ui/react"
+import { Box, Button, Checkbox, Divider, Grid, GridItem, Icon, IconButton, Img, Text } from "@chakra-ui/react"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { AddIcon, MinusIcon } from "@chakra-ui/icons"
 
@@ -35,65 +35,35 @@ const cart = () => {
                         </GridItem>
                         <GridItem colSpan={5} padding={2}>
                             <Checkbox>
-                                <Stack
-                                    ml={[-4, -2.5, 0]}
-                                    direction="row"
-                                    justifyContent="space-between"
-                                >
+                                <Box display="flex" width="100%" justifyContent="center">
                                     <Box>
-                                        <Text
-                                            mb="3px"
-                                            variant="caption-ligth"
-                                            fontSize={{
-                                                base: "12px",
-                                                md: "16px",
-                                                lg: "16px",
-                                            }}
-                                            fontWeight="500"
-                                        >
-                                            Panadol Flu Dan Batuk
-                                        </Text>
-                                        <Text
-                                            mb="22px"
-                                            variant="caption"
-                                            fontSize={{
-                                                base: "10px",
-                                                md: "14px",
-                                                lg: "14px",
-                                            }}
-                                        >
-                                            1 Strip
-                                        </Text>
-                                        <Text
-                                            variant="caption"
-                                            fontSize={{
-                                                base: "10px",
-                                                md: "14px",
-                                                lg: "14px",
-                                            }}
-                                            _hover={{ cursor: "pointer", color: "#586193" }}
-                                        >
-                                            Tampilkan Detail
-                                        </Text>
+                                        <Img
+                                            width={["71px", "86px", "86px"]}
+                                            height={["71px", "86px", "86px"]}
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTkLtNE0Wv8KXQyoHZA58I0meYBMO2Br-vMA&usqp=CAU" />
                                     </Box>
-                                    <Text variant="caption-ligth" fontWeight="700" fontSize="14px">
-                                        Rp13.000
-                                    </Text>
-                                </Stack>
-                                <Divider display={["none", "none", "flex"]} mt="10px" mb="12px" />
-                                <Stack
-                                    display={["none", "none", "flex"]}
-                                    direction="row"
-                                    justifyContent="space-between"
-                                >
-                                    <Text variant="caption-ligth" fontSize="16px" fontWeight="500">
-                                        Subtotal
-                                    </Text>
-                                    <Text variant="caption-ligth" fontSize="14px" fontWeight="700">
-                                        Rp22.000
-                                    </Text>
-                                </Stack>
-
+                                    <Box>
+                                        <Text variant="caption-bold">Bisolvon 8MG 4 Tablet</Text>
+                                        <Text variant="caption">1 strip</Text>
+                                    </Box>
+                                    <Box bgColor="black" display={["block", "flex", "flex"]}>
+                                        <Box>
+                                            <Text
+                                                as="del"
+                                                color="#B4B9C7"
+                                                variant="subtitle-bold"
+                                                fontSize={["14px"]}
+                                            >
+                                                Rp.17.000
+                                            </Text>
+                                        </Box>
+                                        <Box>
+                                            <Text variant="subtitle-bold">
+                                                Rp.13.000
+                                            </Text>
+                                        </Box>
+                                    </Box>
+                                </Box>
                             </Checkbox>
                             {/* <Grid
                                     templateColumns="repeat(8, 1fr)"
