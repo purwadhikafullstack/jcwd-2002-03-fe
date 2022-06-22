@@ -87,7 +87,11 @@ const AddressFormComponent = () => {
           <Text mb="16px" variant="caption">
             Nama Depan
           </Text>
-          <Input onChange={inputHandler} name="namaDepan" />
+          <Input
+            onChange={(event) =>
+              formik.setFieldValue("namaDepan", event.target.value)
+            }
+          />
         </GridItem>
         <GridItem colSpan={[1, 1, 1]}>
           <FormControl isInvalid={formik.errors.namaBelakang}>
