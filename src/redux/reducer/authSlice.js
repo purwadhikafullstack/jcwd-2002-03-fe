@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   id: 0,
-  // username: '',
-  // email: '',
-  // full_name: '',
-  // bio: '',
-  // picture_url: '',
+  username: '',
+  email: '',
+  full_name: '',
+  bio: '',
+  picture_url: '',
 };
 
 const authSlice = createSlice({
