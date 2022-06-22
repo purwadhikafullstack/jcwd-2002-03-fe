@@ -4,7 +4,6 @@ import theme from "../styles/extendTheme/theme"
 import NavBar from "../component/navbar/NavBar"
 import BottomNavBar from "../component/bottomNavBar/BottomNavbar"
 import { store } from "../redux/store"
-import { Provider } from "react-redux"
 import CompanyBanner from "../component/aboutCompany/CompanyBanner";
 
 const MyApp = ({ Component, pageProps }) => {
@@ -13,7 +12,7 @@ const MyApp = ({ Component, pageProps }) => {
     <ChakraProvider theme={theme}>
       <NavBar />
       <Component {...pageProps} />
-      <AboutCompany />
+      <CompanyBanner />
       <BottomNavBar />
     </ChakraProvider>
     </Provider>
