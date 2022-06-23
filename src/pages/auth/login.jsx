@@ -71,10 +71,10 @@ const login = () => {
 
           jsCookies.set("user_token", userResponse.token)
 
-        //   dispatch({
-        //     type: "LOGIN_USER",
-        //     payload: userResponse.user,
-        //   });
+          //   dispatch({
+          //     type: "LOGIN_USER",
+          //     payload: userResponse.user,
+          //   });
 
           formik.setSubmitting(false);
           router.push("/home")
@@ -92,16 +92,16 @@ const login = () => {
     },
   });
 
-//   const inputHandler = (event) => {
-//     const { email, password } = event.target;
-//     formik.setFieldValue(email, password);
-//   };
+  //   const inputHandler = (event) => {
+  //     const { email, password } = event.target;
+  //     formik.setFieldValue(email, password);
+  //   };
 
-useEffect(() => {
+  useEffect(() => {
     if (authSelector.id) {
-        router.push("/home")
+      router.push("/home")
     }
-}, [authSelector.id])
+  }, [authSelector.id])
 
 
   return (
@@ -135,7 +135,7 @@ useEffect(() => {
                 <InputLeftElement pointerEvents="none">
                   <Icon as={MdEmail} />
                 </InputLeftElement>
-                <Input placeholder="email" onChange={(event) => formik.setFieldValue("credential", event.target.value)}/>
+                <Input placeholder="email" onChange={(event) => formik.setFieldValue("credential", event.target.value)} />
               </InputGroup>
               <FormHelperText>{formik.errors.credential}</FormHelperText>
             </FormControl>
