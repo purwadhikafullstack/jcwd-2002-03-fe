@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Checkbox,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -9,6 +10,9 @@ import {
   Icon,
   Image,
   Input,
+  InputGroup,
+  InputLeftAddon,
+  InputRightAddon,
   Modal,
   ModalCloseButton,
   ModalContent,
@@ -29,9 +33,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FaRegUser, FaMale, FaFemale } from "react-icons/fa";
-import { getProfile, selectProfile } from "redux/reducer/profileSlice";
+import {
+  getProfile,
+  selectProfile,
+  editPicture,
+  editNama,
+} from "redux/reducer/profileSlice";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+// import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
 import api from "../lib/api";
+import KotakAlamatProf from "./KotakAlamatProf";
 // import { IoMailOutline } from "react-icons/io5";
 
 const MyProfileCom = () => {
@@ -60,6 +72,11 @@ const MyProfileCom = () => {
     onOpen: tambahJkOnOpen,
     onClose: tambahJkOnClose,
   } = useDisclosure();
+  const {
+    isOpen: tambahAlamatIsOpen,
+    onOpen: tambahAlamatOnOpen,
+    onClose: tambahAlamatOnClose,
+  } = useDisclosure();
   const userProfileData = async () => {
     try {
       const res = await api.get("/profile");
@@ -83,14 +100,13 @@ const MyProfileCom = () => {
     }),
     validateOnChange: false,
     onSubmit: async (values) => {
-      console.log(values.nama);
       try {
-        await api.post("/profile/edit-nama", {
+        const res = await api.post("/profile/edit-nama", {
           username: values.nama,
         });
 
         namaOnClose();
-        userProfileData();
+        dispatch(editNama(res.data.result.name));
       } catch (err) {
         console.log(err);
         if (err?.response?.data?.message === "username has been taken") {
@@ -132,7 +148,7 @@ const MyProfileCom = () => {
         const month = values.bulan;
         const date = values.tanggal;
         const year = values.tahun;
-        const birthdate = month.concat(" ", date, " ", year);
+        const birthdate = date.concat(" ", month, " ", year);
         await api.post("/profile/tambahTl", {
           birthdate,
         });
@@ -143,23 +159,50 @@ const MyProfileCom = () => {
       }
     },
   });
-  const fotoFormik = useFormik({
-    onSubmit: async () => {
-      try {
-        const formData = new FormData();
-        formData.append("update_image_file", selectedFile);
+  const taFormik = useFormik({
+    initialValues: {
+      labelAlamat: "",
+      namaDepan: "",
+      namaBelakang: "",
+      nomorHp: "",
+      provinsi: "",
+      kotaKabupaten: "",
+      kecamatan: "",
+      alamat: "",
+      kodePos: "",
+    },
 
-        await api.post("/profile", formData);
-        setSelectedFile(null);
-        userProfileData();
-      } catch (err) {
-        console.log(err);
-      }
+    validationSchema: Yup.object().shape({
+      labelAlamat: Yup.string().required("This field is required"),
+      namaDepan: Yup.string().required("This field is required"),
+      namaBelakang: Yup.string().required("This field is required"),
+      nomorHp: Yup.string().required("This field is required"),
+      provinsi: Yup.string().required("This field is required"),
+      kotaKabupaten: Yup.string().required("This field is required"),
+      kecamatan: Yup.string().required("This field is required"),
+      alamat: Yup.string().required("This field is required"),
+      kodePos: Yup.string().required("This field is required"),
+    }),
+    validateOnChange: false,
+    onSubmit: () => {
+      router.push("/checkout");
     },
   });
+  const uploadHandler = async () => {
+    const formData = new FormData();
+    formData.append("update_image_file", selectedFile);
+
+    const res = await api.post("/profile/edit-profilepicture", formData);
+    dispatch(editPicture(res.data.result.image_url));
+  };
   const handleFile = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+  useEffect(() => {
+    if (selectedFile) {
+      uploadHandler();
+    }
+  }, [selectedFile]);
   return (
     <Box mt={[40, 40, 40]} mb={[0, 0, 114]} px={[10, 10, 10]}>
       <Stack direction="row" alignItems="center" mb="10px">
@@ -198,15 +241,21 @@ const MyProfileCom = () => {
                     h={[270, 270, 270, 370, 460]}
                     boxShadow=" 1px 2px 3px 4px rgba(237,248,248)"
                   >
-                    <Image
-                      w="100%"
-                      src="https://images.tokopedia.net/img/cache/300/default_picture_user/default_toped-12.jpg"
-                    />
-                    <Button mt={5} w="100%" variant="main-outline">
-                      Pilih Foto
-                    </Button>
+                    {profileSelector.image_url ? (
+                      <Image
+                        w="100%"
+                        h="70%"
+                        objectFit="fill"
+                        src={profileSelector.image_url}
+                      />
+                    ) : (
+                      <Image
+                        w="100%"
+                        src="https://images.tokopedia.net/img/cache/300/default_picture_user/default_toped-12.jpg"
+                      />
+                    )}
+
                     <FormControl>
-                      <FormLabel>ImageUrl</FormLabel>
                       <Input
                         placeholder="url"
                         onChange={handleFile}
@@ -217,10 +266,7 @@ const MyProfileCom = () => {
                         multiple={false}
                       />
                       <Button
-                        onClick={() => [
-                          fotoFormik.handleSubmit,
-                          inputFileRef.current.click(),
-                        ]}
+                        onClick={() => inputFileRef.current.click()}
                         mt={5}
                         w="100%"
                         variant="main-outline"
@@ -256,15 +302,20 @@ const MyProfileCom = () => {
                     </Stack>
                     <Stack direction="row" spacing={20}>
                       <Text variant="caption">Tanggal Lahir</Text>
-                      {/* <Text variant="caption">{profileSelector.birthdate}</Text> */}
-                      <Text
-                        variant="caption"
-                        color="#586193"
-                        _hover={{ cursor: "pointer" }}
-                        onClick={tambahTlOnOpen}
-                      >
-                        Tambah Tanggal Lahir
-                      </Text>
+                      {profileSelector.birthDate ? (
+                        <Text variant="caption">
+                          {profileSelector.birthDate}
+                        </Text>
+                      ) : (
+                        <Text
+                          variant="caption"
+                          color="#586193"
+                          _hover={{ cursor: "pointer" }}
+                          onClick={tambahTlOnOpen}
+                        >
+                          Tambah Tanggal Lahir
+                        </Text>
+                      )}
                     </Stack>
                     <Stack direction="row" spacing={20}>
                       <Text variant="caption">Jenis Kelamin</Text>
@@ -418,7 +469,10 @@ const MyProfileCom = () => {
                       <Stack my={5} direction="row" alignItems="center">
                         <Select
                           onChange={(event) =>
-                            tlFormik.setFieldValue("pria", event.target.value)
+                            tlFormik.setFieldValue(
+                              "tanggal",
+                              event.target.value
+                            )
                           }
                           _focus={{ outline: 0 }}
                           placeholder="Tanggal"
@@ -457,7 +511,7 @@ const MyProfileCom = () => {
                         </Select>
                         <Select
                           onChange={(event) =>
-                            tlFormik.setFieldValue("pria", event.target.value)
+                            tlFormik.setFieldValue("bulan", event.target.value)
                           }
                           _focus={{ outline: 0 }}
                           placeholder="Bulan"
@@ -477,7 +531,7 @@ const MyProfileCom = () => {
                         </Select>
                         <Select
                           onChange={(event) =>
-                            tlFormik.setFieldValue("pria", event.target.value)
+                            tlFormik.setFieldValue("tahun", event.target.value)
                           }
                           _focus={{ outline: 0 }}
                           placeholder="Tahun"
@@ -603,7 +657,265 @@ const MyProfileCom = () => {
               </Grid>
             </TabPanel>
             <TabPanel>
-              <p>two!</p>
+              <Box px={5} pt={8}>
+                <Stack alignItems="end">
+                  <Button onClick={tambahAlamatOnOpen} variant="main">
+                    Tambah Alamat Baru
+                  </Button>
+                </Stack>
+                <Box mt={6} overflowY="scroll" h="660px">
+                  <KotakAlamatProf />
+                  <KotakAlamatProf />
+                  <KotakAlamatProf />
+                  <KotakAlamatProf />
+                  <KotakAlamatProf />
+                  <KotakAlamatProf />
+                  <KotakAlamatProf />
+                </Box>
+              </Box>
+              <Modal isOpen={tambahAlamatIsOpen} onClose={tambahAlamatOnClose}>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalCloseButton _focus={{ outline: 0 }} />
+                  <Box px={10} pt={5}>
+                    <Text textAlign="center" variant="subtitle">
+                      Tambah Tanggal Lahir
+                    </Text>
+                    <Text pt={4} textAlign="center" variant="caption">
+                      Silakan mengisi semua form yang sudah tertera
+                    </Text>
+                    <Box h="200px" overflowY="scroll" pr={2}>
+                      <Text mb="68px" variant="title">
+                        Alamat Pengiriman
+                      </Text>
+                      <FormControl isInvalid={taFormik.errors.labelAlamat}>
+                        <FormLabel>
+                          <Text mb="16px" variant="mini-title">
+                            Label Alamat
+                          </Text>
+                        </FormLabel>
+                        <Input
+                          onChange={(event) =>
+                            taFormik.setFieldValue(
+                              "labelAlamat",
+                              event.target.value
+                            )
+                          }
+                        />
+                        <FormHelperText>
+                          {taFormik.errors.labelAlamat}
+                        </FormHelperText>
+                      </FormControl>
+                      <Text mt="52px" mb="36px" variant="mini-title">
+                        Info Penerima
+                      </Text>
+                      <Grid
+                        templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+                        gap={[0, 4, 4]}
+                      >
+                        <GridItem colspan={[1, 1, 1]} mb="36px">
+                          <Text mb="16px" variant="caption">
+                            Nama Depan
+                          </Text>
+                          <Input
+                            onChange={(event) =>
+                              taFormik.setFieldValue(
+                                "namaDepan",
+                                event.target.value
+                              )
+                            }
+                          />
+                        </GridItem>
+                        <GridItem colSpan={[1, 1, 1]}>
+                          <FormControl isInvalid={taFormik.errors.namaBelakang}>
+                            <FormLabel>
+                              <Text mb="16px" variant="caption">
+                                Nama Belakang
+                              </Text>
+                            </FormLabel>
+                            <Input
+                              onChange={(event) =>
+                                taFormik.setFieldValue(
+                                  "namaBelakang",
+                                  event.target.value
+                                )
+                              }
+                            />
+                            <FormHelperText>
+                              {taFormik.errors.namaBelakang}
+                            </FormHelperText>
+                          </FormControl>
+                        </GridItem>
+                      </Grid>
+                      <FormControl isInvalid={taFormik.errors.nomorHp}>
+                        <FormLabel>
+                          <Text mb="16px" variant="caption">
+                            Nomor Hp
+                          </Text>
+                        </FormLabel>
+                        <InputGroup>
+                          <InputLeftAddon bg="white">
+                            <Stack direction="row">
+                              <Text pt="2px">+62</Text>
+                              <Stack spacing="-0.5">
+                                <Icon as={IoIosArrowUp} />
+                                <Icon as={IoIosArrowDown} />
+                              </Stack>
+                            </Stack>
+                          </InputLeftAddon>
+                          <Input
+                            mb="36px"
+                            type="number"
+                            onChange={(event) =>
+                              taFormik.setFieldValue(
+                                "nomorHp",
+                                event.target.value
+                              )
+                            }
+                          />
+                        </InputGroup>
+                        <FormHelperText>
+                          {taFormik.errors.nomorHp}
+                        </FormHelperText>
+                      </FormControl>
+                      <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+                        <GridItem colSpan={[2, 1, 1]} mb="36px">
+                          <FormControl isInvalid={taFormik.errors.provinsi}>
+                            <FormLabel>
+                              <Text mb="16px" variant="caption">
+                                Provinsi
+                              </Text>
+                            </FormLabel>
+                            <InputGroup>
+                              <Input
+                                onChange={(event) =>
+                                  taFormik.setFieldValue(
+                                    "provinsi",
+                                    event.target.value
+                                  )
+                                }
+                              />
+                              <InputRightAddon bg="white">
+                                <Icon as={IoIosArrowDown} />
+                              </InputRightAddon>
+                            </InputGroup>
+                            <FormHelperText>
+                              {taFormik.errors.provinsi}
+                            </FormHelperText>
+                          </FormControl>
+                        </GridItem>
+                        <GridItem colSpan={[2, 1, 1]}>
+                          <FormControl
+                            isInvalid={taFormik.errors.kotaKabupaten}
+                          >
+                            <FormLabel>
+                              <Text mb="16px" variant="caption">
+                                Kota/Kabupaten
+                              </Text>
+                            </FormLabel>
+                            <InputGroup>
+                              <Input
+                                onChange={(event) =>
+                                  taFormik.setFieldValue(
+                                    "kotaKabupaten",
+                                    event.target.value
+                                  )
+                                }
+                              />
+                              <InputRightAddon bg="white">
+                                <Icon as={IoIosArrowDown} />
+                              </InputRightAddon>
+                            </InputGroup>
+                            <FormHelperText>
+                              {taFormik.errors.kotaKabupaten}
+                            </FormHelperText>
+                          </FormControl>
+                        </GridItem>
+                      </Grid>
+                      <FormControl isInvalid={taFormik.errors.kecamatan}>
+                        <FormLabel>
+                          <Text mb="16px" variant="caption">
+                            Kecamatan
+                          </Text>
+                        </FormLabel>
+                        <InputGroup w="245.59px">
+                          <Input
+                            mb="36px"
+                            onChange={(event) =>
+                              taFormik.setFieldValue(
+                                "kecamatan",
+                                event.target.value
+                              )
+                            }
+                          />
+                          <InputRightAddon bg="white">
+                            <Icon as={IoIosArrowDown} />
+                          </InputRightAddon>
+                        </InputGroup>
+                        <FormHelperText>
+                          {taFormik.errors.kecamatan}
+                        </FormHelperText>
+                      </FormControl>
+                      <FormControl isInvalid={taFormik.errors.alamat}>
+                        <FormLabel>
+                          <Text mb="16px" variant="caption">
+                            Alamat
+                          </Text>
+                        </FormLabel>
+                        <Input
+                          mb="36px"
+                          onChange={(event) =>
+                            taFormik.setFieldValue("alamat", event.target.value)
+                          }
+                        />
+                        <FormHelperText>
+                          {taFormik.errors.alamat}
+                        </FormHelperText>
+                      </FormControl>
+                      <FormControl isInvalid={taFormik.errors.kodePos}>
+                        <FormLabel>
+                          <Text mb="16px" variant="caption">
+                            Kode Pos
+                          </Text>
+                        </FormLabel>
+                        <InputGroup w="245.59px">
+                          <Input
+                            mb="36px"
+                            onChange={(event) =>
+                              taFormik.setFieldValue(
+                                "kodePos",
+                                event.target.value
+                              )
+                            }
+                          />
+                          <InputRightAddon bg="white">
+                            <Icon as={IoIosArrowDown} />
+                          </InputRightAddon>
+                        </InputGroup>
+                        <FormHelperText>
+                          {taFormik.errors.kodePos}
+                        </FormHelperText>
+                      </FormControl>
+                    </Box>
+                    <Checkbox
+                      // onChange={(event) =>
+                      //   taFormik.setFieldValue("password", event.target.value)
+                      // }
+                    >
+                      <Text variant="caption">Simpan sebagai alamat utama</Text>
+                    </Checkbox>
+                    <Stack my={5} px={115}>
+                      <Button
+                        onClick={taFormik.handleSubmit}
+                        variant="main"
+                        w={150}
+                      >
+                        Simpan
+                      </Button>
+                    </Stack>
+                  </Box>
+                </ModalContent>
+              </Modal>
             </TabPanel>
           </TabPanels>
         </Tabs>
