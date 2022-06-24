@@ -10,8 +10,24 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { IoMdNotifications } from "react-icons/io";
+import jsCookie from "js-cookie"
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/reducer/authSlice";
 
 const NavBarItem = () => {
+  const router = useRouter()
+  const dipatch = useDispatch()
+
+
+  const logoutButtonHandler = () => {
+    jsCookie.remove("user_token")
+    localStorage.removeItem("admin")
+    dipatch(logout())
+    return router.push("/admin/login")
+  }
+
+
   return (
     <Box bgColor="gray.100" px={10} py="1.5">
       <Flex h={16} alignItems="center" justifyContent="right">
@@ -39,7 +55,7 @@ const NavBarItem = () => {
             </MenuButton>
             <MenuList>
               <MenuItem>Profile</MenuItem>
-              <MenuItem>Log Out</MenuItem>
+              <MenuItem onClick={() => logoutButtonHandler()}>Log Out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

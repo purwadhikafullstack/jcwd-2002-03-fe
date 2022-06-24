@@ -64,13 +64,13 @@ const login = () => {
     }),
     validateOnChange: false,
     onSubmit: (values) => {
-    //   console.log(values);
+      //   console.log(values);
       setTimeout(async () => {
         try {
           const res = await api.post("/auth/signin", values);
 
           const userResponse = res.data.result;
-        //   console.log(userResponse);
+          //   console.log(userResponse);
 
           jsCookies.set("user_token", userResponse.token);
 

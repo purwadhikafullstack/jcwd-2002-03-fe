@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Box, Button, Checkbox, Divider, FormControl, FormHelperText, FormLabel, Grid, GridItem, Icon, Img, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text, useToast } from "@chakra-ui/react"
 import { FcGoogle } from "react-icons/fc"
 import { MdEmail } from "react-icons/md"
@@ -6,20 +6,27 @@ import { IoIosLock } from "react-icons/io"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useFormik } from "formik"
 import * as Yup from "yup"
+import { useRouter } from "next/router"
+import { useDispatch, useSelector } from "react-redux"
+import jsCookie from "js-cookie"
+import { selectAuth, signin } from "../../redux/reducer/authSlice"
 import api from "../../lib/api"
 
-const register = () => {
+const login = () => {
     const [hidden, setHidden] = useState(false)
+    const [accept, setAccept] = useState(false)
     const toast = useToast();
+    const authSelector = useSelector(selectAuth)
+    const dispatch = useDispatch()
+
+    const router = useRouter()
 
     const formik = useFormik({
         initialValues: {
-            name: "",
             password: "",
             email: "",
         },
         validationSchema: Yup.object().shape({
-            name: Yup.string().required("This field is required"),
             password: Yup.string()
                 .required("This field is required")
                 .matches(
@@ -32,18 +39,34 @@ const register = () => {
         onSubmit: (values) => {
             setTimeout(async () => {
                 try {
-                    const res = await api.post("/auth/register", values);
-                    if (res.data.message !== undefined) {
+                    const res = await api.post("/auth/admin/login", values);
+                    if (res?.data?.message !== undefined) {
                         toast({
-                            title: "Account created.",
+                            title: "login Success",
                             description: `${res.data.message} `,
                             status: "success",
-                            duration: 9000,
+                            duration: 2000,
                             isClosable: true,
                         });
                     }
+
+                    const stringifyToken = JSON.stringify(res.data.result.token);
+                    const stringifyAdmin = JSON.stringify(res.data.result.user);
+                    jsCookie.set("user_token", stringifyToken)
+                    localStorage.setItem("admin", stringifyAdmin)
+                    dispatch(signin(res.data.result.user))
                     formik.setSubmitting(false);
+
+                    router.push("/admin/admin-dashboard")
                 } catch (err) {
+                    toast({
+                        status: "error",
+                        title: "Register Failed",
+                        description: err?.response?.data?.message || err.message,
+                        duration: 9000,
+                        position: "top-right",
+                        isClosable: true,
+                    });
                     formik.setSubmitting(false);
                 }
             }, 3000);
@@ -55,6 +78,11 @@ const register = () => {
         formik.setFieldValue(name, value);
     };
 
+    useEffect(() => {
+        if (authSelector.role === "admin") {
+            router.push("/admin/admin-dashboard")
+        }
+    }, [authSelector])
     return (
         <Grid templateColumns="repeat(2,1fr)" margin="auto" width="100%" height="100vh">
             <GridItem display={["none", "grid", "grid"]} colSpan={[0, 1, 1]} background="linear-gradient(142.04deg, rgba(254, 254, 254, 0) -1.93%, #E4F4F8 107.32%)">
@@ -62,10 +90,10 @@ const register = () => {
             </GridItem>
             <GridItem colSpan={[2, 1, 1]} alignItems="center" mt={[4]}>
                 <Box width={["90%", "80%"]} margin="auto">
-                    <Box mb="20px">
-                        <Text variant="title" display={["none", "block", "block"]}>Masuk</Text>
-                    </Box>
-                    <Stack spacing={["12px", "24px"]}>
+                    <Stack spacing={["12px", "16px"]}>
+                        < Box >
+                            <Text variant="title" display={["none", "block", "block"]}>Masuk</Text>
+                        </Box>
                         <FormControl isInvalid={formik.errors.email}>
                             <FormLabel htmlFor='email'>Email Address</FormLabel>
                             <InputGroup>
@@ -93,46 +121,56 @@ const register = () => {
                             </InputGroup>
                             <FormHelperText>{formik.errors.password}</FormHelperText>
                         </FormControl>
-                    </Stack>
-                    <Box display="flex" alignItems="center" justifyContent="space-between">
-                        <Checkbox marginY={["10px", "20px"]}>
-                            <Text>
-                                ingat saya
+                        <Box display="flex" justifyContent="space-between" alignItems="center">
+                            <Checkbox
+                                isChecked={accept}
+                                onChange={() => setAccept(!accept)}
+                            >
+                                <Text variant="caption">
+                                    Ingat saya
+                                </Text>
+                            </Checkbox>
+                            <Text variant="caption">
+                                Lupa kata sandi ?
                             </Text>
-                        </Checkbox>
-
-                        <Text as="button">Lupa kata Sandi ?</Text>
-                    </Box>
+                        </Box>
+                    </Stack>
                     <Button
-                        variant="main"
+                        colorScheme="teal"
                         width="100%"
                         height={["48px"]}
                         onClick={formik.handleSubmit}
                         type="submit"
+                        isLoading={formik.isSubmitting}
                         disabled={formik.isSubmitting}
+                        mt="25px"
                     >
                         Masuk
                     </Button>
                     <Box marginY={["10px", "20px"]} display="flex" alignItems="center" justifyContent="space-between">
                         <Divider width="30%" />
-                        <Text mx={2} flexWrap="nowrap">Atau Masuk Dengan</Text>
+                        <Text mx={2} textAlign="center">Atau Masuk Dengan</Text>
                         <Divider width="30%" />
                     </Box>
-                    <Box
+                    <Grid
                         mt={["32px"]}
                         display="flex"
+                        templateColumns="repeat(2,1fr)"
+                        gap={4}
                         alignItems="center"
+                        justifyContent="space-between"
                     >
-                        <Button width="100%" height="48px" variant="outline">
-                            <Icon as={FcGoogle} mr={2} boxSize={6} />
-                            <Text>Masuk Dengan Google</Text>
-                        </Button>
-
-                    </Box>
+                        <GridItem colSpan={1} width="100%">
+                            <Button width="100%" height="48px" variant="outline">
+                                <Icon as={FcGoogle} mr={2} boxSize={6} />
+                                <Text>Masuk dengan Google</Text>
+                            </Button>
+                        </GridItem>
+                    </Grid>
                 </Box>
             </GridItem >
         </Grid >
     )
 }
 
-export default register
+export default login

@@ -34,6 +34,7 @@ import {
   ModalCloseButton,
   ModalBody,
   Stack,
+  Spinner,
 } from "@chakra-ui/react";
 import {
   ArrowRightIcon,
@@ -49,6 +50,9 @@ import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import React from "react";
 import { TbWriting } from "react-icons/tb";
 import { useNumberInput } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { selectAuth } from "redux/reducer/authSlice";
 
 const AdminDaftarProduk = () => {
   const {
@@ -467,6 +471,28 @@ const AdminDaftarProduk = () => {
     usePagination
   );
 
+  const router = useRouter()
+  const authSelector = useSelector(selectAuth)
+  React.useEffect(() => {
+    if (!authSelector.role) {
+      router.push("/admin/login")
+    }
+
+  }, [authSelector])
+
+  if (!authSelector.role) {
+    return <Spinner thickness='4px'
+      speed='0.65s'
+      emptyColor='gray.200'
+      color='blue.500'
+      size='xl'
+      display="flex"
+      mt="10px"
+      mb="auto"
+      ml="auto"
+      mr="auto"
+    />
+  }
   return (
     <>
       <AdminSideBar />

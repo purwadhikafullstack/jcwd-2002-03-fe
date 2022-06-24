@@ -1,12 +1,14 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   id: 0,
-  username: '',
-  email: '',
-  full_name: '',
-  bio: '',
-  picture_url: '',
+  name: "",
+  email: "",
+  image_url: "",
+  is_verified: "",
+  phone: "",
+  role: "",
 };
 
 const authSlice = createSlice({
@@ -14,10 +16,22 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     signin: (state, action) => {
-      return { ...state, ...action.payload }
+      state.id = action.payload.id
+      state.name = action.payload.name
+      state.email = action.payload.email
+      state.image_url = action.payload.image_url
+      state.is_verified = action.payload.is_verified
+      state.phone = action.payload.phone
+      state.role = action.payload.role
     },
     logout: (state) => {
-      return { ...state, ...initialState }
+      state.id = initialState.id
+      state.name = initialState.name
+      state.email = initialState.email
+      state.image_url = initialState.image_url
+      state.is_verified = initialState.is_verified
+      state.phone = initialState.phone
+      state.role = initialState.role
     },
   },
 });

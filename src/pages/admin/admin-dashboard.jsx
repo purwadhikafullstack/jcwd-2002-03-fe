@@ -1,14 +1,41 @@
-import { Stack, Text, Flex, HStack } from "@chakra-ui/react";
-const { default: AdminSideBar } = require("component/AdminSideBar");
-import ProfitHariIni from "component/ProfitHariIni";
-import TotalPemesanan from "component/TotalPemesanan";
-import SisaStok from "component/SisaStok";
-import CartPentingHariIni from "component/CartPentingHariIni";
-import CartKadaluwarsaObat from "component/CartKadaluwarsaObat";
-import ProfitCart from "component/ProfitCart";
-import CartPenjualanObat from "component/CartPenjualanObat";
+import { Stack, Text, Flex, HStack, Spinner } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { selectAuth } from "../../redux/reducer/authSlice";
+import ProfitHariIni from "../../component/ProfitHariIni"
+import TotalPemesanan from "../../component/TotalPemesanan";
+import SisaStok from "../../component/SisaStok";
+import CartPentingHariIni from "../../component/CartPentingHariIni";
+import CartKadaluwarsaObat from "../../component/CartKadaluwarsaObat";
+import ProfitCart from "../../component/ProfitCart";
+import CartPenjualanObat from "../../component/CartPenjualanObat";
+
+const { default: AdminSideBar } = require("../../component/AdminSideBar");
 
 const AdminDashboard = () => {
+  const authSelector = useSelector(selectAuth)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!authSelector.role) {
+      router.push("/admin/login")
+    }
+  }, [authSelector])
+
+  if (!authSelector.role) {
+    return <Spinner thickness='4px'
+      speed='0.65s'
+      emptyColor='gray.200'
+      color='blue.500'
+      size='xl'
+      display="flex"
+      mt="10px"
+      mb="auto"
+      ml="auto"
+      mr="auto"
+    />
+  }
   return (
     <Stack mb="8" w="1519px" h="1140px" borderBottom="1px">
       <AdminSideBar />
