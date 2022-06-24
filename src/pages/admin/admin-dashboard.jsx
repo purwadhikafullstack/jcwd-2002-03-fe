@@ -1,14 +1,28 @@
 import { Stack, Text, Flex, HStack } from "@chakra-ui/react";
-const { default: AdminSideBar } = require("component/AdminSideBar");
-import ProfitHariIni from "component/ProfitHariIni";
-import TotalPemesanan from "component/TotalPemesanan";
-import SisaStok from "component/SisaStok";
-import CartPentingHariIni from "component/CartPentingHariIni";
-import CartKadaluwarsaObat from "component/CartKadaluwarsaObat";
-import ProfitCart from "component/ProfitCart";
-import CartPenjualanObat from "component/CartPenjualanObat";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { selectAdminAuth } from "../../redux/reducer/authAdminSlice";
+import ProfitHariIni from "../../component/ProfitHariIni"
+import TotalPemesanan from "../../component/TotalPemesanan";
+import SisaStok from "../../component/SisaStok";
+import CartPentingHariIni from "../../component/CartPentingHariIni";
+import CartKadaluwarsaObat from "../../component/CartKadaluwarsaObat";
+import ProfitCart from "../../component/ProfitCart";
+import CartPenjualanObat from "../../component/CartPenjualanObat";
+
+const { default: AdminSideBar } = require("../../component/AdminSideBar");
 
 const AdminDashboard = () => {
+  const authAdminSelector = useSelector(selectAdminAuth)
+  const router = useRouter()
+
+  useEffect(() => {
+    console.log(authAdminSelector)
+    if (!authAdminSelector) {
+      router.push("/admin/login")
+    }
+  }, [])
   return (
     <Stack mb="8" w="1519px" h="1140px" borderBottom="1px">
       <AdminSideBar />

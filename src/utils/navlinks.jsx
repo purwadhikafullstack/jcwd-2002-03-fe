@@ -55,14 +55,30 @@ const navLinks = [
         md: <DesktopNavBar />,
         bottomNav: <ProductDetailBottomNavbar />,
         displayAboutCompany: <AboutCompany />
-
     },
     {
         name: "admin-dashboard",
-        path: "/admin-dashboard",
+        path: "/admin/admin-dashboard",
+        title: undefined,
+        base: undefined,
+        md: undefined,
+        protected: true
+    },
+    {
+        name: "admin-login",
+        path: "/admin/login",
+        title: undefined,
+        base: undefined,
+        md: undefined,
+        protected: true
+    },
+    {
+        name: "admin-daftar-produk",
+        path: "/admin/admin-daftar-produk",
         title: "Alamat Pengiriman",
         base: undefined,
-        md: undefined
+        md: undefined,
+        protected: true
     },
     {
         name: "home",
@@ -109,9 +125,7 @@ const navLinks = [
         base: <DesktopNavBar />,
         md: <DesktopNavBar />,
         bottomNav: undefined,
-
     },
-
 ]
 
 

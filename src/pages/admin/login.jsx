@@ -8,9 +8,9 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
-import Cookie from "js-cookie"
-import { loginAdmin, selectAdminAuth } from "../../../redux/reducer/authAdminSlice"
-import api from "../../../lib/api"
+import jsCookie from "js-cookie"
+import { loginAdmin, selectAdminAuth } from "../../redux/reducer/authAdminSlice"
+import api from "../../lib/api"
 
 const login = () => {
     const [hidden, setHidden] = useState(false)
@@ -42,7 +42,7 @@ const login = () => {
                     const res = await api.post("/auth/admin/login", values);
                     if (res?.data?.message !== undefined) {
                         toast({
-                            title: "Account created.",
+                            title: "login Success",
                             description: `${res.data.message} `,
                             status: "success",
                             duration: 2000,
@@ -50,13 +50,14 @@ const login = () => {
                         });
                     }
 
-                    const stringifyData = JSON.stringify(res.data.result);
-                    Cookie.set("token", stringifyData.token)
-                    localStorage.setItem("user", res.data.result)
+                    const stringifyToken = JSON.stringify(res.data.result.token);
+                    const stringifyAdmin = JSON.stringify(res.data.result.user);
+                    jsCookie.set("token", stringifyToken)
+                    localStorage.setItem("admin", stringifyAdmin)
                     dispatch(loginAdmin(res.data.result.user))
                     formik.setSubmitting(false);
 
-                    router.push("/admin-dashboard")
+                    router.push("/admin/admin-dashboard")
                 } catch (err) {
                     toast({
                         status: "error",
@@ -76,10 +77,12 @@ const login = () => {
         const { value, name } = event.target;
         formik.setFieldValue(name, value);
     };
+    console.log(authAdminSelector)
+    console.log(router.isReady)
 
     useEffect(() => {
         if (authAdminSelector.id) {
-            router.push("/admin-dashboard")
+            router.push("/admin/admin-dashboard")
         }
     }, [])
     return (

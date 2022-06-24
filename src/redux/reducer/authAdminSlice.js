@@ -1,24 +1,25 @@
+/* eslint-disable no-param-reassign */
 const { createSlice } = require("@reduxjs/toolkit");
 
+const initialState = {
+    id: "",
+    name: "",
+    role: ""
+}
+
 const authAdminSlice = createSlice({
-    name: "adminAuth",
-    initialState: {
-        id: "",
-        name: "",
-    },
+    name: "authAdmin",
+    initialState,
     reducers: {
         loginAdmin: (state, action) => {
-            return {
-                state: {
-                    id: action.payload.id,
-                    name: action.payload.name
-                }
-            }
+            state.id = action.payload.id;
+            state.name = action.payload.name;
+            state.role = action.payload.role
         },
-        logoutAdmin: (state, action) => {
-            return { state: { ...state, ...action.payload } }
-        }
-    }
+        logoutAdmin: () => {
+            return initialState
+        },
+    },
 })
 
 

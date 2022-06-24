@@ -33,7 +33,7 @@ const AdminSideBar = () => {
           boxShadow="md"
         >
           <Flex h="20" align="center" mx="8" justifyContent="space-between">
-            <Img src="Logo.svg"></Img>
+            <Img src="/Logo.svg"></Img>
             <CloseButton display={{ base: "flex", md: "none" }} />
           </Flex>
           <Box mt="8">

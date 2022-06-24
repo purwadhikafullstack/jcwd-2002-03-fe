@@ -166,7 +166,7 @@ const login = () => {
                 Ingat saya
               </Text>
             </Checkbox>
-            <Link color="#B4B9C7" fontSize="12px">
+            <Link onClick={() => router.push("/auth/request-reset-password")} color="#B4B9C7" fontSize="12px">
               Lupa kata sandi?
             </Link>
           </HStack>
@@ -213,7 +213,7 @@ const login = () => {
           </Grid>
           <HStack spacing="1" justify="center" mt={["48px"]} variant="caption">
             <Text>Belum punya akun?</Text>
-            <Link color="blue.400">Register</Link>
+            <Link onClick={() => router.push("/auth/register")} color="blue.400">Register</Link>
           </HStack>
         </Box>
       </GridItem>
