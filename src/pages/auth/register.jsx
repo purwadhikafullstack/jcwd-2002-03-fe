@@ -79,8 +79,6 @@ const register = () => {
         formik.setFieldValue(name, value);
     };
 
-    // const acceptTerms = accept ? false : true
-
     return (
         <Grid templateColumns="repeat(2,1fr)" margin="auto" width="100%" height="100vh">
             <GridItem display={["none", "grid", "grid"]} colSpan={[0, 1, 1]} background="linear-gradient(142.04deg, rgba(254, 254, 254, 0) -1.93%, #E4F4F8 107.32%)">

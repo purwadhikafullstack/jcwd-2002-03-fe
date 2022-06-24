@@ -30,15 +30,17 @@ import { MdEmail } from "react-icons/md";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import api from "../../lib/api";
-import jsCookies from "js-cookie"
-import { useSelector, useDispatch } from "react-redux"
-import { useRouter } from "next/router"
+import jsCookies from "js-cookie";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { signin } from "../../redux/reducer/authSlice";
 
 const login = () => {
   const [hidden, setHidden] = useState(false);
   const toast = useToast();
-  const authSelector = useSelector((state) => state.auth)
-  const router = useRouter()
+  const authSelector = useSelector((state) => state.auth);
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const logoButton = useBreakpointValue({
     base: {
@@ -62,47 +64,40 @@ const login = () => {
     }),
     validateOnChange: false,
     onSubmit: (values) => {
-      console.log(values);
-      setTimeout(async (dispatch) => {
+      //   console.log(values);
+      setTimeout(async () => {
         try {
           const res = await api.post("/auth/signin", values);
 
-          const userResponse = res.data.result
+          const userResponse = res.data.result;
+          //   console.log(userResponse);
 
-          jsCookies.set("user_token", userResponse.token)
+          jsCookies.set("user_token", userResponse.token);
 
-          //   dispatch({
-          //     type: "LOGIN_USER",
-          //     payload: userResponse.user,
-          //   });
+          const userResponseAdded = { ...userResponse.user };
+
+          dispatch(signin(userResponseAdded));
 
           formik.setSubmitting(false);
-          router.push("/home")
         } catch (err) {
           console.log(err);
           toast({
             title: "Login failed",
             description: "Wrong email or password",
             status: "error",
-            position: "top"
-          })
+            position: "top",
+          });
           formik.setSubmitting(false);
         }
       }, 3000);
     },
   });
 
-  //   const inputHandler = (event) => {
-  //     const { email, password } = event.target;
-  //     formik.setFieldValue(email, password);
-  //   };
-
   useEffect(() => {
     if (authSelector.id) {
-      router.push("/home")
+      router.push("/home");
     }
-  }, [authSelector.id])
-
+  }, [authSelector.id]);
 
   return (
     <Grid templateColumns="repeat(2,1fr)" margin="auto" width="100%">
@@ -135,7 +130,12 @@ const login = () => {
                 <InputLeftElement pointerEvents="none">
                   <Icon as={MdEmail} />
                 </InputLeftElement>
-                <Input placeholder="email" onChange={(event) => formik.setFieldValue("credential", event.target.value)} />
+                <Input
+                  placeholder="email"
+                  onChange={(event) =>
+                    formik.setFieldValue("credential", event.target.value)
+                  }
+                />
               </InputGroup>
               <FormHelperText>{formik.errors.credential}</FormHelperText>
             </FormControl>
@@ -148,7 +148,9 @@ const login = () => {
                 <Input
                   placeholder="password"
                   type={hidden ? "text" : "password"}
-                  onChange={(event) => formik.setFieldValue("password", event.target.value)}
+                  onChange={(event) =>
+                    formik.setFieldValue("password", event.target.value)
+                  }
                 />
                 <InputRightElement>
                   <Icon
@@ -166,7 +168,11 @@ const login = () => {
                 Ingat saya
               </Text>
             </Checkbox>
-            <Link onClick={() => router.push("/auth/request-reset-password")} color="#B4B9C7" fontSize="12px">
+            <Link
+              onClick={() => router.push("/auth/request-reset-password")}
+              color="#B4B9C7"
+              fontSize="12px"
+            >
               Lupa kata sandi?
             </Link>
           </HStack>
@@ -213,7 +219,12 @@ const login = () => {
           </Grid>
           <HStack spacing="1" justify="center" mt={["48px"]} variant="caption">
             <Text>Belum punya akun?</Text>
-            <Link onClick={() => router.push("/auth/register")} color="blue.400">Register</Link>
+            <Link
+              onClick={() => router.push("/auth/register")}
+              color="blue.400"
+            >
+              Register
+            </Link>
           </HStack>
         </Box>
       </GridItem>

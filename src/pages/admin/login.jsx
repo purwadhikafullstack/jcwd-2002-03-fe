@@ -9,14 +9,14 @@ import * as Yup from "yup"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
 import jsCookie from "js-cookie"
-import { loginAdmin, selectAdminAuth } from "../../redux/reducer/authAdminSlice"
+import { selectAuth, signin } from "../../redux/reducer/authSlice"
 import api from "../../lib/api"
 
 const login = () => {
     const [hidden, setHidden] = useState(false)
     const [accept, setAccept] = useState(false)
     const toast = useToast();
-    const authAdminSelector = useSelector(selectAdminAuth)
+    const authSelector = useSelector(selectAuth)
     const dispatch = useDispatch()
 
     const router = useRouter()
@@ -52,9 +52,9 @@ const login = () => {
 
                     const stringifyToken = JSON.stringify(res.data.result.token);
                     const stringifyAdmin = JSON.stringify(res.data.result.user);
-                    jsCookie.set("token", stringifyToken)
+                    jsCookie.set("user_token", stringifyToken)
                     localStorage.setItem("admin", stringifyAdmin)
-                    dispatch(loginAdmin(res.data.result.user))
+                    dispatch(signin(res.data.result.user))
                     formik.setSubmitting(false);
 
                     router.push("/admin/admin-dashboard")
@@ -77,14 +77,12 @@ const login = () => {
         const { value, name } = event.target;
         formik.setFieldValue(name, value);
     };
-    console.log(authAdminSelector)
-    console.log(router.isReady)
 
     useEffect(() => {
-        if (authAdminSelector.id) {
+        if (authSelector.role === "admin") {
             router.push("/admin/admin-dashboard")
         }
-    }, [])
+    }, [authSelector])
     return (
         <Grid templateColumns="repeat(2,1fr)" margin="auto" width="100%" height="100vh">
             <GridItem display={["none", "grid", "grid"]} colSpan={[0, 1, 1]} background="linear-gradient(142.04deg, rgba(254, 254, 254, 0) -1.93%, #E4F4F8 107.32%)">

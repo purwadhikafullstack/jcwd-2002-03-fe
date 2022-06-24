@@ -3,23 +3,40 @@
 // import to /pages/_app.js
 
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import jsCookie from "js-cookie";
-import { loginAdmin } from "../redux/reducer/authAdminSlice";
+import { useEffect, useState } from "react";
+import { Spinner } from "@chakra-ui/react";
+import { signin } from "../redux/reducer/authSlice";
 
 const AuthProvider = ({ children }) => {
+    const [isAuthChecked, setIsAuthChecked] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const savedUserData = jsCookie.get("user");
+        const savedUserData = localStorage.getItem("admin")
         if (savedUserData) {
             const parsedUserData = JSON.parse(savedUserData);
 
-            dispatch(loginAdmin(parsedUserData));
+            dispatch(signin(parsedUserData));
         }
+        setIsAuthChecked(true)
     }, []);
 
-    return <div>{children}</div>;
+    if (!isAuthChecked) {
+        return <Spinner thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='xl'
+            display="flex"
+            mt="10px"
+            mb="auto"
+            ml="auto"
+            mr="auto"
+        />
+    }
+    return children
+
+
 };
 
 export default AuthProvider;
