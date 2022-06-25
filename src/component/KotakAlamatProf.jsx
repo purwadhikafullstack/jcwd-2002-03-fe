@@ -1,7 +1,16 @@
 import { Box, Icon, Stack, Text } from "@chakra-ui/react";
 import { BsCheck2 } from "react-icons/bs";
 
-const KotakAlamatProf = () => {
+const KotakAlamatProf = ({
+  labelAlamat,
+  nama,
+  nomorHp,
+  provinsi,
+  kotaKabupaten,
+  kecamatan,
+  alamat,
+  kodePos,
+}) => {
   return (
     <Box
       my={5}
@@ -18,25 +27,33 @@ const KotakAlamatProf = () => {
       borderColor="#006D7F"
       borderRadius={8}
     >
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
+      <Stack
+        direction={["column", "row", "row"]}
+        alignItems={["normal", "normal", "center"]}
+        justifyContent="space-between"
+      >
         <Stack pr={5} spacing={0.5}>
           <Stack direction="row" alignitems="center">
-            <Text variant="mini-title">Rumah</Text>
+            <Text variant="mini-title">{labelAlamat}</Text>
             <Box pt={0.5} pl="10px" bgColor="#f3f4f5" w="48px" h="20px">
               <Text fontSize="10px" color="#213360" fontWeight={700}>
                 Utama
               </Text>
             </Box>
           </Stack>
-          <Text variant="subtitle-bold">Aldo</Text>
-          <Text variant="caption">6289934432189</Text>
-          <Stack direction="row" alignItems="center" spacing={0.5}>
-            <Text variant="caption">Alamat,</Text>
-            <Text variant="caption">kecamatan,</Text>
-            <Text variant="caption">Kota/Kabupaten,</Text>
-            <Text variant="caption">provinsi</Text>
+          <Text variant="subtitle-bold">{nama}</Text>
+          <Text variant="caption">{nomorHp}</Text>
+          <Stack
+            direction={["column", "row", "row"]}
+            alignItems={["normal", "normal", "center"]}
+            spacing={0.5}
+          >
+            <Text variant="caption">{alamat},</Text>
+            <Text variant="caption">{kecamatan},</Text>
+            <Text variant="caption">{kotaKabupaten},</Text>
+            <Text variant="caption">{provinsi}</Text>
           </Stack>
-          <Text variant="caption">Kode Pos</Text>
+          <Text variant="caption">{kodePos}</Text>
         </Stack>
         <Icon as={BsCheck2} color="#006D7F" />
       </Stack>

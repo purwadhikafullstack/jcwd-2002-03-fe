@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import {
   Box,
   Button,
@@ -49,6 +50,7 @@ import KotakAlamatProf from "./KotakAlamatProf";
 const MyProfileCom = () => {
   const profileSelector = useSelector(selectProfile);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [Address, setAddress] = useState([]);
   // #pASSWORD1#
   const dispatch = useDispatch();
   const inputFileRef = useRef();
@@ -85,8 +87,17 @@ const MyProfileCom = () => {
       console.log(err);
     }
   };
+  const userAddress = async () => {
+    try {
+      const res = await api.get("/profile/address");
+      setAddress(res.data.result[0].Addresses);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     userProfileData();
+    userAddress();
   }, []);
   const namaFormik = useFormik({
     initialValues: {
@@ -162,8 +173,7 @@ const MyProfileCom = () => {
   const taFormik = useFormik({
     initialValues: {
       labelAlamat: "",
-      namaDepan: "",
-      namaBelakang: "",
+      nama: "",
       nomorHp: "",
       provinsi: "",
       kotaKabupaten: "",
@@ -174,8 +184,7 @@ const MyProfileCom = () => {
 
     validationSchema: Yup.object().shape({
       labelAlamat: Yup.string().required("This field is required"),
-      namaDepan: Yup.string().required("This field is required"),
-      namaBelakang: Yup.string().required("This field is required"),
+      nama: Yup.string().required("This field is required"),
       nomorHp: Yup.string().required("This field is required"),
       provinsi: Yup.string().required("This field is required"),
       kotaKabupaten: Yup.string().required("This field is required"),
@@ -184,8 +193,44 @@ const MyProfileCom = () => {
       kodePos: Yup.string().required("This field is required"),
     }),
     validateOnChange: false,
-    onSubmit: () => {
-      router.push("/checkout");
+    onSubmit: async (values) => {
+      try {
+        // masukin state data dari backend
+        await api.post("/profile/tambahAl", {
+          labelAlamat: values.labelAlamat,
+          nama: values.nama,
+          nomorHp: values.nomorHp,
+          provinsi: values.provinsi,
+          kotaKabupaten: values.kotaKabupaten,
+          kecamatan: values.kecamatan,
+          alamat: values.alamat,
+          kodePos: values.kodePos,
+          UserId: 1,
+        });
+        console.log(Address);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  });
+  const nomorHpFormik = useFormik({
+    initialValues: {
+      nomorHp: "",
+    },
+    validationSchema: Yup.object().shape({
+      nomorHp: Yup.number().integer().positive().min(12),
+    }),
+    validateOnChange: false,
+    onSubmit: async (values) => {
+      try {
+        await api.post("/profile/tambahNomorHp", {
+          phone: values.nomorHp,
+        });
+        nomorHpOnClose();
+        userProfileData();
+      } catch (err) {
+        console.log(err);
+      }
     },
   });
   const uploadHandler = async () => {
@@ -197,6 +242,23 @@ const MyProfileCom = () => {
   };
   const handleFile = (event) => {
     setSelectedFile(event.target.files[0]);
+  };
+  const renderAddress = () => {
+    return Address.map((val) => {
+      return (
+        <KotakAlamatProf
+          key={val.id.toString()}
+          labelAlamat={val?.labelAlamat}
+          nama={val?.nama}
+          nomorHp={val?.nomorHp}
+          provinsi={val?.provinsi}
+          kotaKabupaten={val?.kotaKabupaten}
+          kecamatan={val?.kecamatan}
+          alamat={val?.alamat}
+          kodePos={val?.kodePos}
+        />
+      );
+    });
   };
   useEffect(() => {
     if (selectedFile) {
@@ -228,11 +290,11 @@ const MyProfileCom = () => {
                   "repeat(5, 1fr)",
                   "repeat(5, 1fr)",
                 ]}
-                gap={[20, 20, 20, 5]}
+                gap={[0, 20, 20, 5]}
               >
                 <GridItem colSpan={2}>
                   <Box
-                    mx={10}
+                    mx={[10, 10, 10]}
                     w={["50vw", "20vw", "30vw", "30vw", "30vw", "30vw"]}
                     mt={5}
                     pt={8}
@@ -281,7 +343,7 @@ const MyProfileCom = () => {
                     </Button>
                   </Stack>
                 </GridItem>
-                <GridItem colSpan={3}>
+                <GridItem colSpan={2}>
                   <Stack mt={10} spacing={10}>
                     <Text variant="caption-bold" fontWeight={700}>
                       Ubah Biodata Diri
@@ -300,7 +362,7 @@ const MyProfileCom = () => {
                         </Text>
                       </Stack>
                     </Stack>
-                    <Stack direction="row" spacing={20}>
+                    <Stack direction="row" spacing={[10, 10, 20]}>
                       <Text variant="caption">Tanggal Lahir</Text>
                       {profileSelector.birthDate ? (
                         <Text variant="caption">
@@ -317,7 +379,7 @@ const MyProfileCom = () => {
                         </Text>
                       )}
                     </Stack>
-                    <Stack direction="row" spacing={20}>
+                    <Stack direction="row" spacing={[10, 10, 20]}>
                       <Text variant="caption">Jenis Kelamin</Text>
                       {profileSelector.gender ? (
                         <Text variant="caption">{profileSelector.gender}</Text>
@@ -335,21 +397,27 @@ const MyProfileCom = () => {
                     <Text variant="caption-bold" fontWeight={700}>
                       Ubah Email
                     </Text>
-                    <Stack direction="row" spacing="134px">
+                    <Stack
+                      direction="row"
+                      spacing={["100px", "120px", "134px"]}
+                    >
                       <Text variant="caption">Email</Text>
                       <Text variant="caption">{profileSelector.email}</Text>
                     </Stack>
                     <Stack direction="row" spacing="100px">
                       <Text variant="caption">Nomor HP</Text>
-                      {/* <Text variant="caption">{profileSelector.phone}</Text> */}
-                      <Text
-                        variant="caption"
-                        color="#586193"
-                        _hover={{ cursor: "pointer" }}
-                        onClick={nomorHpOnOpen}
-                      >
-                        Tambah Nomor HP
-                      </Text>
+                      {profileSelector.phone ? (
+                        <Text variant="caption">{profileSelector.phone}</Text>
+                      ) : (
+                        <Text
+                          variant="caption"
+                          color="#586193"
+                          _hover={{ cursor: "pointer" }}
+                          onClick={nomorHpOnOpen}
+                        >
+                          Tambah Nomor HP
+                        </Text>
+                      )}
                     </Stack>
                   </Stack>
                 </GridItem>
@@ -617,43 +685,51 @@ const MyProfileCom = () => {
                     </Box>
                   </ModalContent>
                 </Modal>
-                {/* <Modal isOpen={nomorHpIsOpen} onClose={nomorHpOnClose}>
+                <Modal isOpen={nomorHpIsOpen} onClose={nomorHpOnClose}>
                   <ModalOverlay />
                   <ModalContent>
                     <ModalCloseButton _focus={{ outline: 0 }} />
                     <Box px={10} pt={5}>
                       <Text textAlign="center" variant="subtitle">
-                        Ubah Nama
+                        Tambah Nomor Hp
                       </Text>
                       <Text pt={4} textAlign="center" variant="caption">
-                        Kamu hanya dapat mengubah nama 1 kali lagi. Pastikan
-                        nama sudah benar.
+                        Kamu hanya dapat mengubah nomor 1 kali lagi. Pastikan
+                        nomor sudah benar.
                       </Text>
-                      <FormControl pt={4} isInvalid={formik.errors.labelAlamat}>
+                      <FormControl
+                        pt={4}
+                        isInvalid={nomorHpFormik.errors.nomorHp}
+                      >
                         <FormLabel>
-                          <Text variant="caption">Nama</Text>
+                          <Text variant="caption">Nomor Hp</Text>
                         </FormLabel>
                         <Input
+                          type="number"
                           onChange={(event) =>
-                            formik.setFieldValue("nama", event.target.value)
+                            nomorHpFormik.setFieldValue(
+                              "nomorHp",
+                              event.target.value
+                            )
                           }
                         />
                         <FormHelperText>
-                          {formik.errors.labelAlamat}
+                          {nomorHpFormik.errors.nomorHp}
                         </FormHelperText>
                       </FormControl>
-                      <Text variant="caption">
-                        Nama dapat dilihat oleh pengguna lainnya
-                      </Text>
+                      <Text variant="caption">contoh: 0855*****66</Text>
                       <Stack my={5} px={115}>
-                        <Button variant="main" w={150}>
+                        <Button
+                          onClick={nomorHpFormik.handleSubmit}
+                          variant="main"
+                          w={150}
+                        >
                           Simpan
                         </Button>
                       </Stack>
                     </Box>
                   </ModalContent>
                 </Modal>
-                 */}
               </Grid>
             </TabPanel>
             <TabPanel>
@@ -664,13 +740,7 @@ const MyProfileCom = () => {
                   </Button>
                 </Stack>
                 <Box mt={6} overflowY="scroll" h="660px">
-                  <KotakAlamatProf />
-                  <KotakAlamatProf />
-                  <KotakAlamatProf />
-                  <KotakAlamatProf />
-                  <KotakAlamatProf />
-                  <KotakAlamatProf />
-                  <KotakAlamatProf />
+                  {renderAddress()}
                 </Box>
               </Box>
               <Modal isOpen={tambahAlamatIsOpen} onClose={tambahAlamatOnClose}>
@@ -684,8 +754,8 @@ const MyProfileCom = () => {
                     <Text pt={4} textAlign="center" variant="caption">
                       Silakan mengisi semua form yang sudah tertera
                     </Text>
-                    <Box h="200px" overflowY="scroll" pr={2}>
-                      <Text mb="68px" variant="title">
+                    <Box pt={5} h="200px" overflowY="scroll" pr={2}>
+                      <Text mb={5} variant="title">
                         Alamat Pengiriman
                       </Text>
                       <FormControl isInvalid={taFormik.errors.labelAlamat}>
@@ -695,6 +765,7 @@ const MyProfileCom = () => {
                           </Text>
                         </FormLabel>
                         <Input
+                          _focus={{ outline: 0 }}
                           onChange={(event) =>
                             taFormik.setFieldValue(
                               "labelAlamat",
@@ -709,44 +780,16 @@ const MyProfileCom = () => {
                       <Text mt="52px" mb="36px" variant="mini-title">
                         Info Penerima
                       </Text>
-                      <Grid
-                        templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
-                        gap={[0, 4, 4]}
-                      >
-                        <GridItem colspan={[1, 1, 1]} mb="36px">
-                          <Text mb="16px" variant="caption">
-                            Nama Depan
-                          </Text>
-                          <Input
-                            onChange={(event) =>
-                              taFormik.setFieldValue(
-                                "namaDepan",
-                                event.target.value
-                              )
-                            }
-                          />
-                        </GridItem>
-                        <GridItem colSpan={[1, 1, 1]}>
-                          <FormControl isInvalid={taFormik.errors.namaBelakang}>
-                            <FormLabel>
-                              <Text mb="16px" variant="caption">
-                                Nama Belakang
-                              </Text>
-                            </FormLabel>
-                            <Input
-                              onChange={(event) =>
-                                taFormik.setFieldValue(
-                                  "namaBelakang",
-                                  event.target.value
-                                )
-                              }
-                            />
-                            <FormHelperText>
-                              {taFormik.errors.namaBelakang}
-                            </FormHelperText>
-                          </FormControl>
-                        </GridItem>
-                      </Grid>
+                      <Text mb="16px" variant="caption">
+                        Nama
+                      </Text>
+                      <Input
+                        mb="36px"
+                        _focus={{ outline: 0 }}
+                        onChange={(event) =>
+                          taFormik.setFieldValue("nama", event.target.value)
+                        }
+                      />
                       <FormControl isInvalid={taFormik.errors.nomorHp}>
                         <FormLabel>
                           <Text mb="16px" variant="caption">
@@ -764,6 +807,7 @@ const MyProfileCom = () => {
                             </Stack>
                           </InputLeftAddon>
                           <Input
+                            _focus={{ outline: 0 }}
                             mb="36px"
                             type="number"
                             onChange={(event) =>
@@ -788,6 +832,7 @@ const MyProfileCom = () => {
                             </FormLabel>
                             <InputGroup>
                               <Input
+                                _focus={{ outline: 0 }}
                                 onChange={(event) =>
                                   taFormik.setFieldValue(
                                     "provinsi",
@@ -815,6 +860,7 @@ const MyProfileCom = () => {
                             </FormLabel>
                             <InputGroup>
                               <Input
+                                _focus={{ outline: 0 }}
                                 onChange={(event) =>
                                   taFormik.setFieldValue(
                                     "kotaKabupaten",
@@ -840,6 +886,7 @@ const MyProfileCom = () => {
                         </FormLabel>
                         <InputGroup w="245.59px">
                           <Input
+                            _focus={{ outline: 0 }}
                             mb="36px"
                             onChange={(event) =>
                               taFormik.setFieldValue(
@@ -863,6 +910,7 @@ const MyProfileCom = () => {
                           </Text>
                         </FormLabel>
                         <Input
+                          _focus={{ outline: 0 }}
                           mb="36px"
                           onChange={(event) =>
                             taFormik.setFieldValue("alamat", event.target.value)
@@ -880,6 +928,7 @@ const MyProfileCom = () => {
                         </FormLabel>
                         <InputGroup w="245.59px">
                           <Input
+                            _focus={{ outline: 0 }}
                             mb="36px"
                             onChange={(event) =>
                               taFormik.setFieldValue(
@@ -898,14 +947,30 @@ const MyProfileCom = () => {
                       </FormControl>
                     </Box>
                     <Checkbox
-                      // onChange={(event) =>
-                      //   taFormik.setFieldValue("password", event.target.value)
-                      // }
+                    // onChange={(event) =>
+                    //   taFormik.setFieldValue("password", event.target.value)
+                    // }
                     >
                       <Text variant="caption">Simpan sebagai alamat utama</Text>
                     </Checkbox>
                     <Stack my={5} px={115}>
                       <Button
+                        isDisabled={
+                          !(
+                            taFormik.values.alamat &&
+                            taFormik.values.kecamatan &&
+                            taFormik.values.kodePos &&
+                            taFormik.values.kotaKabupaten &&
+                            taFormik.values.labelAlamat &&
+                            taFormik.values.nama &&
+                            taFormik.values.nomorHp &&
+                            taFormik.values.provinsi
+                          )
+                        }
+                        _hover={{
+                          bgColor: "#006D7F",
+                          color: "#FFFFF0",
+                        }}
                         onClick={taFormik.handleSubmit}
                         variant="main"
                         w={150}
