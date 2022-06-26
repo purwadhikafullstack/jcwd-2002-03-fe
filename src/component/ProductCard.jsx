@@ -18,16 +18,18 @@ const ProductCard = () => {
       borderRadius="xl"
       overflow="hidden"
       boxShadow=" 1px 2px 3px 4px rgba(245,251,251)"
-      mb="5px"
+      mb={5}
       _hover={{
         boxShadow: " 1px 2px 3px 4px rgba(237,248,248)",
+        transform: "translate(0px, -8px)",
+        transitionDuration: "0.5s",
       }}
     >
       <Stack direction="row" justifyContent="end">
         <Stack px="40px" pt="35px">
           <Image
-            w="133px"
-            h="104px"
+            w="100%"
+            h="100%"
             objectFit="cover"
             src="https://lifepack.id/wp-content/uploads/2020/12/94-1.jpg"
           />
@@ -41,7 +43,9 @@ const ProductCard = () => {
       </Stack>
       <Stack pl="24px" pr="10px" pt="3">
         <Text
-          fontSize="14px" fontWeight="700" fontFamily="sans-serif"
+          fontSize="14px"
+          fontWeight="700"
+          fontFamily="sans-serif"
           variant="mini-title"
         >
           PANADOL FLU DAN BATUK
@@ -75,15 +79,10 @@ const ProductCard = () => {
           </Text>
         </Stack>
         <HStack paddingBottom="10px">
-          <Text
-            mr="10"
-            variant="caption"
-          >
+          <Text mr="10" variant="caption">
             Rp. 13.000
           </Text>
-          <Text variant="caption">
-            / Strip
-          </Text>
+          <Text variant="caption">/ Strip</Text>
         </HStack>
 
         <Button variant="main-outline" w="92%">
