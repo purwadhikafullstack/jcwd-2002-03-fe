@@ -16,17 +16,17 @@ const SlideShow = () => {
     ];
 
     // Settings for the slider
-    const settings = {
-        dots: true,
-        arrows: false,
-        fade: true,
-        infinite: true,
-        autoplay: true,
-        speed: 500,
-        autoplaySpeed: 5000,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-    };
+    // const settings = {
+    //     dots: true,
+    //     arrows: false,
+    //     fade: true,
+    //     infinite: true,
+    //     autoplay: true,
+    //     speed: 500,
+    //     autoplaySpeed: 5000,
+    //     slidesToShow: 1,
+    //     slidesToScroll: 1,
+    // };
 
     return (
         <Box
