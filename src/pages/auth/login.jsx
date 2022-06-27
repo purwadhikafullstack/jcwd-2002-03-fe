@@ -29,10 +29,10 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdEmail } from "react-icons/md";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import api from "../../lib/api";
 import jsCookies from "js-cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import api from "../../lib/api";
 import { signin } from "../../redux/reducer/authSlice";
 
 const login = () => {
@@ -121,7 +121,6 @@ const login = () => {
           <Stack
             mt={["32px"]}
             display="flex"
-            templateColumns="repeat(2,1fr)"
             spacing={["12px", "24px"]}
           >
             <FormControl isInvalid={formik.errors.credential}>

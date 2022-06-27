@@ -8,6 +8,7 @@ import { IoIosLock } from "react-icons/io"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useFormik } from "formik"
 import * as Yup from "yup"
+import Link from "next/link"
 import api from "../../lib/api"
 
 const register = () => {
@@ -89,7 +90,11 @@ const register = () => {
                     < Box >
                         <Text variant="title" display={["none", "block", "block"]}>Mari Kita Mulai</Text>
                         <Text variant="title" display={["block", "none", "none"]}>Register</Text>
-                        <Text mt={["12px"]} variant="caption">Sudah punya akun? <b>Masuk</b></Text>
+                        <Text mt={["12px"]} variant="caption">Sudah punya akun?
+                            <Link href="/auth/login">
+                                <b>Masuk</b>
+                            </Link>
+                        </Text>
                     </Box>
                     <Grid
                         mt={["32px"]}
@@ -174,7 +179,7 @@ const register = () => {
                         onClick={formik.handleSubmit}
                         type="submit"
                         isLoading={formik.isSubmitting}
-                        disabled={accept === false}
+                        disabled={accept === false || formik.isSubmitting}
                     >
                         Register
                     </Button>

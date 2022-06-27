@@ -18,7 +18,7 @@ const CartBotomNavbar = () => {
         >
             <GridItem colSpan={2} justifyContent="center">
                 <Text variant="subtitle">Total</Text>
-                <Text variant="caption-bold">Rp.13.000</Text>
+                <Text variant="subtitle-bold">Rp.13.000</Text>
             </GridItem>
             <GridItem colSpan={4}>
                 <Button width="full" variant="main">bayar</Button>
