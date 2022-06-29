@@ -9,11 +9,11 @@ import {
 } from "@chakra-ui/react";
 import { BsFillCircleFill, BsSuitHeartFill } from "react-icons/bs";
 
-const ProductCard = () => {
+const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
   return (
     <Box
-      w="213px"
-      h="331px"
+      w={["140px", "213px", "213px"]}
+      h={["290px", "360px", "360px"]}
       borderWidth="1px"
       borderRadius="xl"
       overflow="hidden"
@@ -27,12 +27,7 @@ const ProductCard = () => {
     >
       <Stack direction="row" justifyContent="end">
         <Stack px="40px" pt="35px">
-          <Image
-            w="100%"
-            h="100%"
-            objectFit="cover"
-            src="https://lifepack.id/wp-content/uploads/2020/12/94-1.jpg"
-          />
+          <Image w="100%" h="100%" objectFit="cover" src={productImage} />
         </Stack>
         <Box pt="14px" pr="22px" position="absolute">
           <Icon as={BsFillCircleFill} color="gray.100" w="44px" h="44px" />
@@ -43,12 +38,16 @@ const ProductCard = () => {
       </Stack>
       <Stack pl="24px" pr="10px" pt="3">
         <Text
-          fontSize="14px"
+          fontSize={{
+            base: "12px",
+            md: "14px",
+            lg: "14px",
+          }}
           fontWeight="700"
           fontFamily="sans-serif"
           variant="mini-title"
         >
-          PANADOL FLU DAN BATUK
+          {medName}
         </Text>
         <Stack direction="row">
           <Box
@@ -62,11 +61,15 @@ const ProductCard = () => {
               py="1px"
               px="1px"
               textAlign="center"
-              fontSize="12px"
+              fontSize={{
+                base: "10px",
+                md: "12px",
+                lg: "12px",
+              }}
               color="#FF6B6B"
               fontWeight="700"
             >
-              17%
+              {discount}%
             </Text>
           </Box>
           <Text
@@ -74,15 +77,37 @@ const ProductCard = () => {
             textDecorationColor="#737A8D"
             pl="12px"
             variant="caption"
+            fontSize={{
+              base: "10px",
+              md: "14px",
+              lg: "14px",
+            }}
           >
             Rp. 17.000
           </Text>
         </Stack>
         <HStack paddingBottom="10px">
-          <Text mr="10" variant="caption">
-            Rp. 13.000
+          <Text
+            mr="10"
+            variant="caption"
+            fontSize={{
+              base: "10px",
+              md: "14px",
+              lg: "14px",
+            }}
+          >
+            Rp. {sellingPrice}
           </Text>
-          <Text variant="caption">/ Strip</Text>
+          <Text
+            variant="caption"
+            fontSize={{
+              base: "10px",
+              md: "14px",
+              lg: "14px",
+            }}
+          >
+            / Strip
+          </Text>
         </HStack>
 
         <Button variant="main-outline" w="92%">
