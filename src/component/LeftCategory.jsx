@@ -22,7 +22,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-const LeftCategory = () => {
+const LeftCategory = ({ fetchProducts }) => {
   // terpopuler
   // termurah
   // termahal
@@ -254,7 +254,18 @@ const LeftCategory = () => {
             <CheckboxGroup borderRadius="16px">
               <Stack spacing="10px" direction={["column", "none"]}>
                 <Checkbox>
-                  <Text variant="caption">Drop</Text>
+                  <Text
+                    onClick={() =>
+                      fetchProducts({
+                        params: {
+                          med_name: "norit",
+                        },
+                      })
+                    }
+                    variant="caption"
+                  >
+                    Bisolvon
+                  </Text>
                 </Checkbox>
                 <Checkbox>
                   <Text variant="caption">Gel</Text>

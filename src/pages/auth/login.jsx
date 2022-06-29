@@ -95,7 +95,7 @@ const login = () => {
 
   useEffect(() => {
     if (authSelector.id) {
-      router.push("/home");
+      router.push("/");
     }
   }, [authSelector.id]);
 
