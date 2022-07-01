@@ -10,35 +10,21 @@ import {
   InputGroup,
   InputRightElement,
   Select,
-  Table,
-  TableContainer,
   Text,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  chakra,
-  Thead,
-  Tooltip,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  IconButton,
+  Modal,
+  useDisclosure,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
   Spinner,
   useNumberInput,
   useDisclosure
 } from "@chakra-ui/react";
-import {
-  ArrowRightIcon,
-  ArrowLeftIcon,
-  ChevronRightIcon,
-  ChevronLeftIcon,
-  TriangleDownIcon,
-  TriangleUpIcon
-} from "@chakra-ui/icons";
-import { FiDownload, FiSearch } from "react-icons/fi";
+import AdminSideBar from "component/AdminSideBar";
+import { FiSearch, FiDownload } from "react-icons/fi";
+import { useState } from "react";
 import React from "react";
 import { useTable, useSortBy, usePagination } from "react-table";
 import { TbWriting } from "react-icons/tb";
@@ -66,416 +52,191 @@ const AdminDaftarProduk = () => {
   const dec = getDecrementButtonProps();
   const input = getInputProps();
 
-  const data = React.useMemo(
-    () => [
-      {
-        no: "1",
-        NamaObat: "Adem Sari",
-        noObat: "A000321",
-        noBPOM: "B000521",
-        kategori: "Obat Bebas",
-        stok: 20,
-        satuan: "Botol",
-        nilaiBarang: `Rp. ${(30000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(40000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "2",
-        NamaObat: "Vit C",
-        noObat: "A000322",
-        noBPOM: "B000522",
-        kategori: "Obat Bebas",
-        stok: 25,
-        satuan: "Box",
-        nilaiBarang: `Rp. ${(35000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(45000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "3",
-        NamaObat: "Bodrex",
-        noObat: "A000323",
-        noBPOM: "B000522",
-        kategori: "Obat Bebas",
-        stok: 22,
-        satuan: "Strip",
-        nilaiBarang: `Rp. ${(40000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(50000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "4",
-        NamaObat: "Panadol",
-        noObat: "A000324",
-        noBPOM: "B000523",
-        kategori: "Obat Bebas",
-        stok: 29,
-        satuan: "Strip",
-        nilaiBarang: `Rp. ${(20000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(30000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "5",
-        NamaObat: "Actived",
-        noObat: "A000325",
-        noBPOM: "B000524",
-        kategori: "Obat Bebas",
-        stok: 10,
-        satuan: "Botol",
-        nilaiBarang: `Rp. ${(33000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(44000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "6",
-        NamaObat: "Actived",
-        noObat: "A000325",
-        noBPOM: "B000524",
-        kategori: "Obat Bebas",
-        stok: 10,
-        satuan: "Botol",
-        nilaiBarang: `Rp. ${(33000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(44000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "7",
-        NamaObat: "Adem Sari",
-        noObat: "A000321",
-        noBPOM: "B000521",
-        kategori: "Obat Bebas",
-        stok: 20,
-        satuan: "Botol",
-        nilaiBarang: `Rp. ${(30000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(40000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "8",
-        NamaObat: "Vit C",
-        noObat: "A000322",
-        noBPOM: "B000522",
-        kategori: "Obat Bebas",
-        stok: 25,
-        satuan: "Box",
-        nilaiBarang: `Rp. ${(35000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(45000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "9",
-        NamaObat: "Bodrex",
-        noObat: "A000323",
-        noBPOM: "B000522",
-        kategori: "Obat Bebas",
-        stok: 22,
-        satuan: "Strip",
-        nilaiBarang: `Rp. ${(40000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(50000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "10",
-        NamaObat: "Panadol",
-        noObat: "A000324",
-        noBPOM: "B000523",
-        kategori: "Obat Bebas",
-        stok: 29,
-        satuan: "Strip",
-        nilaiBarang: `Rp. ${(20000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(30000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "11",
-        NamaObat: "Adem Sari",
-        noObat: "A000321",
-        noBPOM: "B000521",
-        kategori: "Obat Bebas",
-        stok: 20,
-        satuan: "Botol",
-        nilaiBarang: `Rp. ${(30000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(40000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "12",
-        NamaObat: "Vit C",
-        noObat: "A000322",
-        noBPOM: "B000522",
-        kategori: "Obat Bebas",
-        stok: 25,
-        satuan: "Box",
-        nilaiBarang: `Rp. ${(35000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(45000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "13",
-        NamaObat: "Bodrex",
-        noObat: "A000323",
-        noBPOM: "B000522",
-        kategori: "Obat Bebas",
-        stok: 22,
-        satuan: "Strip",
-        nilaiBarang: `Rp. ${(40000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(50000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "14",
-        NamaObat: "Panadol",
-        noObat: "A000324",
-        noBPOM: "B000523",
-        kategori: "Obat Bebas",
-        stok: 29,
-        satuan: "Strip",
-        nilaiBarang: `Rp. ${(20000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(30000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "15",
-        NamaObat: "Actived",
-        noObat: "A000325",
-        noBPOM: "B000524",
-        kategori: "Obat Bebas",
-        stok: 10,
-        satuan: "Botol",
-        nilaiBarang: `Rp. ${(33000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(44000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "16",
-        NamaObat: "Actived",
-        noObat: "A000325",
-        noBPOM: "B000524",
-        kategori: "Obat Bebas",
-        stok: 10,
-        satuan: "Botol",
-        nilaiBarang: `Rp. ${(33000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(44000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "17",
-        NamaObat: "Adem Sari",
-        noObat: "A000321",
-        noBPOM: "B000521",
-        kategori: "Obat Bebas",
-        stok: 20,
-        satuan: "Botol",
-        nilaiBarang: `Rp. ${(30000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(40000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "18",
-        NamaObat: "Vit C",
-        noObat: "A000322",
-        noBPOM: "B000522",
-        kategori: "Obat Bebas",
-        stok: 25,
-        satuan: "Box",
-        nilaiBarang: `Rp. ${(35000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(45000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "19",
-        NamaObat: "Bodrex",
-        noObat: "A000323",
-        noBPOM: "B000522",
-        kategori: "Obat Bebas",
-        stok: 22,
-        satuan: "Strip",
-        nilaiBarang: `Rp. ${(40000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(50000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-      {
-        no: "20",
-        NamaObat: "Panadol",
-        noObat: "A000324",
-        noBPOM: "B000523",
-        kategori: "Obat Bebas",
-        stok: 29,
-        satuan: "Strip",
-        nilaiBarang: `Rp. ${(20000).toLocaleString()}`,
-        nilaiJual: `Rp. ${(30000).toLocaleString()}`,
-        lihatDetail: (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
-        ),
-      },
-    ],
-    []
-  );
+  const [dataProduct, setDataProduct] = useState([]);
+  const [pageCount, setPageCount] = useState(1);
+  const [searchValue, setSearchValue] = useState("");
+  const [sortInput, setSortInput] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [sortDir, setSortDir] = useState("");
+  const [priceMin, setPriceMin] = useState(null);
+  const [priceMax, setPriceMax] = useState(null);
+  const [maxPage, setMaxPage] = useState(1);
+  const [jumlahProduk, setJumlahProduk] = useState(null);
+
+  const maxPageRow = 10;
+
+  const fecthApi = async () => {
+    try {
+      const res = await api.get("/product", {
+        params: {
+          _sortBy: sortBy ? sortBy : undefined,
+          _sortDir: sortDir ? sortDir : undefined,
+          _limit: maxPageRow,
+          _page: pageCount,
+          priceMin: priceMin || undefined,
+          priceMax: priceMax || undefined,
+        },
+      });
+      setJumlahProduk(res.data.result.result.count);
+      setDataProduct(res.data.result.result.rows);
+      setMaxPage(Math.ceil(res.data.result.result.count / maxPageRow));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchNextPage = () => {
+    if (pageCount >= maxPage) {
+      return;
+    }
+    setPageCount(pageCount + 1);
+  };
+
+  const fetchPrevPage = () => {
+    if (pageCount === 1) {
+      return;
+    }
+    setPageCount(pageCount - 1);
+  };
+
+  const fetchFirstPage = () => {
+    setPageCount((pageCount = 1));
+    return;
+  };
+
+  const fetchLastPage = () => {
+    setPageCount((pageCount = maxPage));
+    return;
+  };
+
+  useEffect(() => {
+    if (router.isReady) {
+      if (router.query._sortDir) {
+        setSearchValue(router.query._sortDir);
+      }
+      if (router.query._sortBy) {
+        setSearchValue(router.query._sortBy);
+      }
+    }
+  }, [router.isReady]);
+
+  const sortInputHandler = (event) => {
+    const { value } = event.target;
+    setSortInput(value);
+  };
+
+  const sortButton = () => {
+    if (sortInput == "Highest Price") {
+      setSortBy("selling_price");
+      setSortDir("DESC");
+    } else if (sortInput == "Lowest Price") {
+      setSortBy("selling_price");
+      setSortDir("ASC");
+    } else if (sortInput == "name_ASC") {
+      setSortBy("med_name");
+      setSortDir("ASC");
+    } else if (sortInput == "name_DESC") {
+      setSortBy("med_name");
+      setSortDir("DESC");
+    } else if (sortInput == "default") {
+      setSortBy("");
+      setSortDir("");
+    }
+    setPageCount(1);
+  };
+
+  useEffect(() => {
+    fecthApi();
+  }, [pageCount]);
+
+  useEffect(() => {
+    fecthApi();
+
+    if (sortInput) {
+      router.push({
+        _sortBy: sortBy ? sortBy : undefined,
+        _sortDir: sortDir ? sortDir : undefined,
+      });
+    }
+  }, [sortDir, sortBy, priceMin, priceMax]);
+
+  const data = React.useMemo(() => [...dataProduct], [dataProduct]);
+
+  function toCurrency(numberString) {
+    let number = parseFloat(numberString);
+    return number.toLocaleString("IDR");
+  }
 
   const columns = React.useMemo(
     () => [
       {
         Header: "No",
-        accessor: "no",
+        accessor: "id",
       },
       {
         Header: "Nama Obat",
-        accessor: "NamaObat",
+        accessor: "med_name",
       },
       {
         Header: "No. Obat",
-        accessor: "noObat",
+        accessor: "nomer_med",
       },
       {
         Header: "No. BPOM",
-        accessor: "noBPOM",
+        accessor: "nomer_bpom",
       },
       {
         Header: "Kategori",
-        accessor: "kategori",
+        accessor: "category.category_name",
       },
-      {
-        Header: "Stok",
-        accessor: "stok",
-      },
+      // {
+      //   Header: "Stok",
+      //   accessor: "stok",
+      // },
       {
         Header: "Satuan",
-        accessor: "satuan",
+        accessor: "kemasan",
       },
       {
         Header: "Nilai Jual",
-        accessor: "nilaiJual",
+        accessor: "selling_price",
+        Cell: (props) => <div>Rp. {toCurrency(props.value)} </div>,
       },
       {
         Header: "Lihat Detail",
-        accessor: "lihatDetail",
+        accessor: "LihatDetail",
+        Cell: () => (
+          <Button colorScheme="teal" fontSize="12px" size="sm">
+            Lihat Detail
+          </Button>
+        ),
       },
     ],
     []
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    page,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: { pageIndex, pageSize },
-  } = useTable(
-    { columns, data, initialState: { pageIndex: 0 } },
-    useSortBy,
-    usePagination
-  );
-
-  const router = useRouter()
-  const authSelector = useSelector(selectAuth)
+  const authSelector = useSelector(selectAuth);
   React.useEffect(() => {
     if (!authSelector.role) {
-      router.push("/admin/login")
+      router.push("/admin/login");
     }
-
-  }, [authSelector])
+  }, [authSelector]);
 
   if (!authSelector.role) {
-    return <Spinner thickness='4px'
-      speed='0.65s'
-      emptyColor='gray.200'
-      color='blue.500'
-      size='xl'
-      display="flex"
-      mt="10px"
-      mb="auto"
-      ml="auto"
-      mr="auto"
-    />
+    return (
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+        display="flex"
+        mt="10px"
+        mb="auto"
+        ml="auto"
+        mr="auto"
+      />
+    );
   }
   return (
     <>
@@ -537,163 +298,58 @@ const AdminDaftarProduk = () => {
             </HStack>
           </Flex>
           <Divider my="38px" w="full" maxW="1056px" />
+
+          <HStack mb="4">
+            <Text color="black">Urutkan:</Text>
+            <Select
+              fontSize="12px"
+              onClick={sortButton}
+              color="black"
+              onChange={sortInputHandler}
+            >
+              <option value="default">Default</option>
+              <option value="name_ASC">A - Z</option>
+              <option value="name_DESC">Z - A</option>
+              <option value="Highest Price">Termahal</option>
+              <option value="Lowest Price">Termurah</option>
+            </Select>
+          </HStack>
+
           <Center flexDirection="column">
-            <TableContainer border="2px" borderRadius="2xl">
-              <Table
-                size="md"
-                bgColor="blackAlpha.100"
-                fontSize="14px"
-                variant="striped"
-                colorScheme="blue"
-                color="black"
-                fontWeight="medium"
-                {...getTableProps()}
-              >
-                <Thead>
-                  {headerGroups.map((headerGroup) => (
-                    <Tr {...headerGroup.getHeaderGroupProps()}>
-                      {headerGroup.headers.map((column) => (
-                        <Th
-                          {...column.getHeaderProps(
-                            column.getSortByToggleProps()
-                          )}
-                          isNumeric={column.isNumeric}
-                        >
-                          {column.render("Header")}
-                          <chakra.span>
-                            {column.isSorted ? (
-                              column.isSortedDesc ? (
-                                <TriangleDownIcon aria-label="sorted descending" />
-                              ) : (
-                                <TriangleUpIcon aria-label="sorted ascending" />
-                              )
-                            ) : null}
-                          </chakra.span>
-                        </Th>
-                      ))}
-                    </Tr>
-                  ))}
-                </Thead>
-                <Tbody {...getTableBodyProps()}>
-                  {page.map((row) => {
-                    prepareRow(row);
-                    return (
-                      <Tr {...row.getRowProps()}>
-                        {row.cells.map((cell) => (
-                          <Td
-                            textAlign="center"
-                            {...cell.getCellProps()}
-                            isNumeric={cell.column.isNumeric}
-                          >
-                            {cell.render("Cell")}
-                          </Td>
-                        ))}
-                      </Tr>
-                    );
-                  })}
-                </Tbody>
-              </Table>
-            </TableContainer>
-
-            <Flex m={4}>
-              <Flex>
-                <Tooltip label="First Page">
-                  <IconButton
-                    mt="1.5"
-                    size="sm"
-                    borderRadius="full"
-                    colorScheme="teal"
-                    onClick={() => gotoPage(0)}
-                    isDisabled={!canPreviousPage}
-                    icon={<ArrowLeftIcon h="3" w="3" />}
-                    mr="2"
-                  />
-                </Tooltip>
-                <Tooltip label="Previous Page">
-                  <IconButton
-                    mt="1.5"
-                    size="sm"
-                    borderRadius="full"
-                    colorScheme="teal"
-                    onClick={previousPage}
-                    isDisabled={!canPreviousPage}
-                    icon={<ChevronLeftIcon h="6" w="6" />}
-                  />
-                </Tooltip>
-              </Flex>
-
-              <Flex alignItems="center" color="black">
-                <Text flexShrink="0" mr="8" ml="4">
-                  Page{" "}
-                  <Text fontWeight="bold" as="span">
-                    {pageIndex + 1}
-                  </Text>{" "}
-                  of{" "}
-                  <Text fontWeight="bold" as="span">
-                    {pageOptions.length}
-                  </Text>
-                </Text>
-                <Text flexShrink="0">Go to page:</Text>{" "}
-                <NumberInput
-                  ml="2"
-                  mr="8"
-                  w="28"
-                  min="1"
-                  max={pageOptions.length}
-                  onChange={(value) => {
-                    const page = value ? value - 1 : 0;
-                    gotoPage(page);
-                  }}
-                  defaultValue={pageIndex + 1}
-                >
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-                <Select
-                  w="32"
-                  mr="4"
-                  value={pageSize}
-                  onChange={(e) => {
-                    setPageSize(Number(e.target.value));
-                  }}
-                >
-                  {[10, 20, 30, 40, 50].map((pageSize) => (
-                    <option key={pageSize} value={pageSize}>
-                      Show {pageSize}
-                    </option>
-                  ))}
-                </Select>
-              </Flex>
-
-              <Flex>
-                <Tooltip label="Next Page">
-                  <IconButton
-                    mt="1.5"
-                    size="sm"
-                    borderRadius="full"
-                    colorScheme="teal"
-                    onClick={nextPage}
-                    isDisabled={!canNextPage}
-                    icon={<ChevronRightIcon h="6" w="6" />}
-                  />
-                </Tooltip>
-                <Tooltip label="Last Page">
-                  <IconButton
-                    mt="1.5"
-                    size="sm"
-                    borderRadius="full"
-                    colorScheme="teal"
-                    onClick={() => gotoPage(pageCount - 1)}
-                    isDisabled={!canNextPage}
-                    icon={<ArrowRightIcon h="3" w="3" />}
-                    ml={4}
-                  />
-                </Tooltip>
-              </Flex>
-            </Flex>
+            <DaftarProdukTable
+              columns={columns}
+              data={data}
+              next={fetchNextPage}
+            />
+            <HStack my="4">
+              <Button
+                borderRadius="lg"
+                colorScheme="teal"
+                onClick={fetchFirstPage}
+              >{`First Page`}</Button>
+              <Button
+                borderRadius="lg"
+                fontWeight="bold"
+                colorScheme="teal"
+                onClick={fetchPrevPage}
+              >{`<`}</Button>
+              <Text color="black">{`Halaman ${pageCount} dari ${maxPage}`}</Text>
+              <Button
+                borderRadius="lg"
+                fontWeight="bold"
+                colorScheme="teal"
+                onClick={fetchNextPage}
+              >{`>`}</Button>
+              <Button
+                borderRadius="lg"
+                colorScheme="teal"
+                onClick={fetchLastPage}
+              >{`Last Page`}</Button>
+            </HStack>
+            <Text
+              mb="4"
+              color="black"
+            >{`Menampilkan ${jumlahProduk} produk`}</Text>
           </Center>
         </Center>
       </Box>
