@@ -20,7 +20,6 @@ const { default: AdminNavbar } = require("./AdminNavbar");
 
 const AdminSideBar = () => {
   return (
-
     <SimpleGrid zIndex="overlay">
       <Box w="full">
         <AdminNavbar />
@@ -68,12 +67,6 @@ const AdminSideBar = () => {
                 <Link href="/admin/admin-daftar-produk">
                   Daftar Produk
                 </Link>
-              </AccordionPanel>
-              <AccordionPanel
-                _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
-                pl="14"
-              >
-                Tambah Produk
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
