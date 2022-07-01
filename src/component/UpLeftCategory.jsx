@@ -8,11 +8,14 @@ import {
 } from "@chakra-ui/react";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-const UpLeftCategory = () => {
+const UpLeftCategory = ({ setPage, filterByCategory, setFilterByCategory }) => {
   const { isOpen: kategoriIsOpen, onToggle: kategoriOnToggle } =
     useDisclosure();
   const [kategoriArrow, setKategoriArrow] = useState(false);
+  const router = useRouter();
   return (
     <Box
       boxShadow=" 1px 2px 3px 4px rgba(237,248,248)"
@@ -40,7 +43,18 @@ const UpLeftCategory = () => {
           )}
         </Stack>
         <Collapse in={kategoriIsOpen} animateOpacity>
-          <Text variant="mini-title">Obat-Obatan</Text>
+          <Text
+            variant="mini-title"
+            onClick={() => [
+              setFilterByCategory(1),
+              setPage(1),
+              // router.push({
+              //   query: { FilterByCategory: { filterByCategory } },
+              // }),
+            ]}
+          >
+            Obat-Obatan
+          </Text>
           <Text variant="caption">Nutrisi</Text>
           <Text variant="caption">Herbal</Text>
           <Text variant="caption">Vitamin &amp; Suplemen</Text>

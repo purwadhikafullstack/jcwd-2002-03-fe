@@ -16,23 +16,34 @@ import {
   TabPanel,
   Select,
   Spinner,
-  Flex,
 } from "@chakra-ui/react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LeftCategory from "../component/LeftCategory";
 import UpLeftCategory from "../component/UpLeftCategory";
 import api from "../lib/api";
 import ProductCard from "../component/ProductCard";
+import { set } from "lodash";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const [filterByCategory, setFilterByCategory] = useState();
+  const [filterProducts, setFilterProducts] = useState();
+  const [selectedValue, setSelectedValue] = useState();
+  const [dir, setDir] = useState();
+  const router = useRouter();
+  const { filter } = router.query;
+  // console.log(typeof filter);
   const fetchProducts = async (
     queryParams = {
       params: {
+        categoryId: filterByCategory,
+        med_name: filterProducts,
+        _sortBy: selectedValue,
+        _sortDir: dir,
         _limit: 24,
         _page: page,
       },
@@ -40,7 +51,14 @@ const ProductList = () => {
   ) => {
     try {
       const res = await api.get("/product/", queryParams);
-      setProducts((prevProducts) => [...prevProducts, ...res.data.result.rows]);
+      if (page === 1) {
+        setProducts(res.data.result.rows);
+      } else {
+        setProducts((prevProducts) => [
+          ...prevProducts,
+          ...res.data.result.rows,
+        ]);
+      }
       setMaxPage(Math.ceil(res.data.result.count / 24));
     } catch (err) {
       console.log(err);
@@ -64,10 +82,33 @@ const ProductList = () => {
   const fetchNextPage = () => {
     setPage(page + 1);
   };
+  const sortHandler = (event) => {
+    const { target } = event;
+    if (target.type === "select-one") {
+      const selectValue = target.selectedOptions[0].value;
 
+      if (selectValue === "selling_price1") {
+        setSelectedValue("selling_price");
+        setDir("ASC");
+        setPage(1);
+      } else if (selectValue === "selling_price") {
+        setSelectedValue("selling_price");
+        setDir("DESC");
+        setPage(1);
+      } else if (selectValue === "az") {
+        setSelectedValue("med_name");
+        setDir("ASC");
+        setPage(1);
+      } else if (selectValue === "za") {
+        setSelectedValue("med_name");
+        setDir("DESC");
+        setPage(1);
+      }
+    }
+  };
   useEffect(() => {
     fetchProducts();
-  }, [page]);
+  }, [page, filterByCategory, filterProducts, dir, selectedValue]);
   return (
     <Grid
       templateColumns={[
@@ -112,8 +153,18 @@ const ProductList = () => {
             </Text>
           </BreadcrumbItem>
         </Breadcrumb>
-        <UpLeftCategory />
-        <LeftCategory fetchProducts={fetchProducts} />
+        <UpLeftCategory
+          fetchProducts={fetchProducts}
+          setPage={setPage}
+          setFilterByCategory={setFilterByCategory}
+          filterByCategory={filterByCategory}
+        />
+        <LeftCategory
+          fetchProducts={fetchProducts}
+          setPage={setPage}
+          setFilterProducts={setFilterProducts}
+          filterProducts={filterProducts}
+        />
       </GridItem>
       <GridItem mt={[0, 10, 10]} colSpan={4}>
         <Box mt="49px" display={["none", "none", "none", "grid"]}>
@@ -128,12 +179,12 @@ const ProductList = () => {
             <Text variant="caption">45 Produk di Vitamin &amp; Suplemen</Text>
             <Stack py={6} direction="row" alignItems="center">
               <Text variant="caption">Urutkan:</Text>
-              <Select _focus={{ outline: 0 }} placeholder="Terpopuler">
+              <Select _focus={{ outline: 0 }} onChange={sortHandler}>
                 <option>Terpopuler</option>
-                <option>Termahal</option>
-                <option>Termurah</option>
-                <option>Ulasan</option>
-                <option>Terbaru</option>
+                <option value="selling_price">Termahal</option>
+                <option value="selling_price1">Termurah</option>
+                <option value="az">A-Z</option>
+                <option value="za">Z-A</option>
               </Select>
             </Stack>
           </Stack>
