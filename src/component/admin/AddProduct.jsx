@@ -147,7 +147,6 @@ const AddProduct = ({ setDataProduct }) => {
 
         } catch (err) {
             // onClose()
-            console.log(err)
             toast({
                 status: "error",
                 title: "Register Failed",
