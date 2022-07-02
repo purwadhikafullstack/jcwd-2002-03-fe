@@ -6,13 +6,14 @@ import { FiDownload } from "react-icons/fi";
 import { CloseIcon } from "@chakra-ui/icons";
 import api from "../../lib/api";
 
-const AddProduct = () => {
+const AddProduct = ({ setDataProdut, dataProduct }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [disabeled, setDisable] = useState(true)
     const [selectedImages, setSelectedImages] = useState([])
     const [selectedFileArray, setSelectedFileArray] = useState()
     const [newProduct, setNewProduct] = useState()
-    const [category, setCategory] = useState()
+    const [categoryData, setCategoryData] = useState()
+    const [tabIndex, setTabIndex] = useState(0)
     const inputRef = useRef()
     const toast = useToast()
 
@@ -59,6 +60,9 @@ const AddProduct = () => {
                     formik.setSubmitting(false);
                     setNewProduct(res.data.result)
                     setDisable(false)
+                    setTabIndex(1)
+                    setDataProdut([res.data.result, ...dataProduct])
+
                 } catch (err) {
                     toast({
                         status: "error",
@@ -74,12 +78,16 @@ const AddProduct = () => {
         },
     })
 
+    const handleTabsChange = (index) => {
+        setTabIndex(index)
+    }
     const fetchCategory = async () => {
+        onOpen()
         try {
-            const res = await api.get("category/findAll")
-            const data = res.data.result
+            const res = await api.get("/category")
+            const data = res?.data?.result
 
-            setCategory(data)
+            setCategoryData(data)
         } catch (err) {
             toast({
                 status: "error",
@@ -134,10 +142,12 @@ const AddProduct = () => {
             setSelectedFileArray([])
             setSelectedImages([])
             setDisable(true)
+            setTabIndex(0)
             onClose()
 
         } catch (err) {
-            onClose()
+            // onClose()
+            console.log(err)
             toast({
                 status: "error",
                 title: "Register Failed",
@@ -178,8 +188,10 @@ const AddProduct = () => {
             });
         }
     }
+
+
     // const noMed = () => {
-    //     if (formik.values.category) {
+    //     if (formik.values.categoryData) {
     //         const medcode = "F-"
     //         const nameCode = formik.values.med_name.slice(1, 4)
     //         const bpomCode = formik.values.no_bpom.slice(-3)
@@ -196,13 +208,13 @@ const AddProduct = () => {
 
 
     useEffect(() => {
-        fetchCategory()
+        // fetchCategory()
     }, [])
 
     return (
         <>
             <Button
-                onClick={onOpen}
+                onClick={() => fetchCategory()}
                 fontSize="12px"
                 p="5"
                 leftIcon={<FiDownload size="20" />}
@@ -229,11 +241,11 @@ const AddProduct = () => {
                 />
 
                 <ModalContent>
-                    <Tabs isFitted variant='line'>
+                    <Tabs index={tabIndex} isFitted variant='line' onChange={handleTabsChange} >
                         <ModalHeader fontSize="20px" fontWeight="bold">
                             <TabList >
-                                <Tab _focus={{ borderBottomColor: "teal", outline: 0 }}> Tambah Obat</Tab>
-                                <Tab _focus={{ borderBottomColor: "teal", outline: 0 }} isDisabled={disabeled}> Upload Foto Obat</Tab>
+                                <Tab _focus={{ borderBottomColor: "teal", outline: 0 }} _selected={{ color: "teal", fontWeight: "600" }} > Tambah Obat</Tab>
+                                <Tab _focus={{ borderBottomColor: "teal", outline: 0 }} _selected={{ color: "teal", fontWeight: "600" }} isDisabled={disabeled}  > Upload Foto Obat</Tab>
                             </TabList>
                         </ModalHeader>
                         <ModalBody>
@@ -321,7 +333,7 @@ const AddProduct = () => {
                                                     placeholder="Pilih Kategori Obat"
                                                     disabled={!disabeled}
                                                 >
-                                                    {category && category.map((val) => {
+                                                    {categoryData && categoryData.map((val) => {
                                                         return (
                                                             <option key={val.id} value={val.id}>{val.category_name}</option>
                                                         )
@@ -386,7 +398,7 @@ const AddProduct = () => {
                                         <Box display="flex" alignItems="center" justifyContent="center">
                                             <Input
                                                 type="file"
-                                                accept="image/*"
+                                                accept="image/png, image/jpeg"
                                                 ref={inputRef}
                                                 onChange={handleOnChange}
                                                 multiple

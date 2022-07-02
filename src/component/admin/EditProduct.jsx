@@ -18,12 +18,18 @@ const EditProduct = ({
     kandungan,
     kemasan,
     categoryId,
-    imagesProduct
+    arrayOfImagesProduct,
+    setDataProduct,
+    dataProduct
 }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedImages, setSelectedImages] = useState([])
     const [selectedFileArray, setSelectedFileArray] = useState()
-    const [productImage, setProductImage] = useState()
+    const [previewImageUploded, setPreviewImageUploded] = useState(arrayOfImagesProduct)
+    const [category, setCategory] = useState()
+    const inputRef = useRef()
+    const toast = useToast()
+    console.log(previewImageUploded)
     const [updateProduct, setUpdateProduct] = useState(
         {
             id,
@@ -38,9 +44,6 @@ const EditProduct = ({
             categoryId,
         }
     )
-    const [category, setCategory] = useState()
-    const inputRef = useRef()
-    const toast = useToast()
 
     const formik = useFormik({
         initialValues: {
@@ -70,7 +73,7 @@ const EditProduct = ({
         onSubmit: (values) => {
             setTimeout(async () => {
                 try {
-                    const res = await api.patch(`/product/edit/${id}`, values);
+                    const res = await api.patch(`/product/${id}/update-data`, values);
 
                     if (res?.data?.message !== undefined) {
                         toast({
@@ -124,7 +127,7 @@ const EditProduct = ({
                 formData.append("product_images", val)
             })
 
-            const res = await api.patch(`/product/${id}/images/upload/${imagesProduct.id}`, formData, {
+            const res = await api.post(`/product/images/upload/${id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
@@ -138,6 +141,7 @@ const EditProduct = ({
                     isClosable: true,
                 });
             }
+            // setPreviewImageUploded([prev => [...prev, ...res.data.result]])
             setSelectedFileArray([])
             setSelectedImages([])
             onClose()
@@ -156,9 +160,10 @@ const EditProduct = ({
     }
 
     const fetchCategory = async () => {
+        onOpen()
         try {
-            const res = await api.get("/category/findAll")
-            const data = res.data.result
+            const res = await api.get("/category")
+            const data = res?.data?.result
             setCategory(data)
 
         } catch (err) {
@@ -173,35 +178,18 @@ const EditProduct = ({
         }
     }
 
-    const fetchImage = async () => {
+    const deleteImageHandler = async (imagesId) => {
         try {
-            const res = await api.get(`/${id}/image/`)
-            const data = res.data.result
-            setProductImage(data)
-        } catch (err) {
+            const res = await api.delete(`/product/${id}/images/${imagesId}`)
             toast({
-                status: "error",
-                title: "error fetch picture",
-                description: err?.response?.data?.message || err.message,
-                duration: 9000,
-                position: "top-right",
-                isClosable: true,
-            })
-        }
-    }
-
-    const deleteImageHandler = async (images) => {
-        try {
-            const res = await api.delete(`/image/delete/${productImage.id}`)
-            toast({
-                status: "error",
-                title: "error delete picture",
+                status: "success",
+                title: "delete picture success",
                 description: res?.data?.message || res.message,
                 duration: 9000,
                 position: "top-right",
                 isClosable: true,
             })
-            setProductImage(productImage.filter((e) => e !== images))
+
         } catch (err) {
             toast({
                 status: "error",
@@ -215,12 +203,12 @@ const EditProduct = ({
     }
 
     useEffect(() => {
-        fetchCategory()
+        // fetchCategory()
     }, [])
     return (
         <>
             <Button
-                onClick={onOpen}
+                onClick={() => fetchCategory()}
                 colorScheme="yellow"
             >
                 <Icon as={FaRegEdit} boxSize={6} />
@@ -244,7 +232,7 @@ const EditProduct = ({
                         <ModalHeader fontSize="20px" fontWeight="bold">
                             <TabList >
                                 <Tab _focus={{ borderBottomColor: "teal", outline: 0 }}> Tambah Obat</Tab>
-                                <Tab _focus={{ borderBottomColor: "teal", outline: 0 }} onClick={() => fetchImage()}> Upload Foto Obat</Tab>
+                                <Tab _focus={{ borderBottomColor: "teal", outline: 0 }}> Upload Foto Obat</Tab>
                             </TabList>
                         </ModalHeader>
                         <ModalBody>
@@ -396,7 +384,7 @@ const EditProduct = ({
                                         <Box display="flex" alignItems="center" justifyContent="center">
                                             <Input
                                                 type="file"
-                                                accept="image/*"
+                                                accept="image/png, image/jpeg"
                                                 ref={inputRef}
                                                 onChange={handleOnChange}
                                                 multiple
@@ -411,14 +399,14 @@ const EditProduct = ({
                                             borderRadius="8px"
                                             border="2px teal dashed"
                                             my={2}
-                                            height="sm"
+                                            height="xs"
                                             overflowY="auto"
                                         >
                                             <Grid templateColumns="repeat(4, 1fr)" gap={2} alignItems="center"
                                                 justifyContent="center">
-                                                {productImage && productImage.map((images) => {
+                                                {previewImageUploded && previewImageUploded.map((images) => {
                                                     return (
-                                                        <GridItem key={images} colSpan={2} my={2} p={2}
+                                                        <GridItem key={images.id} colSpan={2} my={2} p={2}
                                                             boxShadow="0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)"
                                                             justifyItems="center"
                                                             border="1px solid teal"
@@ -426,21 +414,26 @@ const EditProduct = ({
                                                         >
                                                             <CloseIcon
                                                                 cursor="pointer"
-                                                                onClick={() =>
-                                                                    deleteImageHandler()
-                                                                    // {
-                                                                    // setProductImage(
-                                                                    //     productImage.filter((e) => e !== images))
-                                                                    // }
+                                                                onClick={() => deleteImageHandler(images.id)
+                                                                    && setPreviewImageUploded(previewImageUploded.filter((e) => e !== images))
                                                                 }
                                                             />
                                                             <AspectRatio ratio={4 / 3}>
-                                                                <Img textAlign="center" src={images} />
+                                                                <Img textAlign="center" src={images.image_url} />
                                                             </AspectRatio>
                                                         </GridItem>
                                                     )
                                                 })}
                                             </Grid>
+                                        </Box>
+
+                                        <Box
+                                            borderRadius="8px"
+                                            border="2px teal dashed"
+                                            my={2}
+                                            height="xs"
+                                            overflowY="auto"
+                                        >
                                             <Grid templateColumns="repeat(4, 1fr)" gap={2} alignItems="center"
                                                 justifyContent="center">
                                                 {selectedImages && selectedImages.map((images) => {
