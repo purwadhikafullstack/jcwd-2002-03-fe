@@ -29,7 +29,6 @@ const EditProduct = ({
     const [category, setCategory] = useState()
     const inputRef = useRef()
     const toast = useToast()
-    console.log(previewImageUploded)
     const [updateProduct, setUpdateProduct] = useState(
         {
             id,
@@ -132,6 +131,7 @@ const EditProduct = ({
                     "Content-Type": "multipart/form-data"
                 }
             })
+
             if (res?.data?.message !== undefined) {
                 toast({
                     title: "upload Success",
@@ -144,6 +144,7 @@ const EditProduct = ({
             // setPreviewImageUploded([prev => [...prev, ...res.data.result]])
             setSelectedFileArray([])
             setSelectedImages([])
+            setPreviewImageUploded(res.data.result)
             onClose()
 
         } catch (err) {
@@ -236,7 +237,7 @@ const EditProduct = ({
                             </TabList>
                         </ModalHeader>
                         <ModalBody>
-                            <TabPanels>
+                            <TabPanels height="xl">
                                 <TabPanel height="lg">
                                     <Box width="lg" height="md" px={2}>
                                         <Grid templateColumns="repeat(3,1fr)" alignItems="center" gap={2}>
@@ -379,7 +380,40 @@ const EditProduct = ({
                                         </Button>
                                     </ModalFooter>
                                 </TabPanel>
-                                <TabPanel height="lg" >
+                                <TabPanel height="xl" >
+                                    {/* preview selection */}
+                                    <Box
+                                        borderRadius="8px"
+                                        border="2px teal dashed"
+                                        my={2}
+                                        overflowY="auto"
+                                        height="200px"
+                                    >
+                                        <Text ml={2} variant="subtitle">Current Image</Text>
+                                        <Grid templateColumns="repeat(4, 1fr)" gap={2} alignItems="center"
+                                            justifyContent="center">
+                                            {previewImageUploded && previewImageUploded.map((images) => {
+                                                return (
+                                                    <GridItem key={images.id} colSpan={2} my={2} p={2}
+                                                        boxShadow="0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)"
+                                                        justifyItems="center"
+                                                        border="1px solid teal"
+                                                        borderRadius="8px"
+                                                    >
+                                                        <CloseIcon
+                                                            cursor="pointer"
+                                                            onClick={() => deleteImageHandler(images.id)
+                                                                && setPreviewImageUploded(previewImageUploded.filter((e) => e !== images))
+                                                            }
+                                                        />
+                                                        <AspectRatio ratio={4 / 3}>
+                                                            <Img textAlign="center" src={images.image_url} />
+                                                        </AspectRatio>
+                                                    </GridItem>
+                                                )
+                                            })}
+                                        </Grid>
+                                    </Box>
                                     <Box>
                                         <Box display="flex" alignItems="center" justifyContent="center">
                                             <Input
@@ -395,70 +429,40 @@ const EditProduct = ({
                                                 Pilih Gambar
                                             </Button>
                                         </Box>
-                                        <Box
-                                            borderRadius="8px"
-                                            border="2px teal dashed"
-                                            my={2}
-                                            height="xs"
-                                            overflowY="auto"
-                                        >
-                                            <Grid templateColumns="repeat(4, 1fr)" gap={2} alignItems="center"
-                                                justifyContent="center">
-                                                {previewImageUploded && previewImageUploded.map((images) => {
-                                                    return (
-                                                        <GridItem key={images.id} colSpan={2} my={2} p={2}
-                                                            boxShadow="0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)"
-                                                            justifyItems="center"
-                                                            border="1px solid teal"
-                                                            borderRadius="8px"
-                                                        >
-                                                            <CloseIcon
-                                                                cursor="pointer"
-                                                                onClick={() => deleteImageHandler(images.id)
-                                                                    && setPreviewImageUploded(previewImageUploded.filter((e) => e !== images))
-                                                                }
-                                                            />
-                                                            <AspectRatio ratio={4 / 3}>
-                                                                <Img textAlign="center" src={images.image_url} />
-                                                            </AspectRatio>
-                                                        </GridItem>
-                                                    )
-                                                })}
-                                            </Grid>
-                                        </Box>
-
-                                        <Box
-                                            borderRadius="8px"
-                                            border="2px teal dashed"
-                                            my={2}
-                                            height="xs"
-                                            overflowY="auto"
-                                        >
-                                            <Grid templateColumns="repeat(4, 1fr)" gap={2} alignItems="center"
-                                                justifyContent="center">
-                                                {selectedImages && selectedImages.map((images) => {
-                                                    return (
-                                                        <GridItem key={images} colSpan={2} my={2} p={2}
-                                                            boxShadow="0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)"
-                                                            justifyItems="center"
-                                                            border="1px solid teal"
-                                                            borderRadius="8px"
-                                                        >
-                                                            <CloseIcon
-                                                                cursor="pointer"
-                                                                onClick={() => {
-                                                                    setSelectedImages(
-                                                                        selectedImages.filter((e) => e !== images))
-                                                                }}
-                                                            />
-                                                            <AspectRatio ratio={4 / 3}>
-                                                                <Img textAlign="center" src={images} />
-                                                            </AspectRatio>
-                                                        </GridItem>
-                                                    )
-                                                })}
-                                            </Grid>
-                                        </Box>
+                                    </Box>
+                                    <Box
+                                        borderRadius="8px"
+                                        border="2px teal dashed"
+                                        my={2}
+                                        overflowY="auto"
+                                        height="230px"
+                                        mt={4}
+                                    >
+                                        <Text ml={2} variant="subtitle">New Images</Text>
+                                        <Grid templateColumns="repeat(4, 1fr)" gap={2} alignItems="center"
+                                            justifyContent="center">
+                                            {selectedImages && selectedImages.map((images) => {
+                                                return (
+                                                    <GridItem key={images} colSpan={2} my={2} p={2}
+                                                        boxShadow="0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)"
+                                                        justifyItems="center"
+                                                        border="1px solid teal"
+                                                        borderRadius="8px"
+                                                    >
+                                                        <CloseIcon
+                                                            cursor="pointer"
+                                                            onClick={() => {
+                                                                setSelectedImages(
+                                                                    selectedImages.filter((e) => e !== images))
+                                                            }}
+                                                        />
+                                                        <AspectRatio ratio={4 / 3}>
+                                                            <Img textAlign="center" src={images} />
+                                                        </AspectRatio>
+                                                    </GridItem>
+                                                )
+                                            })}
+                                        </Grid>
                                     </Box>
                                     <ModalFooter mt={1}>
                                         <Button
