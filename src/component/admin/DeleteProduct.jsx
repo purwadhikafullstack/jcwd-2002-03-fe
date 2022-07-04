@@ -14,7 +14,7 @@ import {
 import { RiDeleteBin6Line } from "react-icons/ri"
 import api from "../../lib/api"
 
-const DeleteProduct = ({ id, medName = "product" }) => {
+const DeleteProduct = ({ id, name = "product", deleteState }) => {
     // this component neep props id as Product id, and medName as med_name,
 
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -24,11 +24,11 @@ const DeleteProduct = ({ id, medName = "product" }) => {
     const deleteHandler = async () => {
         try {
             const res = await api.delete(`/product/delete/${id}`)
-            if (res.data.result.message !== undefined) {
+            if (res.data.message !== undefined) {
                 toast({
                     title: "delete success",
                     status: "success",
-                    description: res?.data?.result?.message,
+                    description: res?.data?.message,
                     duration: 5000,
                     isClosable: true,
                     position: "top-right"
@@ -66,14 +66,14 @@ const DeleteProduct = ({ id, medName = "product" }) => {
                         </AlertDialogHeader>
 
                         <AlertDialogBody>
-                            Are you sure delete {medName}? You can&apos;t undo this action afterwards.
+                            Are you sure delete {name}? You can&apos;t undo this action afterwards.
                         </AlertDialogBody>
 
                         <AlertDialogFooter>
                             <Button ref={cancelRef} onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button colorScheme='red' onClick={() => deleteHandler()} ml={3}>
+                            <Button colorScheme='red' onClick={() => deleteHandler() && deleteState()} ml={3}>
                                 Delete
                             </Button>
                         </AlertDialogFooter>
