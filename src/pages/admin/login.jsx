@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react"
-<<<<<<<< HEAD:src/pages/admin/login.jsx
 import { Box, Button, Checkbox, Divider, FormControl, FormHelperText, FormLabel, Grid, GridItem, Icon, Img, Input, InputGroup, InputLeftElement, InputRightElement, Spinner, Stack, Text, useToast } from "@chakra-ui/react"
-========
-import { Box, Button, Checkbox, Divider, FormControl, FormHelperText, FormLabel, Grid, GridItem, Icon, Img, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text, useToast } from "@chakra-ui/react"
->>>>>>>> c158261 (rebase):src/pages/auth/admin/login.jsx
 import { FcGoogle } from "react-icons/fc"
 import { MdEmail } from "react-icons/md"
 import { IoIosLock } from "react-icons/io"
@@ -12,25 +8,15 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
-<<<<<<<< HEAD:src/pages/admin/login.jsx
 import jsCookie from "js-cookie"
 import { selectAuth, signin } from "../../redux/reducer/authSlice"
 import api from "../../lib/api"
-========
-import Cookie from "js-cookie"
-import { loginAdmin, selectAdminAuth } from "../../../redux/reducer/authAdminSlice"
-import api from "../../../lib/api"
->>>>>>>> c158261 (rebase):src/pages/auth/admin/login.jsx
 
 const login = () => {
     const [hidden, setHidden] = useState(false)
     const [accept, setAccept] = useState(false)
     const toast = useToast();
-<<<<<<<< HEAD:src/pages/admin/login.jsx
     const authSelector = useSelector(selectAuth)
-========
-    const authAdminSelector = useSelector(selectAdminAuth)
->>>>>>>> c158261 (rebase):src/pages/auth/admin/login.jsx
     const dispatch = useDispatch()
 
     const router = useRouter()
@@ -64,7 +50,6 @@ const login = () => {
                         });
                     }
 
-<<<<<<<< HEAD:src/pages/admin/login.jsx
                     const stringifyToken = JSON.stringify(res.data.result.token);
                     const stringifyAdmin = JSON.stringify(res.data.result.user);
                     jsCookie.set("user_token", stringifyToken)
@@ -73,15 +58,6 @@ const login = () => {
                     formik.setSubmitting(false);
 
                     router.push("/admin/admin-dashboard")
-========
-                    const stringifyData = JSON.stringify(res.data.result);
-                    Cookie.set("token", stringifyData.token)
-                    localStorage.setItem("user", res.data.result)
-                    dispatch(loginAdmin(res.data.result.user))
-                    formik.setSubmitting(false);
-
-                    router.push("/admin-dashboard")
->>>>>>>> c158261 (rebase):src/pages/auth/admin/login.jsx
                 } catch (err) {
                     toast({
                         status: "error",
@@ -103,7 +79,6 @@ const login = () => {
     };
 
     useEffect(() => {
-<<<<<<<< HEAD:src/pages/admin/login.jsx
         if (authSelector.role === "admin") {
             router.push("/admin/admin-dashboard")
         }
@@ -122,12 +97,6 @@ const login = () => {
             mr="auto"
         />
     }
-========
-        if (authAdminSelector.id) {
-            router.push("/admin-dashboard")
-        }
-    }, [])
->>>>>>>> c158261 (rebase):src/pages/auth/admin/login.jsx
     return (
         <Grid templateColumns="repeat(2,1fr)" margin="auto" width="100%" height="100vh">
             <GridItem display={["none", "grid", "grid"]} colSpan={[0, 1, 1]} background="linear-gradient(142.04deg, rgba(254, 254, 254, 0) -1.93%, #E4F4F8 107.32%)">
