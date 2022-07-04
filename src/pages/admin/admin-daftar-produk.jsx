@@ -11,50 +11,40 @@ import {
   InputRightElement,
   Select,
   Text,
-  Modal,
   useDisclosure,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
   Spinner,
-  useNumberInput,
-  useDisclosure
+  RadioGroup,
+  Radio,
 } from "@chakra-ui/react";
 import AdminSideBar from "component/AdminSideBar";
-import { FiSearch, FiDownload } from "react-icons/fi";
-import { useState } from "react";
+import { FiSearch } from "react-icons/fi";
+import { useState, useEffect } from "react";
 import React from "react";
-import { useTable, useSortBy, usePagination } from "react-table";
-import { TbWriting } from "react-icons/tb";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "../../redux/reducer/authSlice";
-import AdminSideBar from "../../component/AdminSideBar"
 import AddProduct from "../../component/admin/AddProduct";
 import AddStock from "../../component/admin/AddStock";
 import DeleteProduct from "../../component/admin/DeleteProduct";
 import EditProduct from "../../component/admin/EditProduct";
+import DaftarProdukTable from "component/DaftarProdukTable";
+import api from "../../lib/api";
+import { search } from "../../redux/reducer/search";
 
 const AdminDaftarProduk = () => {
-  const { isOpen: isOpenAddProduct, onOpen: onOpenAddProduct, onClose: onCloseAddProduct } = useDisclosure()
+  const {
+    isOpen: isOpenAddProduct,
+    onOpen: onOpenAddProduct,
+    onClose: onCloseAddProduct,
+  } = useDisclosure();
+  const router = useRouter();
 
-  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
-    useNumberInput({
-      step: 1,
-      defaultValue: 0,
-      min: 0,
-      precision: 0,
-    });
-
-  const inc = getIncrementButtonProps();
-  const dec = getDecrementButtonProps();
-  const input = getInputProps();
+  const searchSelector = useSelector((state) => state.search);
+  const dispatch = useDispatch();
 
   const [dataProduct, setDataProduct] = useState([]);
   const [pageCount, setPageCount] = useState(1);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState(searchSelector.searchInput);
   const [sortInput, setSortInput] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [sortDir, setSortDir] = useState("");
@@ -62,6 +52,24 @@ const AdminDaftarProduk = () => {
   const [priceMax, setPriceMax] = useState(null);
   const [maxPage, setMaxPage] = useState(1);
   const [jumlahProduk, setJumlahProduk] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
+  const [productCategory, setProductCategory] = useState([]);
+  const [kategoriTerpilih, setKategoriTerpilih] = useState(null);
+  const [pilihKategori, setPilihKategori] = useState(null);
+
+  const fetchProductCategory = async () => {
+    try {
+      const findAllProductCategory = await api.get("/product/category");
+
+      setProductCategory(findAllProductCategory?.data?.result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProductCategory();
+  }, []);
 
   const maxPageRow = 10;
 
@@ -75,6 +83,8 @@ const AdminDaftarProduk = () => {
           _page: pageCount,
           priceMin: priceMin || undefined,
           priceMax: priceMax || undefined,
+          selectedProduct: kategoriTerpilih || undefined,
+          searchProduct: searchValue,
         },
       });
       setJumlahProduk(res.data.result.result.count);
@@ -109,20 +119,16 @@ const AdminDaftarProduk = () => {
     return;
   };
 
-  useEffect(() => {
-    if (router.isReady) {
-      if (router.query._sortDir) {
-        setSearchValue(router.query._sortDir);
-      }
-      if (router.query._sortBy) {
-        setSearchValue(router.query._sortBy);
-      }
-    }
-  }, [router.isReady]);
-
-  const sortInputHandler = (event) => {
+  const inputHandler = (event) => {
     const { value } = event.target;
     setSortInput(value);
+    setSearchInput(event.target.value);
+  };
+
+  const kategoriHandler = (value) => {
+    setPilihKategori(value);
+    setKategoriTerpilih(value);
+    setPageCount(1);
   };
 
   const sortButton = () => {
@@ -154,11 +160,30 @@ const AdminDaftarProduk = () => {
 
     if (sortInput) {
       router.push({
-        _sortBy: sortBy ? sortBy : undefined,
-        _sortDir: sortDir ? sortDir : undefined,
+        query: {
+          _sortBy: sortBy ? sortBy : undefined,
+          _sortDir: sortDir ? sortDir : undefined,
+          priceMax: priceMax || undefined,
+          priceMin: priceMin || undefined,
+          selectedProduct: kategoriTerpilih || undefined,
+          searchProduct: searchValue || undefined,
+        },
       });
     }
-  }, [sortDir, sortBy, priceMin, priceMax]);
+  }, [sortDir, sortBy, priceMin, priceMax, kategoriTerpilih, searchValue]);
+
+  useEffect(() => {
+    setSearchValue(searchSelector.searchInput);
+    setPageCount(1);
+  }, [searchSelector.searchInput]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      if (router.query.searchProduk) {
+        dispatch(search(router.query.searchProduk));
+      }
+    }
+  }, []);
 
   const data = React.useMemo(() => [...dataProduct], [dataProduct]);
 
@@ -215,6 +240,31 @@ const AdminDaftarProduk = () => {
     []
   );
 
+  const renderCategory = () => {
+    return productCategory.map((val) => {
+      return (
+        <RadioGroup
+          sx={{
+            color: val.id == pilihKategori ? "teal" : "gray.400",
+            fontWeight: val.id == pilihKategori ? "700" : "400",
+            "&:hover": {
+              cursor: "pointer",
+              color: "teal",
+              fontWeight: 700,
+            },
+          }}
+          w="110px"
+          onClick={() => kategoriHandler(val.id)}
+          color="black"
+        >
+          <Radio color="teal" value={val.id}>
+            {val.category_name}
+          </Radio>
+        </RadioGroup>
+      );
+    });
+  };
+
   const authSelector = useSelector(selectAuth);
   React.useEffect(() => {
     if (!authSelector.role) {
@@ -250,6 +300,7 @@ const AdminDaftarProduk = () => {
         color="white"
         ml="64"
         pb="32px"
+        minH="5xl"
       >
         <Text
           color="#213360"
@@ -272,25 +323,26 @@ const AdminDaftarProduk = () => {
                 mb="32px"
                 w="full"
               >
-                <Input placeholder="Cari nama obat" />
+                <Input onChange={inputHandler} placeholder="Cari nama obat" />
                 <InputRightElement>
-                  <Button bg="transparent">
+                  <Button
+                    onClick={() => {
+                      dispatch(search(searchInput));
+                      router.push({
+                        query: {
+                          med_name: searchInput,
+                        },
+                      });
+                    }}
+                    bg="transparent"
+                  >
                     <Icon color="black" as={FiSearch} />
                   </Button>
                 </InputRightElement>
               </InputGroup>
-              <InputGroup>
-                <Select
-                  fontSize="14px"
-                  w="156px"
-                  bg="white"
-                  color="black"
-                  placeholder="Semua Obat"
-                >
-                  <option value="option1">Obat Bebas</option>
-                  <option value="option3">Obat Resep</option>
-                </Select>
-              </InputGroup>
+              <HStack>{renderCategory()}</HStack>
+            </HStack>
+            <HStack w="400px">
               <EditProduct />
               <DeleteProduct />
               <AddProduct />
@@ -305,7 +357,7 @@ const AdminDaftarProduk = () => {
               fontSize="12px"
               onClick={sortButton}
               color="black"
-              onChange={sortInputHandler}
+              onChange={inputHandler}
             >
               <option value="default">Default</option>
               <option value="name_ASC">A - Z</option>
