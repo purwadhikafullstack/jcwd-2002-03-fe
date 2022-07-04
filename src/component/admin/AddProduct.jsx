@@ -6,7 +6,7 @@ import { FiDownload } from "react-icons/fi";
 import { CloseIcon } from "@chakra-ui/icons";
 import api from "../../lib/api";
 
-const AddProduct = ({ setDataProdut, dataProduct }) => {
+const AddProduct = ({ setDataProduct }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [disabeled, setDisable] = useState(true)
     const [selectedImages, setSelectedImages] = useState([])
@@ -61,7 +61,7 @@ const AddProduct = ({ setDataProdut, dataProduct }) => {
                     setNewProduct(res.data.result)
                     setDisable(false)
                     setTabIndex(1)
-                    setDataProdut([res.data.result, ...dataProduct])
+                    setDataProduct(prev => [res.data.result, ...prev])
 
                 } catch (err) {
                     toast({

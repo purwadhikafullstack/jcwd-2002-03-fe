@@ -28,8 +28,6 @@ const inputProduct = () => {
         }
     }
 
-    console.log("test", dataProduct)
-
     useEffect(() => { fetchAllProduct() }, [])
 
     return (
@@ -72,6 +70,7 @@ const inputProduct = () => {
                                     <Td>
                                         <EditProduct
                                             key={val.id}
+                                            index={index}
                                             id={val.id}
                                             medName={val.med_name}
                                             nomerMed={val.nomer_med}
@@ -86,7 +85,8 @@ const inputProduct = () => {
                                             imagesProduct={val.Product_images}
                                             arrayOfImagesProduct={val.Product_images}
                                             dataProduct={dataProduct}
-                                            setDataProdut={setDataProduct}
+                                            setDataProduct={setDataProduct}
+                                            fetchHandler={() => fetchAllProduct()}
                                         />
                                         <DeleteProduct
                                             key={val.med_name}

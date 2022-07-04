@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Button, Modal, ModalFooter, useDisclosure, ModalOverlay, ModalContent, ModalHeader, ModalBody, Input, Text, Select, useToast, Tabs, TabList, Tab, TabPanels, TabPanel, Box, Grid, GridItem, Img, AspectRatio, Icon, } from "@chakra-ui/react";
-import { useFormik } from "formik";
 import * as Yup from "yup"
 import { CloseIcon } from "@chakra-ui/icons";
+import { useFormik } from "formik"
 import { FaRegEdit } from "react-icons/fa";
 import api from "../../lib/api";
 
@@ -19,14 +19,15 @@ const EditProduct = ({
     kemasan,
     categoryId,
     arrayOfImagesProduct,
-    setDataProduct,
-    dataProduct
+    fetchHandler
 }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedImages, setSelectedImages] = useState([])
     const [selectedFileArray, setSelectedFileArray] = useState()
     const [previewImageUploded, setPreviewImageUploded] = useState(arrayOfImagesProduct)
     const [category, setCategory] = useState()
+    const [isDone, setIsDone] = useState(false)
+    const [isDoneUpload, setIsDoneUpload] = useState(false)
     const inputRef = useRef()
     const toast = useToast()
     const [updateProduct, setUpdateProduct] = useState(
@@ -56,6 +57,7 @@ const EditProduct = ({
             kandungan,
             kemasan,
             categoryId,
+
         },
         validationSchema: Yup.object().shape({
             med_name: Yup.string().required("this Field require"),
@@ -83,9 +85,11 @@ const EditProduct = ({
                             isClosable: true,
                         });
                     }
-
                     formik.setSubmitting(false);
-                    setUpdateProduct(res.data.result)
+                    setUpdateProduct(formik.values)
+                    fetchHandler()
+
+                    setIsDone(true)
                 } catch (err) {
                     toast({
                         status: "error",
@@ -145,6 +149,7 @@ const EditProduct = ({
             setSelectedFileArray([])
             setSelectedImages([])
             setPreviewImageUploded(res.data.result)
+            setIsDoneUpload(true)
             onClose()
 
         } catch (err) {
@@ -201,6 +206,11 @@ const EditProduct = ({
                 isClosable: true,
             })
         }
+    }
+
+    const cancelUpdate = () => {
+        onClose()
+        setIsDone(false)
     }
 
     useEffect(() => {
@@ -363,10 +373,10 @@ const EditProduct = ({
                                         </Grid>
                                     </Box>
                                     <ModalFooter>
-                                        <Button colorScheme="yellow" mr={3} onClick={onClose}
+                                        <Button colorScheme="yellow" mr={3} onClick={() => cancelUpdate()}
                                             w="15%"
                                         >
-                                            Batal
+                                            {!isDone ? "Batal" : "selesai"}
                                         </Button>
                                         <Button
                                             colorScheme="teal"
@@ -468,10 +478,10 @@ const EditProduct = ({
                                         <Button
                                             colorScheme="yellow"
                                             mr={3}
-                                            onClick={onClose}
                                             w="15%"
+                                            onClick={() => onClose() && setIsDoneUpload(false)}
                                         >
-                                            Batal
+                                            {!isDoneUpload ? "Batal" : "selesai"}
                                         </Button>
                                         <Button
                                             colorScheme="teal"
