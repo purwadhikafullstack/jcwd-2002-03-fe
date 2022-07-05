@@ -5,7 +5,7 @@ import NavBar from "../component/navbar/NavBar"
 import BottomNavBar from "../component/bottomNavBar/BottomNavbar"
 import { store } from "../redux/store"
 import CompanyBanner from "../component/aboutCompany/CompanyBanner";
-import AuthProvider from "../component/AuthProvider"
+import AuthProvider from "../component/provider/authProvider"
 
 const MyApp = ({ Component, pageProps }) => {
   return (

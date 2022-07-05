@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react"
-import { Box, Button, Checkbox, Divider, Grid, GridItem, Stack, Text } from "@chakra-ui/react"
+import { Box, Button, Checkbox, Divider, Grid, GridItem, Icon, IconButton, Spinner, Stack, Text } from "@chakra-ui/react"
+import { useSelector } from "react-redux"
+import { BsPlusLg } from "react-icons/bs"
 import ProductCart from "../component/cart/ProductCart"
+import { selectAuth } from "../redux/reducer/authSlice"
 
 const cart = () => {
     const [productList, setProductList] = useState([])
+    const authSelector = useSelector(selectAuth)
 
     const dummy = [
         {
@@ -53,12 +57,54 @@ const cart = () => {
 
     useEffect(() => {
         fetchCart()
+        if (authSelector.role !== "user") {
+            window.history.back()
+        }
     }, [])
+
+    if (authSelector.role !== "user") {
+        return <Spinner thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='xl'
+            display="flex"
+            mt="10px"
+            mb="auto"
+            ml="auto"
+            mr="auto"
+        />
+    }
 
     return (
         <Grid templateColumns="repeat(6,1fr)" paddingX={[0, 6, 6]} gap={4}>
             <GridItem colSpan={[0, 6, 6]} padding={2} >
                 <Text variant="title" display={["none", "flex"]}>Keranjang Saya</Text>
+            </GridItem>
+            <GridItem colSpan={6}>
+                <Text
+                    variant="title"
+                >Alamat Pengiriman</Text>
+                <Divider />
+                <Box
+                    justifyContent="space-between"
+                    display="flex"
+                >
+                    <Text variant="subtitle">Jane Doe, +02123456789</Text>
+                    <Text variant="subtitle">Pilih Alamat Lain</Text>
+
+                </Box>
+                <Divider />
+                <Box>
+                    <Text>alamat lengkap</Text>
+                </Box>
+                <Divider />
+                <Box display="flex" alignItems="center" justifyContent={["center", "left", "left"]} mt={2}>
+                    <IconButton size={["xs", "sm", "sm"]} mr={3} color="teal" boxShadow="2xl" borderRadius="50%">
+                        <Icon as={BsPlusLg} />
+                    </IconButton>
+                    <Text variant="subtitle">Tambah Alamat Baru</Text>
+                </Box>
             </GridItem>
             <GridItem colSpan={[6, 4, 4]}>
                 <Box

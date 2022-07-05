@@ -53,7 +53,7 @@ const login = () => {
                     const stringifyToken = JSON.stringify(res.data.result.token);
                     const stringifyAdmin = JSON.stringify(res.data.result.user);
                     jsCookie.set("user_token", stringifyToken)
-                    localStorage.setItem("admin", stringifyAdmin)
+                    localStorage.setItem("user", stringifyAdmin)
                     dispatch(signin(res.data.result.user))
                     formik.setSubmitting(false);
 
@@ -84,7 +84,7 @@ const login = () => {
         }
     }, [authSelector])
 
-    if (authSelector.role === "admin") {
+    if (authSelector.role) {
         return <Spinner thickness='4px'
             speed='0.65s'
             emptyColor='gray.200'

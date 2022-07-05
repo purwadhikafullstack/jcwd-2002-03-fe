@@ -13,9 +13,12 @@ import {
 import { BsSearch } from "react-icons/bs"
 import { FaShoppingCart, FaBell } from "react-icons/fa"
 import { useRouter } from "next/router"
+import { useSelector } from "react-redux"
+import { selectAuth } from "../../redux/reducer/authSlice"
 
 const DesktopNavBar = () => {
     const router = useRouter()
+    const authSelector = useSelector(selectAuth)
 
     const buttonOrIcon = useBreakpointValue({
         base: (
