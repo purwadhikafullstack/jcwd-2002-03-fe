@@ -18,11 +18,13 @@ import {
 } from "@chakra-ui/react";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+// import api from "../lib/api";
+import { useRouter } from "next/router";
 
-const LeftCategory = ({ fetchProducts }) => {
+const LeftCategory = ({ setPage, setFilterProducts, filterProducts }) => {
   // terpopuler
   // termurah
   // termahal
@@ -34,6 +36,7 @@ const LeftCategory = ({ fetchProducts }) => {
   const [keluhanArrow, setKeluhanArrow] = useState(false);
   const [jenisArrow, setJenisArrow] = useState(false);
   const [hargaArrow, setHargaArrow] = useState(false);
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -253,19 +256,17 @@ const LeftCategory = ({ fetchProducts }) => {
             </InputGroup>
             <CheckboxGroup borderRadius="16px">
               <Stack spacing="10px" direction={["column", "none"]}>
-                <Checkbox>
-                  <Text
-                    onClick={() =>
-                      fetchProducts({
-                        params: {
-                          med_name: "norit",
-                        },
-                      })
-                    }
-                    variant="caption"
-                  >
-                    Bisolvon
-                  </Text>
+                <Checkbox
+                  value="ANTAGIN"
+                  onChange={(event) => [
+                    setFilterProducts(event.target.value),
+                    setPage(1),
+                    // router.push({
+                    //   query: { FilterProducts: { filterProducts } },
+                    // }),
+                  ]}
+                >
+                  <Text variant="caption">REDOXON</Text>
                 </Checkbox>
                 <Checkbox>
                   <Text variant="caption">Gel</Text>
