@@ -1,17 +1,21 @@
-import React, { useEffect, useRef, useState } from "react"
-import { Box, Button, Container, Divider, FormControl, FormLabel, Grid, GridItem, Input, List, ListIcon, ListItem, Text } from "@chakra-ui/react"
+import React, { useState } from "react"
+import { Box, Button, Container, Divider, Grid, GridItem, Input, List, ListIcon, ListItem, Text } from "@chakra-ui/react"
 import { MdCheckCircle } from "react-icons/md"
 import { useDropzone } from "react-dropzone"
 
 const uploadResep = () => {
-    const inputFileRef = useRef()
+    // const inputFileRef = useRef()
     const [show, setShow] = useState(false)
 
-    const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
+    const { getInputProps, open, acceptedFiles } = useDropzone({
         // Disable click and keydown behavior
         noClick: true,
         noKeyboard: true
     });
+
+    const upload = () => {
+        setShow(true)
+    }
 
     const files = () => {
         return (
@@ -23,10 +27,6 @@ const uploadResep = () => {
             </List>
         )
     }
-
-    // useEffect(() => {
-    //     trigerShow()
-    // }, [acceptedFiles])
 
     return (
         <Container
@@ -70,20 +70,8 @@ const uploadResep = () => {
                     </Text>
                 </Box>
                 <Box height="400px" width="100%" border="1px dashed teal" borderRadius="16px">
-
-                    {/* 
-                    <Box>
-                    <Text textAlign="center" display={["none", "block", "block"]}>Tarik &amp; Letakan File </Text>
-                    <Text textAlign="center" display={["none", "block", "block"]}>atau </Text>
-
-                    {/* <Button onClick={() => inputFileRef.current.click()} variant="main">
-                    Unggah Resep
-                </Button> */}
-                    {/* </Box> */}
-
                     <Input {...getInputProps()} />
                     <Button varian="main" type="button" onClick={open}>upload resep</Button>
-                    {/* </FormControl> */}
                 </Box>
 
                 <Grid
@@ -98,7 +86,7 @@ const uploadResep = () => {
                                 <Button variant="main-outline">
                                     Cancel
                                 </Button>
-                                <Button variant="main" onClick={() => console.log("upload berhasil")}>
+                                <Button variant="main" onClick={() => upload()}>
                                     Unggah
                                 </Button>
                             </>

@@ -62,7 +62,7 @@ const AdminDaftarProduk = () => {
 
       setProductCategory(findAllProductCategory?.data?.result);
     } catch (err) {
-      console.log(err);
+      return err
     }
   };
 
@@ -90,7 +90,7 @@ const AdminDaftarProduk = () => {
       setDataProduct(res.data.result.result.rows);
       setMaxPage(Math.ceil(res.data.result.result.count / maxPageRow));
     } catch (err) {
-      console.log(err);
+      return err
     }
   };
 
@@ -229,7 +229,7 @@ const AdminDaftarProduk = () => {
       {
         Header: "Lihat Detail",
         accessor: "LihatDetail",
-        Cell: () => (
+        Cell: (props) => (
           <>
             <Button colorScheme="teal" fontSize="12px" size="sm">
               Lihat Detail

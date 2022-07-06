@@ -75,9 +75,8 @@ const login = () => {
           // jsCookies.set("user_token", userResponse.token);
 
           const userResponseAdded = { ...userResponse.user };
-          const stringifyToken = JSON.stringify(res.data.result.token);
           const stringifyAdmin = JSON.stringify(res.data.result.user);
-          jsCookies.set("user_token", stringifyToken)
+          jsCookies.set("user_token", res.data.result.token)
           localStorage.setItem("user", stringifyAdmin)
 
           dispatch(signin(userResponseAdded));

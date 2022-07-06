@@ -33,7 +33,6 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import axios from "axios";
 
 const detail = ({ productDetail }) => {
-  console.log(productDetail);
   const top = useBreakpointValue({ base: "40%", md: "50%" });
   const side = useBreakpointValue({ base: "10px", md: "10px" });
 
@@ -194,7 +193,7 @@ const detail = ({ productDetail }) => {
       w={["100%", "90", "90%"]}
       marginLeft="auto"
       marginRight="auto"
-      // mb={[10, 8, 8]}
+    // mb={[10, 8, 8]}
     >
       <GridItem
         colSpan={[1, 2, 2]}
@@ -417,7 +416,6 @@ export const getServerSideProps = async (context) => {
       },
     };
   } catch (err) {
-    console.log(err);
   }
 };
 

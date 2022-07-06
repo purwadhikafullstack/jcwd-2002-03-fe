@@ -134,7 +134,16 @@ const navLinks = [
         md: <DesktopNavBar />,
         bottomNav: undefined,
         displayAboutCompany: <AboutCompany />
-    }
+    },
+    {
+        name: "Addres-form",
+        path: "/address-form",
+        title: "Tambah Alamat Baru",
+        base: <MobileNavbar />,
+        md: <DesktopNavBar />,
+        bottomNav: undefined,
+        displayAboutCompany: <AboutCompany />
+    },
 ]
 
 

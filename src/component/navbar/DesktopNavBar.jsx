@@ -28,7 +28,7 @@ const DesktopNavBar = () => {
             </>
         ), md: (
             <>
-                <Button width='40%' variant="main-outline">Masuk</Button>
+                <Button width='40%' variant="main-outline" onClick={() => router.push("auth/login")}>Masuk</Button>
                 <Button width='40%' variant="main" onClick={() => router.push("/auth/register")}>Daftar</Button>
             </>
         )
