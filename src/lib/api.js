@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  config.headers.authorization = jsCookie.get("token") || "";
+  config.headers.authorization = jsCookie.get("user_token") || "";
 
   return config;
 });
