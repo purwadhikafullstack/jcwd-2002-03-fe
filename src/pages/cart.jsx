@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react"
-import { Box, Button, Checkbox, Divider, Grid, GridItem, Stack, Text } from "@chakra-ui/react"
+import { Box, Button, Checkbox, Divider, Grid, GridItem, Spinner, Stack, Text } from "@chakra-ui/react"
+import { useSelector } from "react-redux"
 import ProductCart from "../component/cart/ProductCart"
+import { selectAuth } from "../redux/reducer/authSlice"
 
 const cart = () => {
     const [productList, setProductList] = useState([])
+    const authSelector = useSelector(selectAuth)
 
     const dummy = [
         {
@@ -53,13 +56,27 @@ const cart = () => {
 
     useEffect(() => {
         fetchCart()
+        if (!authSelector.id || authSelector.role === "admin") {
+            window.history.back()
+        }
     }, [])
+
+    if (!authSelector.id || authSelector.role === "admin") {
+        return <Spinner thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='xl'
+            display="flex"
+            mt="10px"
+            mb="auto"
+            ml="auto"
+            mr="auto"
+        />
+    }
 
     return (
         <Grid templateColumns="repeat(6,1fr)" paddingX={[0, 6, 6]} gap={4}>
-            <GridItem colSpan={[0, 6, 6]} padding={2} >
-                <Text variant="title" display={["none", "flex"]}>Keranjang Saya</Text>
-            </GridItem>
             <GridItem colSpan={[6, 4, 4]}>
                 <Box
                     paddingX={4}

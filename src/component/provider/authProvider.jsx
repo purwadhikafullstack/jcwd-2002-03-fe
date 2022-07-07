@@ -5,14 +5,14 @@
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { Spinner } from "@chakra-ui/react";
-import { signin } from "../redux/reducer/authSlice";
+import { signin } from "../../redux/reducer/authSlice";
 
 const AuthProvider = ({ children }) => {
     const [isAuthChecked, setIsAuthChecked] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const savedUserData = localStorage.getItem("admin")
+        const savedUserData = localStorage.getItem("user")
         if (savedUserData) {
             const parsedUserData = JSON.parse(savedUserData);
 

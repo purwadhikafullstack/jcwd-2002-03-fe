@@ -14,14 +14,18 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
+  useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { useRouter } from "next/router";
+import { useEffect } from "react";
+import axios from "axios"
+import api from "../lib/api"
 
 const AddressFormComponent = () => {
-  const router = useRouter();
+  const toast = useToast()
+
   const formik = useFormik({
     initialValues: {
       labelAlamat: "",
@@ -33,6 +37,8 @@ const AddressFormComponent = () => {
       kecamatan: "",
       alamat: "",
       kodePos: "",
+      nama: "",
+      main_address: false
     },
 
     validationSchema: Yup.object().shape({
@@ -47,10 +53,70 @@ const AddressFormComponent = () => {
       kodePos: Yup.string().required("This field is required"),
     }),
     validateOnChange: false,
-    onSubmit: () => {
-      router.push("/checkout");
+    onSubmit: async (values) => {
+      try {
+        const res = await api.post("/profile/tambahAl", values)
+        if (res.data.message !== undefined) {
+          toast({
+            status: "success",
+            title: "Add new Address success",
+            description: res.data.message || "add New Address success",
+            isClosable: true,
+            duration: 9000,
+            position: "top-right"
+          })
+        }
+        window.history.back();
+
+      } catch (err) {
+        toast({
+          status: "error",
+          title: "error add new Address",
+          description: err?.response?.data?.message || err?.message,
+          duration: 9000,
+          isClosable: true,
+          position: "top-right"
+        })
+      }
     },
   });
+
+
+  const fetchOngkir = async () => {
+    try {
+      const res = await axios.get("https://api.rajaongkir.com/starter/province", {
+        headers: {
+          key: process.env.NEXT_PUBLIC_ONGKIR_API_KEY
+        }
+      })
+      if (res.data.message !== undefined) {
+        toast({
+          status: "success",
+          title: "Add new Address success",
+          description: res.data.message || "add New Address success",
+          isClosable: true,
+          duration: 9000,
+          position: "top-right"
+        })
+      }
+    } catch (err) {
+      toast({
+        status: "error",
+        title: "error add new Address",
+        description: err?.response?.data?.message || err?.message,
+        duration: 9000,
+        isClosable: true,
+        position: "top-right"
+      })
+    }
+  }
+
+
+  const mainAddresHandler = (event) => {
+    formik.setFieldValue("main_address", event.target.checked)
+  }
+
+  useEffect(() => { fetchOngkir() }, [])
 
   return (
     <Box
@@ -83,14 +149,12 @@ const AddressFormComponent = () => {
         templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
         gap={[0, 4, 4]}
       >
-        <GridItem colspan={[1, 1, 1]} mb="36px">
+        <GridItem colSpan={[1, 1, 1]} mb="36px">
           <Text mb="16px" variant="caption">
             Nama Depan
           </Text>
           <Input
-            onChange={(event) =>
-              formik.setFieldValue("namaDepan", event.target.value)
-            }
+            onChange={event => formik.setFieldValue("namaDepan", event.target.value)}
           />
         </GridItem>
         <GridItem colSpan={[1, 1, 1]}>
@@ -101,9 +165,7 @@ const AddressFormComponent = () => {
               </Text>
             </FormLabel>
             <Input
-              onChange={(event) =>
-                formik.setFieldValue("namaBelakang", event.target.value)
-              }
+              onChange={event => formik.setFieldValue("namaBelakang", event.target.value)}
             />
             <FormHelperText>{formik.errors.namaBelakang}</FormHelperText>
           </FormControl>
@@ -231,9 +293,7 @@ const AddressFormComponent = () => {
       </FormControl>
       <Stack>
         <Checkbox
-          // onChange={(event) =>
-          //   formik.setFieldValue("password", event.target.value)
-          // }
+          onChange={mainAddresHandler}
           mb="50px"
         >
           <Text variant="caption">Simpan sebagai alamat utama</Text>

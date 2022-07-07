@@ -18,12 +18,12 @@ const AdminDashboard = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if (!authSelector.role) {
+    if (authSelector.role !== "admin") {
       router.push("/admin/login")
     }
   }, [authSelector])
 
-  if (!authSelector.role) {
+  if (authSelector.role !== "admin") {
     return <Spinner thickness='4px'
       speed='0.65s'
       emptyColor='gray.200'

@@ -76,6 +76,7 @@ const login = () => {
 
           const userResponseAdded = { ...userResponse.user };
           const stringifyAdmin = JSON.stringify(res.data.result.user);
+
           jsCookies.set("user_token", res.data.result.token);
           localStorage.setItem("user", stringifyAdmin);
 
@@ -98,7 +99,7 @@ const login = () => {
     if (authSelector.id) {
       router.push("/");
     }
-  }, [authSelector.id]);
+  }, [authSelector]);
 
   return (
     <Grid templateColumns="repeat(2,1fr)" margin="auto" width="100%">

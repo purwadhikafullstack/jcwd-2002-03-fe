@@ -1,4 +1,4 @@
-import DaftarPemesananCom from "component/DaftarPemesananCom";
+import DaftarPemesananCom from "../component/DaftarPemesananCom";
 
 const DaftarPemesanan = () => {
   return <DaftarPemesananCom />;

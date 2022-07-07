@@ -24,7 +24,6 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "../../redux/reducer/authSlice";
 import AddProduct from "../../component/admin/AddProduct";
-import AddStock from "../../component/admin/AddStock";
 import DeleteProduct from "../../component/admin/DeleteProduct";
 import EditProduct from "../../component/admin/EditProduct";
 import DaftarProdukTable from "component/DaftarProdukTable";
@@ -63,7 +62,7 @@ const AdminDaftarProduk = () => {
 
       setProductCategory(findAllProductCategory?.data?.result);
     } catch (err) {
-      console.log(err);
+      return err
     }
   };
 
@@ -91,7 +90,7 @@ const AdminDaftarProduk = () => {
       setDataProduct(res.data.result.result.rows);
       setMaxPage(Math.ceil(res.data.result.result.count / maxPageRow));
     } catch (err) {
-      console.log(err);
+      return err
     }
   };
 
@@ -230,10 +229,14 @@ const AdminDaftarProduk = () => {
       {
         Header: "Lihat Detail",
         accessor: "LihatDetail",
-        Cell: () => (
-          <Button colorScheme="teal" fontSize="12px" size="sm">
-            Lihat Detail
-          </Button>
+        Cell: (props) => (
+          <>
+            <Button colorScheme="teal" fontSize="12px" size="sm">
+              Lihat Detail
+            </Button>
+            <EditProduct />
+            <DeleteProduct />
+          </>
         ),
       },
     ],
@@ -241,7 +244,7 @@ const AdminDaftarProduk = () => {
   );
 
   const renderCategory = () => {
-    return productCategory.map((val) => {
+    return productCategory?.map((val) => {
       return (
         <RadioGroup
           sx={{
@@ -343,10 +346,7 @@ const AdminDaftarProduk = () => {
               <HStack>{renderCategory()}</HStack>
             </HStack>
             <HStack w="400px">
-              <EditProduct />
-              <DeleteProduct />
-              <AddProduct />
-              <AddStock />
+              <AddProduct fetchData={() => fecthApi()} />
             </HStack>
           </Flex>
           <Divider my="38px" w="full" maxW="1056px" />

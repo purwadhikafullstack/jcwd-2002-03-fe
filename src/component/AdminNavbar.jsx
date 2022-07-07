@@ -22,7 +22,7 @@ const NavBarItem = () => {
 
   const logoutButtonHandler = () => {
     jsCookie.remove("user_token")
-    localStorage.removeItem("admin")
+    localStorage.removeItem("user")
     dipatch(logout())
     return router.push("/admin/login")
   }
