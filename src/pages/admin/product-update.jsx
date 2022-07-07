@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react"
 import AddProduct from "../../component/admin/AddProduct"
 import DeleteProduct from "../../component/admin/DeleteProduct"
 import EditProduct from "../../component/admin/EditProduct"
+import AdminSideBar from "../../component/AdminSideBar"
+import PaymentReceipt from "../../component/transaction/PaymentReceipt"
 
 import api from "../../lib/api"
 
@@ -31,7 +33,8 @@ const inputProduct = () => {
     useEffect(() => { fetchAllProduct() }, [])
 
     return (
-        <>
+        <><AdminSideBar />
+            <PaymentReceipt />
             <AddProduct dataProduct={dataProduct} setDataProdut={setDataProduct} />
             <TableContainer>
                 <Table variant="striped" colorScheme="teal">

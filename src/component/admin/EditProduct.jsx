@@ -439,7 +439,7 @@ const EditProduct = ({
                                                 Pilih Gambar
                                             </Button>
                                         </Box>
-                                    </Box>
+                                    </Box >
                                     <Box
                                         borderRadius="8px"
                                         border="2px teal dashed"
@@ -493,12 +493,12 @@ const EditProduct = ({
                                             Simpan
                                         </Button>
                                     </ModalFooter>
-                                </TabPanel>
-                            </TabPanels>
-                        </ModalBody>
-                    </Tabs>
-                </ModalContent>
-            </Modal>
+                                </TabPanel >
+                            </TabPanels >
+                        </ModalBody >
+                    </Tabs >
+                </ModalContent >
+            </Modal >
         </>
     )
 }

@@ -63,7 +63,7 @@ const AdminDaftarProduk = () => {
 
       setProductCategory(findAllProductCategory?.data?.result);
     } catch (err) {
-      console.log(err);
+      return err
     }
   };
 
@@ -91,7 +91,7 @@ const AdminDaftarProduk = () => {
       setDataProduct(res.data.result.result.rows);
       setMaxPage(Math.ceil(res.data.result.result.count / maxPageRow));
     } catch (err) {
-      console.log(err);
+      return err
     }
   };
 
@@ -250,7 +250,7 @@ const AdminDaftarProduk = () => {
   const columns = React.useMemo(coloumFunction, []);
 
   const renderCategory = () => {
-    return productCategory.map((val) => {
+    return productCategory?.map((val) => {
       return (
         <RadioGroup
           sx={{
@@ -352,10 +352,7 @@ const AdminDaftarProduk = () => {
               <HStack>{renderCategory()}</HStack>
             </HStack>
             <HStack w="400px">
-              <EditProduct />
-              <DeleteProduct />
-              <AddProduct />
-              <AddStock />
+              <AddProduct fetchData={() => fecthApi()} />
             </HStack>
           </Flex>
           <Divider my="38px" w="full" maxW="1056px" />

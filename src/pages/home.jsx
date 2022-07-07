@@ -1,13 +1,13 @@
 import React from "react";
 import { Button, Divider, HStack, Text } from "@chakra-ui/react";
+import jsCookie from "js-cookie"
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { logout } from "../redux/reducer/authSlice"
 import BottomBanner from "../component/BotomBanner";
 import PromotionCard from "../component/PromotionCard";
 import ResepBanner from "../component/ResepBanner";
 import SlideShow from "../component/SlideShow";
-import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
-import { logout } from "../redux/reducer/authSlice"
-import jsCookie from "js-cookie"
 
 const Home = () => {
   const authSelector = useSelector((state) => state.auth);

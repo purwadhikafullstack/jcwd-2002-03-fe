@@ -5,6 +5,6 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   pageExtensions: ["mdx", "md", "jsx", "js", "tsx", "ts"],
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

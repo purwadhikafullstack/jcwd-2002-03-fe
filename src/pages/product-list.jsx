@@ -24,7 +24,6 @@ import LeftCategory from "../component/LeftCategory";
 import UpLeftCategory from "../component/UpLeftCategory";
 import api from "../lib/api";
 import ProductCard from "../component/ProductCard";
-import { set } from "lodash";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -61,11 +60,9 @@ const ProductList = () => {
       }
       setMaxPage(Math.ceil(res.data.result.count / 24));
     } catch (err) {
-      console.log(err);
     }
   };
   const renderProducts = () => {
-    console.log(products);
     return products.map((val) => {
       return (
         <ProductCard

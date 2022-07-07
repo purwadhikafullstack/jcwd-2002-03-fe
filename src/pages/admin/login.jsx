@@ -50,10 +50,10 @@ const login = () => {
                         });
                     }
 
-                    // const stringifyToken = JSON.stringify(res.data.result.token);
                     const stringifyAdmin = JSON.stringify(res.data.result.user);
                     jsCookie.set("user_token", res.data.result.token)
                     localStorage.setItem("admin", stringifyAdmin)
+
                     dispatch(signin(res.data.result.user))
                     formik.setSubmitting(false);
 
@@ -84,7 +84,7 @@ const login = () => {
         }
     }, [authSelector])
 
-    if (authSelector.role === "admin") {
+    if (authSelector.role) {
         return <Spinner thickness='4px'
             speed='0.65s'
             emptyColor='gray.200'

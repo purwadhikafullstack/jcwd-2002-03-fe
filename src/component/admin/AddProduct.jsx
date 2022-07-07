@@ -6,12 +6,20 @@ import { FiDownload } from "react-icons/fi";
 import { CloseIcon } from "@chakra-ui/icons";
 import api from "../../lib/api";
 
-const AddProduct = ({ setDataProduct }) => {
+const AddProduct = ({ fetchData }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [disabeled, setDisable] = useState(true)
+
+    // state for picture preview Onload
     const [selectedImages, setSelectedImages] = useState([])
+
+    // state for upload data product
     const [selectedFileArray, setSelectedFileArray] = useState()
+
+    // state for response from create product, for params uploadHandler
     const [newProduct, setNewProduct] = useState()
+
+
     const [categoryData, setCategoryData] = useState()
     const [tabIndex, setTabIndex] = useState(0)
     const inputRef = useRef()
@@ -61,8 +69,7 @@ const AddProduct = ({ setDataProduct }) => {
                     setNewProduct(res.data.result)
                     setDisable(false)
                     setTabIndex(1)
-                    setDataProduct(prev => [res.data.result, ...prev])
-
+                    fetchData()
                 } catch (err) {
                     toast({
                         status: "error",
@@ -146,8 +153,6 @@ const AddProduct = ({ setDataProduct }) => {
             onClose()
 
         } catch (err) {
-            // onClose()
-            console.log(err)
             toast({
                 status: "error",
                 title: "Register Failed",

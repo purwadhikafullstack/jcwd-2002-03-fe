@@ -7,9 +7,15 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { BsFillCircleFill, BsSuitHeartFill } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { selectAuth } from "../redux/reducer/authSlice";
 
 const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
+  const authSelector = useSelector(selectAuth)
+  const router = useRouter()
+
   return (
     <Box
       w={["140px", "213px", "213px"]}
@@ -110,11 +116,11 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
           </Text>
         </HStack>
 
-        <Button variant="main-outline" w="92%">
+        <Button variant="main-outline" w="92%" onClick={authSelector.role === "user" ? router.push("/cart") : router.push("/auth/login")}>
           Keranjang
         </Button>
       </Stack>
-    </Box>
+    </Box >
   );
 };
 export default ProductCard;

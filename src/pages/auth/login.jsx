@@ -98,7 +98,7 @@ const login = () => {
     if (authSelector.id) {
       router.push("/");
     }
-  }, [authSelector.id]);
+  }, [authSelector]);
 
   return (
     <Grid templateColumns="repeat(2,1fr)" margin="auto" width="100%">
