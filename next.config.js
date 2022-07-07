@@ -6,7 +6,4 @@ const nextConfig = {
   },
 }
 
-module.exports = {
-  nextConfig,
-  pageExtensions: ["mdx", "md", "jsx", "js", "tsx", "ts"],
-}
+module.exports = nextConfig;
