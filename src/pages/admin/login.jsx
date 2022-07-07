@@ -52,7 +52,8 @@ const login = () => {
 
                     const stringifyAdmin = JSON.stringify(res.data.result.user);
                     jsCookie.set("user_token", res.data.result.token)
-                    localStorage.setItem("user", stringifyAdmin)
+                    localStorage.setItem("admin", stringifyAdmin)
+
                     dispatch(signin(res.data.result.user))
                     formik.setSubmitting(false);
 

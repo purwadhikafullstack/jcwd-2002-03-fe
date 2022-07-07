@@ -58,7 +58,7 @@ const AdminDaftarProduk = () => {
 
   const fetchProductCategory = async () => {
     try {
-      const findAllProductCategory = await api.get("/product/category");
+      const findAllProductCategory = await api.get("/category");
 
       setProductCategory(findAllProductCategory?.data?.result);
     } catch (err) {
@@ -213,10 +213,10 @@ const AdminDaftarProduk = () => {
         Header: "Kategori",
         accessor: "category.category_name",
       },
-      // {
-      //   Header: "Stok",
-      //   accessor: "stok",
-      // },
+      {
+        Header: "Stok",
+        accessor: "Stock_opnames.0.amount",
+      },
       {
         Header: "Satuan",
         accessor: "kemasan",
