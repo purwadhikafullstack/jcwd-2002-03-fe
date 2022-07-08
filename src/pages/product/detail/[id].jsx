@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React, { useState } from "react";
 import {
   Badge,
@@ -19,6 +20,7 @@ import {
   Text,
   Tr,
   useBreakpointValue,
+  useToast,
 } from "@chakra-ui/react";
 import {
   HiPlus,
@@ -29,16 +31,39 @@ import {
   HiOutlineChat,
 } from "react-icons/hi";
 import Slider from "react-slick";
+import { useSelector } from "react-redux";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import axios from "axios";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useRouter } from "next/router";
+import { selectAuth } from "redux/reducer/authSlice";
+import { selectCart } from "redux/reducer/cartSlice";
+import { useEffect } from "react";
+import api from "../../../lib/api";
 
 const detail = ({ productDetail }) => {
-  console.log(productDetail);
   const top = useBreakpointValue({ base: "40%", md: "50%" });
   const side = useBreakpointValue({ base: "10px", md: "10px" });
-
+  const toast = useToast();
+  const router = useRouter();
+  const authSelector = useSelector(selectAuth);
   const [slider, setSlider] = useState(null);
-
+  const [quantity, setQuantity] = useState(0);
+  const fetchCartData = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:2003/cart?UserId=${2}&ProductId=${productDetail.id}`
+      );
+      console.log(res.data.result);
+      setQuantity(res.data.result.quantity);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchCartData();
+  }, []);
   const settings = {
     dots: true,
     arrows: false,
@@ -50,6 +75,14 @@ const detail = ({ productDetail }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+  const formik = useFormik({
+    initialValues: {
+      quantity: 1,
+    },
+    validationSchema: Yup.object().shape({
+      quantity: Yup.number().required().min(1).max(quantity),
+    }),
+  });
 
   const cards = productDetail.Product_images;
 
@@ -185,7 +218,43 @@ const detail = ({ productDetail }) => {
       </Tbody>
     ),
   });
+  const addToCartBtnHandler = async () => {
+    try {
+      const res = await api.post("/cart", {
+        // UserId: authSelector.id,
+        UserId: 2,
+        ProductId: productDetail.id,
+        price: productDetail.selling_price,
+        quantity: quantity + formik.values.quantity,
+      });
+      console.log(res.data.result);
+      setQuantity(res.data.result.quantity);
 
+      toast({
+        title: "Item added to cart",
+        duration: 2000,
+        status: "success",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const qtyBtnHandler = (dir) => {
+    if (dir === "inc") {
+      if (formik.values.quantity === "") {
+        formik.setFieldValue("quantity", 1);
+        return;
+      }
+
+      if (formik.values.quantity >= quantity) return;
+
+      formik.setFieldValue("quantity", parseInt(formik.values.quantity) + 1);
+    } else if (dir === "dec") {
+      if (formik.values.quantity < 1) return;
+
+      formik.setFieldValue("quantity", formik.values.quantity - 1);
+    }
+  };
   return (
     <Grid
       templateColumns={["repeat(1, 1fr)", "repeat(5, 1fr)", "repeat(5, 1fr)"]}
@@ -337,24 +406,35 @@ const detail = ({ productDetail }) => {
               width={["138px", "164px"]}
               height={["36px", "38px"]}
             >
-              <IconButton>
+              <IconButton
+                onClick={() => qtyBtnHandler("dec")}
+                isDisabled={formik.values.quantity <= 1}
+              >
                 <Icon as={HiMinus} />
               </IconButton>
               <Box variant="main" textAlign="center">
-                1
+                <Text mx={6}>{formik.values.quantity}</Text>
               </Box>
-              <IconButton>
+              <IconButton
+                onClick={() => qtyBtnHandler("inc")}
+                isDisabled={formik.values.quantity >= 10}
+              >
                 <Icon as={HiPlus} />
               </IconButton>
             </Box>
             <Text variant="caption-bold" ml={5}>
               {" "}
-              Sisa 20 Strips
+              sisa stock
             </Text>
           </Box>
           {/* <Box marginTop={5}> */}
           <Box display={["none", "flex", "flex"]} alignItems="center" mt={5}>
-            <Button width="194px" height="48px" variant="main">
+            <Button
+              onClick={() => addToCartBtnHandler()}
+              width="194px"
+              height="48px"
+              variant="main"
+            >
               <Icon mr={2} as={HiShoppingCart} />
               keranjang
             </Button>

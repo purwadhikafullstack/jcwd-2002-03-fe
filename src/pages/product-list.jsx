@@ -24,7 +24,6 @@ import LeftCategory from "../component/LeftCategory";
 import UpLeftCategory from "../component/UpLeftCategory";
 import api from "../lib/api";
 import ProductCard from "../component/ProductCard";
-import { set } from "lodash";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -52,11 +51,11 @@ const ProductList = () => {
     try {
       const res = await api.get("/product/", queryParams);
       if (page === 1) {
-        setProducts(res.data.result.rows);
+        setProducts(res.data.result.result.rows);
       } else {
         setProducts((prevProducts) => [
           ...prevProducts,
-          ...res.data.result.rows,
+          ...res.data.result.result.rows,
         ]);
       }
       setMaxPage(Math.ceil(res.data.result.count / 24));
