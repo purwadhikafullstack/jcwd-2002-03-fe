@@ -76,7 +76,6 @@ const login = () => {
 
           const userResponseAdded = { ...userResponse.user };
           const stringifyAdmin = JSON.stringify(res.data.result.user);
-
           jsCookies.set("user_token", res.data.result.token);
           localStorage.setItem("user", stringifyAdmin);
 

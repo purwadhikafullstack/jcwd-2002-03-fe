@@ -22,13 +22,14 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAuth } from "../../redux/reducer/authSlice";
-import AddProduct from "../../component/admin/AddProduct";
-import DeleteProduct from "../../component/admin/DeleteProduct";
-import EditProduct from "../../component/admin/EditProduct";
+import { selectAuth } from "../../../redux/reducer/authSlice";
+import AddProduct from "../../../component/admin/AddProduct";
+import AddStock from "../../../component/admin/AddStock";
+import DeleteProduct from "../../../component/admin/DeleteProduct";
+import EditProduct from "../../../component/admin/EditProduct";
 import DaftarProdukTable from "component/DaftarProdukTable";
-import api from "../../lib/api";
-import { search } from "../../redux/reducer/search";
+import api from "../../../lib/api";
+import { search } from "../../../redux/reducer/search";
 
 const AdminDaftarProduk = () => {
   const {
@@ -191,57 +192,62 @@ const AdminDaftarProduk = () => {
     return number.toLocaleString("IDR");
   }
 
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: "No",
-        accessor: "id",
-      },
-      {
-        Header: "Nama Obat",
-        accessor: "med_name",
-      },
-      {
-        Header: "No. Obat",
-        accessor: "nomer_med",
-      },
-      {
-        Header: "No. BPOM",
-        accessor: "nomer_bpom",
-      },
-      {
-        Header: "Kategori",
-        accessor: "category.category_name",
-      },
-      {
-        Header: "Stok",
-        accessor: "Stock_opnames.0.amount",
-      },
-      {
-        Header: "Satuan",
-        accessor: "kemasan",
-      },
-      {
-        Header: "Nilai Jual",
-        accessor: "selling_price",
-        Cell: (props) => <div>Rp. {toCurrency(props.value)} </div>,
-      },
-      {
-        Header: "Lihat Detail",
-        accessor: "LihatDetail",
-        Cell: (props) => (
-          <>
-            <Button colorScheme="teal" fontSize="12px" size="sm">
-              Lihat Detail
-            </Button>
-            <EditProduct />
-            <DeleteProduct />
-          </>
-        ),
-      },
-    ],
-    []
-  );
+  const cellFunction = (props) => {
+    return (
+      <Button
+        onClick={() =>
+          router.push(`/admin/daftar-produk/${props.row.original.id}`)
+        }
+        colorScheme="teal"
+        fontSize="12px"
+        size="sm"
+      >
+        Lihat Detail
+      </Button>
+    );
+  };
+
+  const coloumFunction = () => [
+    {
+      Header: "No",
+      accessor: "id",
+    },
+    {
+      Header: "Nama Obat",
+      accessor: "med_name",
+    },
+    {
+      Header: "No. Obat",
+      accessor: "nomer_med",
+    },
+    {
+      Header: "No. BPOM",
+      accessor: "nomer_bpom",
+    },
+    {
+      Header: "Kategori",
+      accessor: "category.category_name",
+    },
+    {
+      Header: "Stok",
+      accessor: "Stock_opnames.0.amount",
+    },
+    {
+      Header: "Satuan",
+      accessor: "kemasan",
+    },
+    {
+      Header: "Nilai Jual",
+      accessor: "selling_price",
+      Cell: (props) => <div>Rp. {toCurrency(props.value)} </div>,
+    },
+    {
+      Header: "Lihat Detail",
+      Cell: cellFunction,
+    },
+  ];
+
+  const columns = React.useMemo(coloumFunction, []);
 
   const renderCategory = () => {
     return productCategory?.map((val) => {
