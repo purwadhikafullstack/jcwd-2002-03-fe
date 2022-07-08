@@ -4,6 +4,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-}
+  pageExtensions: ["mdx", "md", "jsx", "js", "tsx", "ts"],
+};
 
 module.exports = nextConfig;
