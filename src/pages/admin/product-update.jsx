@@ -89,7 +89,7 @@ const inputProduct = () => {
                                             arrayOfImagesProduct={val.Product_images}
                                             dataProduct={dataProduct}
                                             setDataProduct={setDataProduct}
-                                            fetchHandler={() => fetchAllProduct()}
+                                            fetchHandler={fetchAllProduct}
                                         />
                                         <DeleteProduct
                                             key={val.med_name}

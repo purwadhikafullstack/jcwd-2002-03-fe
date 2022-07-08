@@ -9,13 +9,12 @@ const ResepBanner = () => {
         base: (
             <Img
                 src="/unggahResep.svg"
-                // position="relative"
                 width="95%"
                 overflow="hidden"
                 marginLeft="auto"
                 marginRight="auto"
                 mb={[5, 10, 10]}
-                onClick={() => router.push("/upload-resep")}
+                onClick={() => router.push("/transaction/upload-resep")}
                 cursor="pointer"
             />
 
@@ -72,7 +71,7 @@ const ResepBanner = () => {
                             borderRadius="8px"
                             fontSize="18px"
                             fontWeight="400"
-                            onClick={() => router.push("/upload-resep")}
+                            onClick={() => router.push("/transaction/upload-resep")}
                         >
                             Unggah Resep
                         </Button>

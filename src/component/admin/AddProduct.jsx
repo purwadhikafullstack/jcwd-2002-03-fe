@@ -69,7 +69,7 @@ const AddProduct = ({ fetchData }) => {
                     setNewProduct(res.data.result)
                     setDisable(false)
                     setTabIndex(1)
-                    fetchData()
+
                 } catch (err) {
                     toast({
                         status: "error",
@@ -151,6 +151,7 @@ const AddProduct = ({ fetchData }) => {
             setDisable(true)
             setTabIndex(0)
             onClose()
+            fetchData()
 
         } catch (err) {
             toast({
@@ -178,6 +179,10 @@ const AddProduct = ({ fetchData }) => {
                     position: "top-right",
                     isClosable: true,
                 })
+                setSelectedFileArray([])
+                setSelectedImages([])
+                setDisable(true)
+                setTabIndex(0)
                 return onClose()
             }
             return onClose()
