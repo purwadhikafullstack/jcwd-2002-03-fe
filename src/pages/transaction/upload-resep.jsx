@@ -8,7 +8,6 @@ import api from "../../lib/api"
 const uploadResep = () => {
     const [hideUploadForm, setHideUploadForm] = useState(false)
     const [uploading, setUploading] = useState(false)
-    // state for picture preview Onload
 
     // state for upload data product
     const [selectedFileArray, setSelectedFileArray] = useState([])

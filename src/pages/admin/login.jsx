@@ -102,9 +102,9 @@ const login = () => {
             <GridItem display={["none", "grid", "grid"]} colSpan={[0, 1, 1]} background="linear-gradient(142.04deg, rgba(254, 254, 254, 0) -1.93%, #E4F4F8 107.32%)">
                 <Img src="/login_image.svg" />
             </GridItem>
-            <GridItem colSpan={[2, 1, 1]} alignItems="center" mt={[4]}>
+            <GridItem colSpan={[2, 1, 1]} alignItems="center" mt={[4]} display="flex" justifyContent="center">
                 <Box width={["90%", "80%"]} margin="auto">
-                    <Stack spacing={["12px", "16px"]}>
+                    <Stack spacing={["12px", "16px"]} mb="30px">
                         < Box >
                             <Text variant="title" display={["none", "block", "block"]}>Masuk</Text>
                         </Box>

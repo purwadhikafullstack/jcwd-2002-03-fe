@@ -30,6 +30,9 @@ import EditProduct from "../../../component/admin/EditProduct";
 import DaftarProdukTable from "component/DaftarProdukTable";
 import api from "../../../lib/api";
 import { search } from "../../../redux/reducer/search";
+import { CloseIcon } from "@chakra-ui/icons";
+import { motion } from "framer-motion"
+import { HiOutlineDotsVertical } from "react-icons/hi";
 
 const AdminDaftarProduk = () => {
   const {
@@ -56,6 +59,9 @@ const AdminDaftarProduk = () => {
   const [productCategory, setProductCategory] = useState([]);
   const [kategoriTerpilih, setKategoriTerpilih] = useState(null);
   const [pilihKategori, setPilihKategori] = useState(null);
+
+  const { onOpen, getDisclosureProps, isOpen, onClose } = useDisclosure()
+  const [hidden, setHidden] = useState(!isOpen)
 
   const fetchProductCategory = async () => {
     try {
@@ -192,6 +198,35 @@ const AdminDaftarProduk = () => {
     return number.toLocaleString("IDR");
   }
 
+  const actionButton = (props) => {
+    return (
+      <Box justifyContent="space-around">
+        <DeleteProduct
+          key={props.row.original.id}
+          id={props.row.original.id}
+          fetchHandler={fecthApi}
+        />
+
+        <EditProduct
+          id={props.row.original.id}
+          medName={props.row.original.med_name}
+          property={props.row}
+          nomerMed={props.row.original.nomer_med}
+          nomerBpom={props.row.original.nomer_bpom}
+          sellingPrice={props.row.original.selling_price}
+          discount={props.row.original.discount}
+          indikasi={props.row.original.indikasi}
+          kandungan={props.row.original.kandungan}
+          kemasan={props.row.original.kemasan}
+          categoryId={props.row.original.categoryId}
+          categoryName={props.row.original.category.category_name}
+          fetchHandler={fecthApi}
+          arrayOfImagesProduct={props.row.original.Product_images}
+        />
+      </Box>
+    )
+  }
+
   const cellFunction = (props) => {
     return (
       <Button
@@ -206,6 +241,7 @@ const AdminDaftarProduk = () => {
       </Button>
     );
   };
+
 
   const coloumFunction = () => [
     {
@@ -243,7 +279,11 @@ const AdminDaftarProduk = () => {
     },
     {
       Header: "Lihat Detail",
-      Cell: cellFunction,
+      Cell: cellFunction
+    },
+    {
+      Header: "Action",
+      Cell: actionButton
     },
   ];
 
@@ -279,6 +319,7 @@ const AdminDaftarProduk = () => {
     if (!authSelector.role) {
       router.push("/admin/login");
     }
+
   }, [authSelector]);
 
   if (!authSelector.role) {
@@ -352,7 +393,7 @@ const AdminDaftarProduk = () => {
               <HStack>{renderCategory()}</HStack>
             </HStack>
             <HStack w="400px">
-              <AddProduct fetchData={() => fecthApi()} />
+              <AddProduct fetchData={fecthApi} />
             </HStack>
           </Flex>
           <Divider my="38px" w="full" maxW="1056px" />
