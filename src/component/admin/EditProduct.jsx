@@ -19,7 +19,9 @@ const EditProduct = ({
     kemasan,
     categoryId,
     arrayOfImagesProduct,
-    fetchHandler
+    fetchHandler,
+    categoryName,
+    property
 }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedImages, setSelectedImages] = useState([])
@@ -57,7 +59,6 @@ const EditProduct = ({
             kandungan,
             kemasan,
             categoryId,
-
         },
         validationSchema: Yup.object().shape({
             med_name: Yup.string().required("this Field require"),
@@ -145,7 +146,6 @@ const EditProduct = ({
                     isClosable: true,
                 });
             }
-            // setPreviewImageUploded([prev => [...prev, ...res.data.result]])
             setSelectedFileArray([])
             setSelectedImages([])
             setPreviewImageUploded(res.data.result)
@@ -221,8 +221,10 @@ const EditProduct = ({
             <Button
                 onClick={() => fetchCategory()}
                 colorScheme="yellow"
+                marginX={2}
+                size="sm"
             >
-                <Icon as={FaRegEdit} boxSize={6} />
+                <Icon as={FaRegEdit} boxSize={4} />
             </Button>
             <Modal
                 isOpen={isOpen}
@@ -328,8 +330,8 @@ const EditProduct = ({
                                                     color="black"
                                                     onChange={inputHandler}
                                                     name="categoryId"
-                                                    placeholder="Pilih Kategori Obat"
-                                                    defaultValue={updateProduct.categoryId}
+                                                    placeholder={`kategori saat ini ${categoryName}, ubah?`}
+                                                    defaultValue={categoryId}
                                                 >
                                                     {category && category.map((val) => {
                                                         return (

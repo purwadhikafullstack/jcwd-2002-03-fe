@@ -29,7 +29,7 @@ const navLinks = [
     },
     {
         name: "upload-resep",
-        path: "/upload-resep",
+        path: "/transaction/upload-resep",
         title: "Unggah File",
         base: <MobileNavbar key="Unggah File" title="Unggah File" />,
         md: <DesktopNavBar />,
@@ -139,6 +139,15 @@ const navLinks = [
         name: "Addres-form",
         path: "/address-form",
         title: "Tambah Alamat Baru",
+        base: <MobileNavbar />,
+        md: <DesktopNavBar />,
+        bottomNav: undefined,
+        displayAboutCompany: <AboutCompany />
+    },
+    {
+        name: "menunggu-konfirmasi",
+        path: "/transaction/menunggu-konfimrasi",
+        title: "Menunggu Pembayaran",
         base: <MobileNavbar />,
         md: <DesktopNavBar />,
         bottomNav: undefined,

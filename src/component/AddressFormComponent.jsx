@@ -20,7 +20,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useEffect } from "react";
-import axios from "axios"
 import api from "../lib/api"
 
 const AddressFormComponent = () => {
@@ -81,42 +80,11 @@ const AddressFormComponent = () => {
     },
   });
 
-
-  const fetchOngkir = async () => {
-    try {
-      const res = await axios.get("https://api.rajaongkir.com/starter/province", {
-        headers: {
-          key: process.env.NEXT_PUBLIC_ONGKIR_API_KEY
-        }
-      })
-      if (res.data.message !== undefined) {
-        toast({
-          status: "success",
-          title: "Add new Address success",
-          description: res.data.message || "add New Address success",
-          isClosable: true,
-          duration: 9000,
-          position: "top-right"
-        })
-      }
-    } catch (err) {
-      toast({
-        status: "error",
-        title: "error add new Address",
-        description: err?.response?.data?.message || err?.message,
-        duration: 9000,
-        isClosable: true,
-        position: "top-right"
-      })
-    }
-  }
-
-
   const mainAddresHandler = (event) => {
     formik.setFieldValue("main_address", event.target.checked)
   }
 
-  useEffect(() => { fetchOngkir() }, [])
+  useEffect(() => { }, [])
 
   return (
     <Box
