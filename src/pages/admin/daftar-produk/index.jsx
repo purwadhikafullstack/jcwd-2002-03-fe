@@ -30,6 +30,9 @@ import EditProduct from "../../../component/admin/EditProduct";
 import DaftarProdukTable from "component/DaftarProdukTable";
 import api from "../../../lib/api";
 import { search } from "../../../redux/reducer/search";
+import { CloseIcon } from "@chakra-ui/icons";
+import { motion } from "framer-motion"
+import { HiOutlineDotsVertical } from "react-icons/hi";
 
 const AdminDaftarProduk = () => {
   const {
@@ -244,6 +247,7 @@ const AdminDaftarProduk = () => {
     );
   };
 
+
   const coloumFunction = () => [
     {
       Header: "No",
@@ -280,7 +284,11 @@ const AdminDaftarProduk = () => {
     },
     {
       Header: "Lihat Detail",
-      Cell: cellFunction,
+      Cell: cellFunction
+    },
+    {
+      Header: "Action",
+      Cell: actionButton
     },
     {
       Header: "Action",
@@ -320,6 +328,7 @@ const AdminDaftarProduk = () => {
     if (!authSelector.role) {
       router.push("/admin/login");
     }
+
   }, [authSelector]);
 
   if (!authSelector.role) {

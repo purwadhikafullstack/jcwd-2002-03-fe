@@ -21,6 +21,7 @@ const EditProduct = ({
     arrayOfImagesProduct,
     fetchHandler,
     categoryName,
+    property
 }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedImages, setSelectedImages] = useState([])
