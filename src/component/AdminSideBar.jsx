@@ -64,7 +64,7 @@ const AdminSideBar = () => {
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
               >
-                <Link href="/admin/admin-daftar-produk">
+                <Link href="/admin/daftar-produk">
                   Daftar Produk
                 </Link>
               </AccordionPanel>

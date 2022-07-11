@@ -393,7 +393,8 @@ const AdminDaftarProduk = () => {
               <HStack>{renderCategory()}</HStack>
             </HStack>
             <HStack w="400px">
-              <AddProduct fetchData={fecthApi} />
+              <AddProduct fetchData={() => fecthApi()} />
+              <AddStock />
             </HStack>
           </Flex>
           <Divider my="38px" w="full" maxW="1056px" />
