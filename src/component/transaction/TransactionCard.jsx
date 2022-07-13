@@ -4,55 +4,76 @@ import { FaReceipt } from "react-icons/fa"
 import { IoChatbubbleEllipses } from "react-icons/io5"
 import moment from "moment"
 import "moment/locale/id"
+import { MdArrowDropDown } from "react-icons/md"
+import PrescriptionsHandler from "./PrescriptionsHandler"
 
-const TransactionCard = ({ props }) => {
+const TransactionCard = ({ props, fetchTransaction }) => {
 
-
-
+    console.log(props)
     return (
-        <Box padding={4} width="100%" boxShadow="0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)">
+        <Box mt={4} bgColor="whiteAlpha.800" padding={4} width="100%" boxShadow="0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)">
             <Box borderBottom="1px solid black" display="flex" justifyContent="space-between">
                 <Box>
                     <HStack spacing="20px">
                         <Checkbox>Pesanan Selesai</Checkbox>
-                        <Text>Nomer Pesanan</Text>
+                        <Text>{props.nomer_pesanan}</Text>
                         <Text>{moment(props.createdAt).format("LLL")}</Text>
                     </HStack>
                 </Box>
                 <Box>
                     <HStack spacing="10px">
                         <Text>Response Sebelum</Text>
-                        <Badge>Waktu Akhir</Badge>
+                        <Badge>{moment(props.createdAt).add(2, "days").calendar()}</Badge>
                     </HStack>
                 </Box>
             </Box>
             <Box width="100%" display="flex" justifyContent="space-between" padding={2}>
-                <HStack spacing="20px" >
-                    {props.Prescription_images && props.Prescription_images.map((image => {
-                        return (
+                <Box display="flex" justifyContent="space-between">
+                    {props.Prescription_images.length !== 0 &&
+                        <>
                             <Box
                                 width="100px"
                                 height="100px"
-                                backgroundImage={image.image_url}
+                                backgroundImage={props.Prescription_images[0].image_url}
                                 backgroundRepeat="no-repeat"
                                 backgroundSize="cover"
                                 backgroundPosition="center"
-
+                                mr={5}
                             />
-                        )
-
-                    }))}
-                    <Box>
-                        <Text>Nama Obat lengkap ........</Text>
-                        <Text>jumlah pesanan X Harga</Text>
-                    </Box>
-                </HStack>
+                            <Box>
+                                <Text mb={2}>Resep Dokter</Text>
+                                <PrescriptionsHandler key={props.id} image={props.Prescription_images} orderDate={props.createdAt} transactionId={props.id} fetchTransaction={fetchTransaction} />
+                            </Box>
+                        </>
+                    }
+                    {props.Prescription_images.length === 0 &&
+                        <>
+                            <Box
+                                width="100px"
+                                height="100px"
+                                backgroundImage={props?.Transaction_items[0]?.Product?.Product_images[0]?.image_url}
+                                backgroundRepeat="no-repeat"
+                                backgroundSize="cover"
+                                backgroundPosition="center"
+                                mr={5}
+                            />
+                            <Box>
+                                <Text >{props?.Transaction_items[0]?.Product?.med_name}</Text>
+                                <Text mb={2} fontSize="12px" >{props?.Transaction_items[0]?.quantity} X {props?.Transaction_items[0]?.price.toLocaleString()}</Text>
+                                <Box alignItems="center" display="flex" >
+                                    <Text fontSize="12px" color="teal" mb={2} fontWeight={400}>lihat {props.Transaction_items.length - 1} obat lainnya </Text>
+                                    <MdArrowDropDown />
+                                </Box>
+                            </Box>
+                        </>
+                    }
+                </Box>
                 <Box height="inherit">
                     <Divider orientation="vertical" />
                 </Box>
                 <Box>
                     <Text>Pembeli</Text>
-                    <Text>nama Pembeli</Text>
+                    <Text>{props.User.name}</Text>
                 </Box>
                 <Box>
                     <Text>Alamat</Text>
@@ -67,10 +88,14 @@ const TransactionCard = ({ props }) => {
                 <Box />
             </Box>
             <Box alignItems="center" background="#F6FAFB" borderRadius="4px" display="flex" justifyContent="space-between" padding={3}>
-                <Box>
-                    <Text>Total Harga (4 Obat)</Text>
-                </Box>
-                <Box>Rp. 65.000</Box>
+                {props.Transaction_items.length !== 0 &&
+                    <>
+                        <Box>
+                            <Text>Total Harga ({props.Transaction_items.length} obat)</Text>
+                        </Box>
+                        <Box>Rp.{props.total_price.toLocaleString()}</Box>
+                    </>
+                }
             </Box>
             <Box alignItems="center" display="flex" justifyContent="space-between" padding={2}>
                 <HStack spacing={5}>

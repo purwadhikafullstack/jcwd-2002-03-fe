@@ -116,7 +116,7 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
           </Text>
         </HStack>
 
-        <Button variant="main-outline" w="92%" onClick={authSelector.role === "user" ? router.push("/cart") : router.push("/auth/login")}>
+        <Button variant="main-outline" w="92%" onClick={() => authSelector.role === "user" ? router.push("/cart") : router.push("/auth/login")}>
           Keranjang
         </Button>
       </Stack>
