@@ -50,6 +50,7 @@ const ProductList = () => {
   ) => {
     try {
       const res = await api.get("/product/", queryParams);
+      console.log(res.data.result)
       if (page === 1) {
         setProducts(res.data.result.result.rows);
       } else {
