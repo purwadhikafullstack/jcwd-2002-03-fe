@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, HStack, Icon, Input, InputGroup, InputRightElement, Select, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Text, useNumberInput, useToast } from "@chakra-ui/react"
+import { Box, HStack, Icon, Input, InputGroup, InputRightElement, Select, Slider, SliderThumb, Text, useToast } from "@chakra-ui/react"
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import { BsSearch } from "react-icons/bs"
 import TransactionCard from "../../component/transaction/TransactionCard"
@@ -7,27 +7,28 @@ import AdminSideBar from "../../component/AdminSideBar"
 import api from "../../lib/api"
 
 const transaction = () => {
-    const [dataTrasactions, setDataTransaction] = useState()
+    const [dataTrasactions, setDataTransaction] = useState([])
+    const [pageNumber, setPageNumber] = useState(1)
+    const [limitNumber, setLimitNumber] = useState(5)
+    const [dirValue, setDirValue] = useState("DESC")
+    const [maxPage, setMaxPage] = useState(1)
     const toast = useToast()
 
-    const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
-        useNumberInput({
-            step: 1,
-            defaultValue: 1,
-            min: 1,
-            max: 6,
-            precision: 2,
-        })
-
-    const inc = getIncrementButtonProps()
-    const dec = getDecrementButtonProps()
-    const input = getInputProps()
-
-    const fetchTransaction = async () => {
+    const fetchTransaction = async (
+        queryParams = {
+            params: {
+                _sortBy: "createdAt",
+                _sortDir: dirValue || "DESC",
+                _limit: limitNumber,
+                _page: pageNumber,
+            },
+        }
+    ) => {
         try {
-            const res = await api.get("/transaction")
+            const res = await api.get("/transaction", queryParams)
             const data = res?.data?.result.rows
             setDataTransaction(data)
+            setMaxPage(res.data.result.totalPages)
         } catch (err) {
             toast({
                 title: "error",
@@ -39,10 +40,25 @@ const transaction = () => {
         }
     }
 
+    const pageButtonHandler = (dir) => {
+        if (dir === "dec") {
+            if (pageNumber < 2) {
+                return setPageNumber(1)
+            }
+            return setPageNumber(prev => prev - 1)
+        }
+        if (dir === "inc") {
+            if (pageNumber >= maxPage) {
+                return setPageNumber(maxPage)
+            }
+            return setPageNumber(prev => prev + 1)
+        }
+        return pageNumber
+    }
+
     useEffect(() => {
         fetchTransaction()
-    }, [])
-
+    }, [pageNumber, limitNumber, dirValue])
 
     return (
         <>
@@ -65,7 +81,10 @@ const transaction = () => {
                                     <Icon as={BsSearch} color="#FFFFF" />
                                 </InputRightElement>
                             </InputGroup>
-                            <Input bgColor="white" width="15%" placeholder="Filter" />
+                            <Select bgColor="white" width="15%" placeholder="Filter" onChange={(e) => setDirValue(e.target.value)}>
+                                <option value="DESC">Terbaru-Terlama</option>
+                                <option value="ASC">Terlama-Terbaru</option>
+                            </Select>
                             <Input bgColor="white" width="15%" placeholder="Urutkan" />
                         </HStack>
                     </Box>
@@ -73,26 +92,24 @@ const transaction = () => {
                     <Box>
                         <HStack>
                             <Text>Kartu per halaman</Text>
-                            <Select bgColor="white" width="8%">
-                                <option>5</option>
-                                <option>10</option>
-                                <option>15</option>
+                            <Select bgColor="white" width="8%" onChange={(e) => setLimitNumber(e.target.value)}>
+                                <option value={5}>5</option>
+                                <option value={10}>10</option>
+                                <option value={15}>15</option>
                             </Select>
-                            <ChevronLeftIcon {...dec} />
-                            <Box display="flex" width="30%" alignItems="center" justifyContent="space-between">
+                            <ChevronLeftIcon onClick={() => pageButtonHandler("dec")} boxSize={6} cursor="pointer" />
+                            <Box display="flex" maxWidth="30%" alignItems="center" justifyContent="space-between">
                                 <Slider
-                                    flex='1'
                                     focusThumbOnChange={false}
-                                    value={{ ...input }}
-                                // onChange={handleChange}
+                                    value={pageNumber}
+                                    min={1}
+                                    max={10}
                                 >
-                                    {/* <SliderTrack> */}
-                                    {/* <SliderFilledTrack /> */}
-                                    {/* </SliderTrack> */}
-                                    <SliderThumb fontSize='sm' boxSize='24px'></SliderThumb>
+
+                                    <SliderThumb fontSize='sm' boxSize='24px'>{pageNumber}</SliderThumb>
                                 </Slider>
                             </Box>
-                            <ChevronRightIcon {...inc} />
+                            <ChevronRightIcon onClick={() => pageButtonHandler("inc")} boxSize={6} cursor="pointer" />
                         </HStack>
                     </Box>
                     {dataTrasactions && dataTrasactions.map((data) => {

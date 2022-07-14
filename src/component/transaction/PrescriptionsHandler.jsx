@@ -1,5 +1,5 @@
 import { AddIcon, MinusIcon } from "@chakra-ui/icons"
-import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, Input, Grid, GridItem, Box, HStack, Stack, Tabs, TabList, Tab, TabPanels, TabPanel, Select, FormControl, FormLabel, useToast, IconButton, Text, } from "@chakra-ui/react"
+import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, Input, Grid, GridItem, Box, HStack, Stack, Tabs, TabList, Tab, TabPanels, TabPanel, Select, FormControl, FormLabel, useToast, IconButton, TableContainer, Tr, Thead, Th, Td, Tbody, Table, } from "@chakra-ui/react"
 import React, { useRef, useState } from "react"
 import moment from "moment"
 import { useFormik } from "formik"
@@ -39,6 +39,7 @@ const PrescriptionsHandler = ({ image, orderDate, transactionId, fetchTransactio
                 formik.setSubmitting(false);
                 setArrayOfItem([])
                 fetchTransaction()
+                onClose()
             } catch (err) {
                 toast({
                     titel: "error",
@@ -120,7 +121,7 @@ const PrescriptionsHandler = ({ image, orderDate, transactionId, fetchTransactio
 
     return (
         <>
-            <Button onClick={() => fetchProduct()}>Buat Salinan Resep</Button>
+            <Button colorScheme="teal" height="32px" onClick={() => fetchProduct()}>Buat Salinan Resep</Button>
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} initialFocusRef={initialRef} size="xl">
                 <ModalOverlay />
                 <ModalContent>
@@ -139,12 +140,37 @@ const PrescriptionsHandler = ({ image, orderDate, transactionId, fetchTransactio
                                     mr={5}
                                 />
                                 {arrayOfItem.length !== 0 &&
-                                    <Box height="100px" mt={2} overflow="scroll" flexWrap="nowrap" border="1px solid teal">
-                                        <Text variant="subtitle" >Selected Items</Text>
-                                        {arrayOfItem.map((val) => {
-                                            return <Text key={val.name} flexWrap="nowrap" fontSize="12px">{val.name} {val.quantity}pcs Rp.{val.price.toLocaleString()}/pcs total Rp.{val.sub_total.toLocaleString()} </Text>
-                                        })}
-
+                                    <Box height="100px" mt={2} border="1px solid teal">
+                                        <TableContainer
+                                            overflowX="scroll"
+                                            overflowY="scroll"
+                                            whiteSpace="nowrap"
+                                            height="100px"
+                                            color
+                                        >
+                                            <Table variant='striped' colorScheme="teal" textAlign="center">
+                                                <Thead color="teal">
+                                                    <Tr>
+                                                        <Th>Nama Obat</Th>
+                                                        <Th>Quantity</Th>
+                                                        <Th>Price/pcs</Th>
+                                                        <Th>Subtotal</Th>
+                                                    </Tr>
+                                                </Thead>
+                                                <Tbody >
+                                                    {arrayOfItem.map((val) => {
+                                                        return (
+                                                            <Tr key={val.name}>
+                                                                <Td>{val.name}</Td>
+                                                                <Td>{val.quantity}</Td>
+                                                                <Td>{val.price.toLocaleString()}</Td>
+                                                                <Td>Rp. {val.sub_total.toLocaleString()}</Td>
+                                                            </Tr>
+                                                        )
+                                                    })}
+                                                </Tbody>
+                                            </Table>
+                                        </TableContainer>
                                     </Box>
                                 }
                             </GridItem>
@@ -260,7 +286,7 @@ const PrescriptionsHandler = ({ image, orderDate, transactionId, fetchTransactio
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                        <Button colorScheme='blue' mr={3} onClick={() => onClose() && setArrayOfItem([])}>
                             Close
                         </Button>
                         <Button
