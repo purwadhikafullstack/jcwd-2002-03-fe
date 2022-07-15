@@ -32,6 +32,7 @@ const AddStock = () => {
       expired_date: "",
       ProductId: 0,
       buying_price: 0,
+      type: "Barang masuk"
     },
     validateOnChange: false,
     onSubmit: async (values) => {
@@ -53,6 +54,7 @@ const AddStock = () => {
           formik.values.expired_date = "";
           formik.values.ProductId = 0;
           formik.values.buying_price = 0;
+          formik.values.type = "Barang masuk"
         }
       } catch (err) {
         toast({
@@ -195,6 +197,21 @@ const AddStock = () => {
                 type="date"
                 onChange={(event) =>
                   formik.setFieldValue("expired_date", event.target.value)
+                }
+              />
+            </HStack>
+
+            <HStack mb="12px">
+              <Text mr="130px">Status</Text>
+              <Input
+                fontSize="12px"
+                w="auto"
+                minW="226px"
+                placeholder="Barang masuk"
+                defaultValue="Barang masuk"
+                isDisabled={true}
+                onChange={(event) =>
+                  formik.setFieldValue("type", event.target.value)
                 }
               />
             </HStack>

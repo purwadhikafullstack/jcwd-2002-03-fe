@@ -230,9 +230,7 @@ const AddProduct = ({ fetchData }) => {
                 leftIcon={<FiDownload size="20" />}
                 variant="main"
                 width="xs"
-                mr="32px"
-                colorScheme="teal"
-                mt="32px"
+                colorScheme="teal"          
             >
                 Tambah Produk
             </Button>
