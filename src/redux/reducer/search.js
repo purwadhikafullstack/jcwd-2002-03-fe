@@ -1,19 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  cartInput: "",
+  searchInput: "",
 };
 
-const cartReducer = createSlice({
-  name: "cart",
+const searchReducer = createSlice({
+  name: "search",
   initialState,
   reducers: {
-    cart: (state, action) => {
-      state.cartInput = action.payload;
+    search: (state, action) => {
+      state.searchInput = action.payload;
     },
   },
 });
 
-export const { cart } = cartReducer.actions;
+export const { search } = searchReducer.actions;
 
-export default cartReducer.reducer;
+export default searchReducer.reducer;
