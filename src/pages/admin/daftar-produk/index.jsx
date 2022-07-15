@@ -29,7 +29,7 @@ import DeleteProduct from "../../../component/admin/DeleteProduct";
 import EditProduct from "../../../component/admin/EditProduct";
 import DaftarProdukTable from "component/DaftarProdukTable";
 import api from "../../../lib/api";
-import { search } from "../../../redux/reducer/search";
+import { search } from "../../../redux/reducer/search"
 import { CloseIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion"
 import { HiOutlineDotsVertical } from "react-icons/hi";
@@ -227,6 +227,13 @@ const AdminDaftarProduk = () => {
     )
   }
 
+  const idxCell = (props) => {
+    console.log(props)
+    return (
+      <Text>{props.row.index + 1}</Text>
+    )
+  } 
+
   const cellFunction = (props) => {
     return (
       <Button
@@ -246,7 +253,7 @@ const AdminDaftarProduk = () => {
   const coloumFunction = () => [
     {
       Header: "No",
-      accessor: "id",
+      Cell : idxCell
     },
     {
       Header: "Nama Obat",
@@ -393,7 +400,8 @@ const AdminDaftarProduk = () => {
               <HStack>{renderCategory()}</HStack>
             </HStack>
             <HStack w="400px">
-              <AddProduct fetchData={fecthApi} />
+              <AddProduct fetchData={() => fecthApi()} />
+              <AddStock />
             </HStack>
           </Flex>
           <Divider my="38px" w="full" maxW="1056px" />
