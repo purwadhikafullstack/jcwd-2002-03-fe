@@ -19,7 +19,7 @@ import api from "../../lib/api";
 import { useState, useEffect } from "react";
 import moment from "moment";
 import { FiSearch } from "react-icons/fi";
-import { search } from "../../redux/reducer/search"
+import { search } from "../../redux/reducer/search";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -177,16 +177,16 @@ const BukuKas = () => {
 
   useEffect(() => {
     fecthApi();
-  }, [pageCount])
+  }, [pageCount]);
 
   useEffect(() => {
     fecthApi();
 
     router.push({
-        query: {
-          searchProduct: searchValue || undefined,
-        },
-      });
+      query: {
+        searchProduct: searchValue || undefined,
+      },
+    });
   }, [searchValue]);
 
   useEffect(() => {
@@ -249,16 +249,17 @@ const BukuKas = () => {
               >
                 <Input onChange={inputHandler} placeholder="Cari nama obat" />
                 <InputRightElement>
-                  <Button 
-                  onClick={() => {
-                    dispatch(search(searchInput));
-                    router.push({
-                      query: {
-                        med_name: searchInput,
-                      },
-                    });
-                  }}
-                  bg="transparent">
+                  <Button
+                    onClick={() => {
+                      dispatch(search(searchInput));
+                      router.push({
+                        query: {
+                          med_name: searchInput,
+                        },
+                      });
+                    }}
+                    bg="transparent"
+                  >
                     <Icon color="black" as={FiSearch} />
                   </Button>
                 </InputRightElement>
