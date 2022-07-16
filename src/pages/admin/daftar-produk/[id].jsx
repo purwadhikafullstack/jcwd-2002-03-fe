@@ -25,7 +25,6 @@ const ProductStockDetails = (props) => {
       const res = await api.get(`/product/${props?.product?.id}`);
 
       setInventories(() => [...res?.data?.result?.inventories]);
-      console.log(...res?.data?.result?.inventories);
     } catch (err) {
       console.log(err);
     }
@@ -38,10 +37,27 @@ const ProductStockDetails = (props) => {
     return number.toLocaleString("IDR");
   }
 
+  const idxCell = (props) => {
+    console.log(props);
+    return <Text>{props.row.index + 1}</Text>;
+  };
+
+  const nilaiBeli = (props) => {
+    return (
+      <Box>
+        {props.row.original.buying_price ? (
+          <Text>Rp. {toCurrency(props.row.original.buying_price)}</Text>
+        ) : (
+          <Text>-</Text>
+        )}
+      </Box>
+    );
+  };
+
   const coloumFunction = () => [
     {
-      Header: "ID",
-      accessor: "id",
+      Header: "No",
+      Cell: idxCell,
     },
     {
       Header: "Tanggal",
@@ -66,8 +82,7 @@ const ProductStockDetails = (props) => {
     },
     {
       Header: "Nilai Beli",
-      accessor: "buying_price",
-      Cell: (props) => <div>Rp. {toCurrency(props.value)} </div>,
+      Cell: nilaiBeli,
     },
     {
       Header: "Nilai Jual",
