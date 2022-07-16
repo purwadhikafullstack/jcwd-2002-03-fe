@@ -37,7 +37,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           source: "./.next, ./package*.json"
-          target: "/var/www/html/jcwd200203.purwadhikabootcamp.com"
+          target: "/root/group_3/fe/jcwd-2002-03-fe"
       - name: Run App
         uses: appleboy/ssh-action@master
         with:
@@ -46,7 +46,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /var/www/html/jcwd200203.purwadhikabootcamp.com
+            cd /root/group_3/fe/jcwd-2002-03-fe
             git pull origin main
             git status
             npm install
