@@ -3,7 +3,7 @@ import axios from "axios";
 import jsCookie from "js-cookie";
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API || "http://172.105.113.174:2003",
+  baseURL: process.env.NEXT_PUBLIC_API || "https://jcwd200203api.purwadhikabootcamp.com",
 });
 
 axiosInstance.interceptors.request.use((config) => {
