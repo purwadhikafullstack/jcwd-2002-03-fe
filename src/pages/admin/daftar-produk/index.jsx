@@ -29,10 +29,7 @@ import DeleteProduct from "../../../component/admin/DeleteProduct";
 import EditProduct from "../../../component/admin/EditProduct";
 import DaftarProdukTable from "component/DaftarProdukTable";
 import api from "../../../lib/api";
-import { search } from "../../../redux/reducer/search"
-import { CloseIcon } from "@chakra-ui/icons";
-import { motion } from "framer-motion"
-import { HiOutlineDotsVertical } from "react-icons/hi";
+import { search } from "../../../redux/reducer/search";
 
 const AdminDaftarProduk = () => {
   const {
@@ -60,8 +57,8 @@ const AdminDaftarProduk = () => {
   const [kategoriTerpilih, setKategoriTerpilih] = useState(null);
   const [pilihKategori, setPilihKategori] = useState(null);
 
-  const { onOpen, getDisclosureProps, isOpen, onClose } = useDisclosure()
-  const [hidden, setHidden] = useState(!isOpen)
+  const { onOpen, getDisclosureProps, isOpen, onClose } = useDisclosure();
+  const [hidden, setHidden] = useState(!isOpen);
 
   const fetchProductCategory = async () => {
     try {
@@ -69,7 +66,7 @@ const AdminDaftarProduk = () => {
 
       setProductCategory(findAllProductCategory?.data?.result);
     } catch (err) {
-      return err
+      return err;
     }
   };
 
@@ -97,7 +94,7 @@ const AdminDaftarProduk = () => {
       setDataProduct(res.data.result.result.rows);
       setMaxPage(Math.ceil(res.data.result.result.count / maxPageRow));
     } catch (err) {
-      return err
+      return err;
     }
   };
 
@@ -224,15 +221,13 @@ const AdminDaftarProduk = () => {
           arrayOfImagesProduct={props.row.original.Product_images}
         />
       </Box>
-    )
-  }
+    );
+  };
 
   const idxCell = (props) => {
-    console.log(props)
-    return (
-      <Text>{props.row.index + 1}</Text>
-    )
-  } 
+    console.log(props);
+    return <Text>{props.row.index + 1}</Text>;
+  };
 
   const cellFunction = (props) => {
     return (
@@ -249,11 +244,10 @@ const AdminDaftarProduk = () => {
     );
   };
 
-
   const coloumFunction = () => [
     {
       Header: "No",
-      Cell : idxCell
+      Cell: idxCell,
     },
     {
       Header: "Nama Obat",
@@ -286,11 +280,11 @@ const AdminDaftarProduk = () => {
     },
     {
       Header: "Lihat Detail",
-      Cell: cellFunction
+      Cell: cellFunction,
     },
     {
       Header: "Action",
-      Cell: actionButton
+      Cell: actionButton,
     },
   ];
 
@@ -326,7 +320,6 @@ const AdminDaftarProduk = () => {
     if (!authSelector.role) {
       router.push("/admin/login");
     }
-
   }, [authSelector]);
 
   if (!authSelector.role) {
