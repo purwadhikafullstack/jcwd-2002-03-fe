@@ -7,6 +7,7 @@ import { TbClock } from "react-icons/tb"
 import { MdArrowDropDown } from "react-icons/md"
 import PrescriptionsHandler from "./PrescriptionsHandler"
 import TransactionDetail from "./TransactionDetail"
+import ApproveTransaction from "./ApproveTransaction"
 
 const TransactionCard = ({ props, fetchTransaction }) => {
     return (
@@ -14,7 +15,21 @@ const TransactionCard = ({ props, fetchTransaction }) => {
             <Box borderBottom="1px solid black" display="flex" justifyContent="space-between" paddingBottom={2}>
                 <Box>
                     <HStack spacing="20px">
-                        <Checkbox>Pesanan Selesai</Checkbox>
+                        {props.isPaid === false &&
+                            <Checkbox>Pesanan Baru</Checkbox>
+                        }
+                        {props.isPacking === true && props.isPacking === false &&
+                            <Checkbox>Pesanan Dalam Proses</Checkbox>
+                        }
+                        {props.isPaid === true && props.isPacking === true && props.isSend === false &&
+                            <Checkbox>Pesanan Siap dikirim</Checkbox>
+                        }
+                        {props.isSend === true &&
+                            <Checkbox>Pesanan Dalam Pengiriman</Checkbox>
+                        }
+                        {props.isDone === true &&
+                            <Checkbox>Pesanan Selesai</Checkbox>
+                        }
                         <Text>{props.nomer_pesanan}</Text>
                         <Text alignItems="center">{moment(props.createdAt).format("LLL")}</Text>
                     </HStack>
@@ -110,12 +125,24 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                         dateOrder={moment(props.createdAt).format("LLL")}
                         totalPrice={props.total_price.toLocaleString()}
                         itemsLength={props.Transaction_items.length}
+                        payment={props.Payments}
                     />
                 </HStack>
                 <Box display="flex" justifyContent="space-between" alignItems="center">
                     <HStack spacing={5}>
                         <Button variant="ghost" colorScheme="teal">Tolak Pesanan</Button>
-                        <Button colorScheme="teal">Terima Pesanan</Button>
+                        <ApproveTransaction
+                            key={props.id}
+                            transactionDetail={props.Transaction_items}
+                            nomerPesanan={props.nomer_pesanan}
+                            username={props.User.name}
+                            dateOrder={moment(props.createdAt).format("LLL")}
+                            totalPrice={props.total_price.toLocaleString()}
+                            itemsLength={props.Transaction_items.length}
+                            payment={props.Payments}
+                            TransactionId={props.id}
+                        />
+
                     </HStack>
                 </Box>
             </Box>

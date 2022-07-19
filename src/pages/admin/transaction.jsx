@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Box, HStack, Icon, Input, InputGroup, InputRightElement, Select, Slider, SliderThumb, Text, useToast } from "@chakra-ui/react"
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import { BsSearch } from "react-icons/bs"
+import { useRouter } from "next/router"
 import TransactionCard from "../../component/transaction/TransactionCard"
 import AdminSideBar from "../../component/AdminSideBar"
 import api from "../../lib/api"
@@ -13,6 +14,12 @@ const transaction = () => {
     const [dirValue, setDirValue] = useState("DESC")
     const [maxPage, setMaxPage] = useState(1)
     const toast = useToast()
+    const router = useRouter()
+    const { isPaid, isDone, isPacking, isSend } = router.query
+    console.log("ispaid", isPaid)
+    console.log("isDone", isDone)
+    console.log("isPacking", isPacking)
+    console.log("isSend", isSend)
 
     const fetchTransaction = async (
         queryParams = {
@@ -21,6 +28,10 @@ const transaction = () => {
                 _sortDir: dirValue || "DESC",
                 _limit: limitNumber,
                 _page: pageNumber,
+                _isPaid: isPaid,
+                _isPacking: isPacking,
+                _isSend: isSend,
+                _isDone: isDone
             },
         }
     ) => {
@@ -55,14 +66,16 @@ const transaction = () => {
         }
         return pageNumber
     }
-
     useEffect(() => {
         fetchTransaction()
-    }, [pageNumber, limitNumber, dirValue])
+        console.log(router.query.isPaid)
+
+
+    }, [pageNumber, limitNumber, dirValue, isDone, isPaid, isPacking, isSend])
 
     return (
         <>
-            <AdminSideBar />
+            <AdminSideBar fetchData={fetchTransaction} setPacking={setIsPacking} setDone={setIsDone} setSend={setIsSend} />
             <Box
                 bg="linear-gradient(155.7deg, #D6F5F3 -45.88%, #F7FCFC 45.77%, #F1F5FC 117.72%)"
                 ml="64"
