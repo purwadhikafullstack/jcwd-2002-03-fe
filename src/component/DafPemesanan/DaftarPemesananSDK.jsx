@@ -6,12 +6,12 @@ import {
   Image,
   Grid,
   GridItem,
+  Button,
   Icon,
 } from "@chakra-ui/react";
 import { TbMessageCircle } from "react-icons/tb";
-import Timer from "./timer";
 
-const DaftarPemesananCardMk = () => {
+const DaftarPemesananCardSDK = () => {
   // render dua kali unutk dua card menungu konfirmasi upload resep
   // dan menunggu pembayaran
   return (
@@ -19,7 +19,7 @@ const DaftarPemesananCardMk = () => {
       mt="20px"
       mb="40px"
       w={[345, 400, 695]}
-      h={[240, 250, 249]}
+      h={[240, 250, 302]}
       boxShadow=" 1px 2px 3px 4px rgba(245,251,251)"
       _hover={{
         boxShadow: " 1px 2px 3px 4px rgba(237,248,248)",
@@ -46,16 +46,17 @@ const DaftarPemesananCardMk = () => {
           5 April 2022
         </Text>
         <Box
+          pb="20px"
           w={["130px", "140px", "156px"]}
           h={["17px", "20px", "26px"]}
           bgColor="#fff5d3"
           border="1px"
           borderRadius="2px"
           borderColor="#FFDE6B"
-          pl={["12px", "12px", "14px"]}
-          pt="2px"
         >
           <Text
+            pl={["12px", "12px", "14px"]}
+            pt="2px"
             fontSize={{
               base: "10px",
               md: "12px",
@@ -64,7 +65,7 @@ const DaftarPemesananCardMk = () => {
             fontWeight="400"
             color="#cbaf4e"
           >
-            Menunggu Konfirmasi
+            Sedang di Kirim
           </Text>
         </Box>
       </Stack>
@@ -83,8 +84,7 @@ const DaftarPemesananCardMk = () => {
               w="100%"
               h="100%"
               objectFit="cover"
-              borderRadius="4px"
-              src="https://i2.wp.com/farmasetika.com/wp-content/uploads/2018/03/20180316_1726481052941494.jpg?fit=780%2C1040&ssl=1"
+              src="https://lifepack.id/wp-content/uploads/2020/12/94-1.jpg"
             />
           </Box>
         </GridItem>
@@ -97,6 +97,18 @@ const DaftarPemesananCardMk = () => {
             <Box>
               <Text
                 mb="3px"
+                variant="caption-ligth"
+                fontSize={{
+                  base: "12px",
+                  md: "16px",
+                  lg: "16px",
+                }}
+                fontWeight="500"
+              >
+                Panadol Flu Dan Batuk
+              </Text>
+              <Text
+                mb="22px"
                 variant="caption"
                 fontSize={{
                   base: "10px",
@@ -104,18 +116,7 @@ const DaftarPemesananCardMk = () => {
                   lg: "14px",
                 }}
               >
-                Nomor Resep
-              </Text>
-              <Text
-                fontSize={{
-                  base: "14px",
-                  md: "16px",
-                  lg: "16px",
-                }}
-                fontWeight="500"
-                mb="22px"
-              >
-                #123abc456def
+                1 Strip
               </Text>
               <Text
                 variant="caption"
@@ -129,23 +130,77 @@ const DaftarPemesananCardMk = () => {
                 Tampilkan Detail
               </Text>
             </Box>
-            <Timer />
+            <Text variant="caption-ligth" fontWeight="700" fontSize="14px">
+              Rp13.000
+            </Text>
+          </Stack>
+          <Divider display={["none", "none", "flex"]} mt="10px" mb="12px" />
+          <Stack
+            display={["none", "none", "flex"]}
+            direction="row"
+            justifyContent="space-between"
+          >
+            <Text variant="caption-ligth" fontSize="16px" fontWeight="500">
+              Subtotal
+            </Text>
+            <Text variant="caption-ligth" fontSize="14px" fontWeight="700">
+              Rp22.000
+            </Text>
           </Stack>
         </GridItem>
       </Grid>
-      <Divider display={["none", "none", "flex"]} mt="14px" />
-      <Stack
-        display={["none", "none", "flex"]}
-        direction="row"
-        mt="23px"
-        spacing="14px"
-      >
-        <Icon as={TbMessageCircle} w="20px" h="18.66px" fill="#586193" />
-        <Text fontSize="12px" fontWeight="700" variant="caption">
-          Chat Customer Service
-        </Text>
+      <Divider mt="14px" />
+      <Stack direction="row" justifyContent="space-between">
+        <Stack
+          display={["none", "none", "flex"]}
+          direction="row"
+          mt="23px"
+          spacing="14px"
+        >
+          <Icon as={TbMessageCircle} w="20px" h="18.66px" fill="#586193" />
+          <Text fontSize="12px" fontWeight="700" variant="caption">
+            Chat Customer Service
+          </Text>
+        </Stack>
+        <Stack direction="row" spacing={["54px", "54px", "16px"]}>
+          <Box mt={["20px", "20px", "16px"]}>
+            <Text
+              textAlign={["start", "start", "end"]}
+              fontSize={{
+                base: "10px",
+                md: "12px",
+                lg: "12px",
+              }}
+              fontWeight="400"
+            >
+              Bayar Sebelum
+            </Text>
+            <Text
+              fontSize={{
+                base: "10px",
+                md: "12px",
+                lg: "12px",
+              }}
+              fontWeight="400"
+            >
+              6 April 2022, 15:45
+            </Text>
+          </Box>
+          <Box pt="19px">
+            <Button
+              w="157px"
+              h="30px"
+              variant="main"
+              fontSize="12px"
+              fontWeight="700"
+              textAlign="center"
+            >
+              Bayar Sekarang
+            </Button>
+          </Box>
+        </Stack>
       </Stack>
     </Box>
   );
 };
-export default DaftarPemesananCardMk;
+export default DaftarPemesananCardSDK;

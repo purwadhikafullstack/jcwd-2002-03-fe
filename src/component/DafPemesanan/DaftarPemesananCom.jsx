@@ -12,18 +12,60 @@ import {
   Button,
   Icon,
   Select,
+  Spinner,
 } from "@chakra-ui/react";
 import { BiSort } from "react-icons/bi";
-import DaftarPemesananCardMp from "./DaftarPemesananCardMP";
-import DaftarPemesananCardMk from "./DaftarPemesananMK";
+import { useEffect, useState } from "react";
+import DaftarPemesananCardMPMK from "./DaftarPemesananCardMPMK";
 import LeftProfileDafPem from "./LeftProfileDafPem";
-import UrutanProList from "./UrutanProList";
+import UrutanProList from "../UrutanProList";
+import api from "../../lib/api";
 
 const DaftarPemesanan = () => {
   // countdown pake moment
+  // cart kasih batasan 20 barang max
+  // transaction item yang banyak uinya cuman datu produk
+  const [transaction, setTransaction] = useState([]);
+  const fetchTransaction = async (
+    queryParams = {
+      params: {},
+    }
+  ) => {
+    try {
+      const res = await api.get("/transaction/user-transaction/", {
+        ...queryParams,
+      });
+      console.log(res.data.result.rows);
+      setTransaction(res.data.result.rows);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const renderDafPemMkMp = () => {
+    return transaction.map((val) => {
+      // console.log(val?.Transaction_items[0]?.Product.med_name);
+      return (
+        <DaftarPemesananCardMPMK
+          key={val.id.toString()}
+          productName={val?.Transaction_items[0]?.Product.med_name}
+          price={val?.Transaction_items[0]?.price}
+          subtotal={val?.total_price}
+          image={
+            val?.Transaction_items[0]?.Product.Product_images[0]?.image_url
+          }
+        />
+      );
+    });
+  };
+  // useEffect(() => {
+  //   fetchTransaction();
+  // }, []);
+  useEffect(() => {
+    fetchTransaction();
+  }, []);
   return (
     <Grid
-      mt={[0, 0, 40]}
+      mt={[0, 0, 10]}
       mb={[0, 0, 114]}
       templateColumns={[
         "repeat(2, 1fr)",
@@ -53,19 +95,79 @@ const DaftarPemesanan = () => {
               <Tab mr="33.5px" _focus={{ outline: 0 }}>
                 Semua
               </Tab>
-              <Tab mr="33.5px" _focus={{ outline: 0 }}>
+              <Tab
+                mr="33.5px"
+                _focus={{ outline: 0 }}
+                onClick={() =>
+                  fetchTransaction({
+                    params: {
+                      // _sortBy: selectedValue,
+                      // _sortDir: dir,
+                      isPaid: 1,
+                    },
+                  })
+                }
+              >
                 Menunggu
               </Tab>
-              <Tab mr="33.5px" _focus={{ outline: 0 }}>
+              <Tab
+                mr="33.5px"
+                _focus={{ outline: 0 }}
+                onClick={() =>
+                  fetchTransaction({
+                    params: {
+                      // _sortBy: selectedValue,
+                      // _sortDir: dir,
+                      isPacking: 1,
+                    },
+                  })
+                }
+              >
                 Diproses
               </Tab>
-              <Tab mr="33.5px" _focus={{ outline: 0 }}>
+              <Tab
+                mr="33.5px"
+                _focus={{ outline: 0 }}
+                onClick={() =>
+                  fetchTransaction({
+                    params: {
+                      // _sortBy: selectedValue,
+                      // _sortDir: dir,
+                      isSend: 1,
+                    },
+                  })
+                }
+              >
                 Dikirim
               </Tab>
-              <Tab mr="33.5px" _focus={{ outline: 0 }}>
+              <Tab
+                mr="33.5px"
+                _focus={{ outline: 0 }}
+                onClick={() =>
+                  fetchTransaction({
+                    params: {
+                      // _sortBy: selectedValue,
+                      // _sortDir: dir,
+                      isDone: 1,
+                    },
+                  })
+                }
+              >
                 Selesai
               </Tab>
-              <Tab mr="33.5px" _focus={{ outline: 0 }}>
+              <Tab
+                mr="33.5px"
+                _focus={{ outline: 0 }}
+                onClick={() =>
+                  fetchTransaction({
+                    params: {
+                      // _sortBy: selectedValue,
+                      // _sortDir: dir,
+                      isValid: 1,
+                    },
+                  })
+                }
+              >
                 Dibatalkan
               </Tab>
             </TabList>
@@ -122,11 +224,66 @@ const DaftarPemesanan = () => {
                   </Stack>
                 </Box>
                 <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMk />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
+                </Box>
+              </TabPanel>
+              <TabPanel p="0">
+                <Box pl="1px" mb="40px">
+                  <Stack direction="row">
+                    <Stack pt={10} direction="row">
+                      <Text
+                        mt="5px"
+                        variant="mini-title"
+                        display={["none", "none", "none", "grid"]}
+                      >
+                        Jenis Obat
+                      </Text>
+                      <Button
+                        borderRadius="130px"
+                        w="105px"
+                        h="33px"
+                        variant="main-outline"
+                      >
+                        Semua Obat
+                      </Button>
+                      <Button
+                        borderRadius="130px"
+                        w="105px"
+                        h="33px"
+                        variant="main-outline"
+                      >
+                        Obat Resep
+                      </Button>
+                      <Button
+                        borderRadius="130px"
+                        w="105px"
+                        h="33px"
+                        variant="main-outline"
+                      >
+                        Obat Bebas
+                      </Button>
+                    </Stack>
+                    <Stack
+                      display={["none", "none", "none", "flex"]}
+                      pl="46px"
+                      pt={7}
+                      direction="row"
+                      w="31.9%"
+                    >
+                      <Text mt="17px" variant="caption">
+                        Urutkan:
+                      </Text>
+                      <Box>
+                        <UrutanProList />
+                      </Box>
+                    </Stack>
+                  </Stack>
+                </Box>
+                <Box w="720px" h="600px" mb="10px" overflowY="scroll">
+                  {renderDafPemMkMp()}
                 </Box>
               </TabPanel>
               <TabPanel p="0">
@@ -182,11 +339,10 @@ const DaftarPemesanan = () => {
                   </Stack>
                 </Box>
                 <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                  <DaftarPemesananCardMk />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
                 </Box>
               </TabPanel>
               <TabPanel p="0">
@@ -242,11 +398,10 @@ const DaftarPemesanan = () => {
                   </Stack>
                 </Box>
                 <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMk />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
                 </Box>
               </TabPanel>
               <TabPanel p="0">
@@ -302,11 +457,10 @@ const DaftarPemesanan = () => {
                   </Stack>
                 </Box>
                 <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                  <DaftarPemesananCardMk />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
                 </Box>
               </TabPanel>
               <TabPanel p="0">
@@ -362,71 +516,10 @@ const DaftarPemesanan = () => {
                   </Stack>
                 </Box>
                 <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMk />
-                </Box>
-              </TabPanel>
-              <TabPanel p="0">
-                <Box pl="1px" mb="40px">
-                  <Stack direction="row">
-                    <Stack pt={10} direction="row">
-                      <Text
-                        mt="5px"
-                        variant="mini-title"
-                        display={["none", "none", "none", "grid"]}
-                      >
-                        Jenis Obat
-                      </Text>
-                      <Button
-                        borderRadius="130px"
-                        w="105px"
-                        h="33px"
-                        variant="main-outline"
-                      >
-                        Semua Obat
-                      </Button>
-                      <Button
-                        borderRadius="130px"
-                        w="105px"
-                        h="33px"
-                        variant="main-outline"
-                      >
-                        Obat Resep
-                      </Button>
-                      <Button
-                        borderRadius="130px"
-                        w="105px"
-                        h="33px"
-                        variant="main-outline"
-                      >
-                        Obat Bebas
-                      </Button>
-                    </Stack>
-                    <Stack
-                      display={["none", "none", "none", "flex"]}
-                      pl="46px"
-                      pt={7}
-                      direction="row"
-                      w="31.9%"
-                    >
-                      <Text mt="17px" variant="caption">
-                        Urutkan:
-                      </Text>
-                      <Box>
-                        <UrutanProList />
-                      </Box>
-                    </Stack>
-                  </Stack>
-                </Box>
-                <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                  <DaftarPemesananCardMk />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
-                  <DaftarPemesananCardMp />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
+                  <DaftarPemesananCardMPMK />
                 </Box>
               </TabPanel>
             </TabPanels>
@@ -508,11 +601,10 @@ const DaftarPemesanan = () => {
                 </Stack>
               </Box>
               <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                <DaftarPemesananCardMk />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
               </Box>
             </TabPanel>
             <TabPanel>
@@ -556,11 +648,10 @@ const DaftarPemesanan = () => {
                 </Stack>
               </Box>
               <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                <DaftarPemesananCardMk />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
               </Box>
             </TabPanel>
             <TabPanel>
@@ -601,11 +692,10 @@ const DaftarPemesanan = () => {
                 </Stack>
               </Box>
               <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMk />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
               </Box>
             </TabPanel>
             <TabPanel>
@@ -646,11 +736,10 @@ const DaftarPemesanan = () => {
                 </Stack>
               </Box>
               <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMk />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
               </Box>
             </TabPanel>
             <TabPanel>
@@ -691,11 +780,10 @@ const DaftarPemesanan = () => {
                 </Stack>
               </Box>
               <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMk />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
               </Box>
             </TabPanel>
             <TabPanel>
@@ -736,11 +824,10 @@ const DaftarPemesanan = () => {
                 </Stack>
               </Box>
               <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMp />
-                <DaftarPemesananCardMk />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
+                <DaftarPemesananCardMPMK />
               </Box>
             </TabPanel>
           </TabPanels>
