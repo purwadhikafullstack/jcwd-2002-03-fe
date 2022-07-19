@@ -38,9 +38,14 @@ const ProductCart = ({
   quantity1,
   passingFetchProduct,
   ProductId,
+  subTotal,
+  setSelectedItem,
+  props,
+  selectedItem,
 }) => {
   const dispatch = useDispatch();
   const authSelector = useSelector(selectAuth);
+  const [toggleSelected, setToggleSelected] = useState(false);
   // dispatch(
   //   cart({
   //     id,
@@ -103,12 +108,22 @@ const ProductCart = ({
       editCartBtnHandler("dec");
     }
   };
+  const selectedProduct = () => {
+    if (!toggleSelected) {
+      setSelectedItem((prev) => [...prev, props]);
+      setToggleSelected(true);
+    } else {
+      console.log(props);
+      setSelectedItem(selectedItem.filter((event) => event.id !== props.id));
+      setToggleSelected(false);
+    }
+  };
   return (
     <>
       <GridItem colSpan={5} padding={2}>
-        <Box display="flex" width="100%" justifyContent="space-between">
+        <Stack direction="row" width="100%" justifyContent="space-between">
           <Box display="flex" justifyContent="left">
-            <Checkbox value={id} mr={2} />
+            <Checkbox value={props} mr={2} onChange={() => selectedProduct()} />
             <Img
               width={["71px", "86px", "86px"]}
               height={["71px", "86px", "86px"]}
@@ -139,7 +154,16 @@ const ProductCart = ({
                   </Text>
                 </Box>
               </Stack>
-              <Text variant="caption">{kemasan}</Text>
+              <Text variant="caption">kemasan</Text>
+              <Stack
+                mt={4}
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                // spacing={5}
+              >
+                <Text variant="caption-bold">Sub Total</Text>
+              </Stack>
             </Box>
           </Box>
           <Box
@@ -162,7 +186,10 @@ const ProductCart = ({
               <Text variant="subtitle-bold">Rp. {finalPrice()}</Text>
             </Box>
           </Box>
-        </Box>
+        </Stack>
+        <Stack alignItems="end" mt={-7} mb={7}>
+          <Text variant="subtitle-bold">Rp. {subTotal}</Text>
+        </Stack>
       </GridItem>
       <GridItem colSpan={5} padding={[0, 4]} alignItems="center">
         <Grid templateColumns="repeat(5,1fr)">
