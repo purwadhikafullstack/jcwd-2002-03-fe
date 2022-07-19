@@ -43,7 +43,7 @@ const ResepBanner = () => {
                 >
                     <GridItem colSpan={1} justifyContent="center" display="flex">
                         <Img
-                            src="/unggahReseplg.svg"
+                            src="/unggahResepLg.svg"
                             height="232px"
                         />
                     </GridItem>
@@ -93,7 +93,6 @@ const ResepBanner = () => {
             </Box>
             <Box>
                 {banner}
-
             </Box>
         </>
     )

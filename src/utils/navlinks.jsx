@@ -1,5 +1,5 @@
 import { FaShoppingCart } from "react-icons/fa"
-import { HiDotsVertical } from "react-icons/hi"
+import { HiDotsVertical, HiHome } from "react-icons/hi"
 import CartBotomNavbar from "../component/bottomNavBar/CartBotomNavbar"
 import HomeBottomNavBar from "../component/bottomNavBar/HomeBottomNavBar"
 import ProductDetailBottomNavbar from "../component/bottomNavBar/ProductDetailBottomNavbar"
@@ -11,8 +11,8 @@ import MobileNavbar from "../component/navbar/MobileNavbar"
 const navLinks = [
     {
         name: "detail-Product",
-        path: "/product/detail",
-        base: <MobileNavbar key="kategori" title="Kategori" icon1={FaShoppingCart} icon2={HiDotsVertical} />,
+        path: "/product/detail/[id]",
+        base: <MobileNavbar key="kategori" title="Kategori" icon1={FaShoppingCart} icon2={HiDotsVertical} link="/cart" />,
         md: <DesktopNavBar />,
         bottomNav: <ProductDetailBottomNavbar />,
         displayAboutCompany: <AboutCompany />
@@ -103,7 +103,7 @@ const navLinks = [
         name: "product-list",
         path: "/product-list",
         title: "product-list",
-        base: <DesktopNavBar />,
+        base: <DesktopNavBar icon1={HiHome} link1="/" />,
         md: <DesktopNavBar />,
         bottomNav: undefined,
         displayAboutCompany: <AboutCompany />
@@ -149,6 +149,15 @@ const navLinks = [
         path: "/transaction/menunggu-konfimrasi",
         title: "Menunggu Pembayaran",
         base: <MobileNavbar />,
+        md: <DesktopNavBar />,
+        bottomNav: undefined,
+        displayAboutCompany: <AboutCompany />
+    },
+    {
+        name: "daftar-pemesanan",
+        path: "/daftar-pemesanan",
+        title: "Daftar Pemesanan",
+        base: <MobileNavbar key="daftar-pemesanan" title="Daftar Pemesanan" icon1={FaShoppingCart} icon2={undefined} link="/cart" />,
         md: <DesktopNavBar />,
         bottomNav: undefined,
         displayAboutCompany: <AboutCompany />

@@ -15,10 +15,12 @@ import { FaPills } from "react-icons/fa";
 import { MdReceipt } from "react-icons/md";
 import { Icon } from "@chakra-ui/icons";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const { default: AdminNavbar } = require("./AdminNavbar");
 
 const AdminSideBar = () => {
+  const router = useRouter()
   return (
     <SimpleGrid overflow="auto" zIndex="overlay">
       <Box w="full">
@@ -89,6 +91,7 @@ const AdminSideBar = () => {
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
+                onClick={() => router.push("/admin/transaction")}
               >
                 Pesanan Baru
               </AccordionPanel>
@@ -139,7 +142,7 @@ const AdminSideBar = () => {
                 pl="14"
               >
                 <Link href="/admin/buku-kas">
-                Buku Kas
+                  Buku Kas
                 </Link>
               </AccordionPanel>
               <AccordionPanel
