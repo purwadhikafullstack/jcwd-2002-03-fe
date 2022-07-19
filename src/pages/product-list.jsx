@@ -72,6 +72,7 @@ const ProductList = () => {
           discount={val?.discount}
           sellingPrice={val?.selling_price}
           productImage={val?.Product_images[0]?.image_url}
+          id={val.id}
         />
       );
     });
@@ -127,7 +128,7 @@ const ProductList = () => {
           mt="36px"
         >
           <BreadcrumbItem>
-            <BreadcrumbLink href="/home" fontWeight="600">
+            <BreadcrumbLink href="/" fontWeight="600">
               <Text variant="caption" fontWeight="600">
                 Home
               </Text>

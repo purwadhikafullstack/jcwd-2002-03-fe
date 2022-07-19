@@ -9,6 +9,7 @@ import {
   Divider,
   Grid,
   GridItem,
+  Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -52,23 +53,23 @@ const Cart = () => {
   };
   useEffect(() => {
     fetchProduct();
-    //   if (!authSelector.id || authSelector.role === "admin") {
-    //     window.history.back()
-    // }
+    if (!authSelector.id || authSelector.role === "admin") {
+      window.history.back()
+    }
   }, []);
-  //   if (!authSelector.id || authSelector.role === "admin") {
-  //     return <Spinner thickness='4px'
-  //         speed='0.65s'
-  //         emptyColor='gray.200'
-  //         color='blue.500'
-  //         size='xl'
-  //         display="flex"
-  //         mt="10px"
-  //         mb="auto"
-  //         ml="auto"
-  //         mr="auto"
-  //     />
-  // }
+  if (!authSelector.id || authSelector.role === "admin") {
+    return <Spinner thickness='4px'
+      speed='0.65s'
+      emptyColor='gray.200'
+      color='blue.500'
+      size='xl'
+      display="flex"
+      mt="10px"
+      mb="auto"
+      ml="auto"
+      mr="auto"
+    />
+  }
   return (
     <Grid templateColumns="repeat(6,1fr)" paddingX={[0, 6, 6]} gap={4}>
       <GridItem colSpan={[0, 6, 6]} padding={2}>

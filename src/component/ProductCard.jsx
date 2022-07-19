@@ -3,24 +3,26 @@ import {
   Button,
   HStack,
   Icon,
-  Image,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { BsFillCircleFill, BsSuitHeartFill } from "react-icons/bs";
+import { useState } from "react";
+import { BsSuitHeartFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { selectAuth } from "../redux/reducer/authSlice";
 
-const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
+const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasan }) => {
   const authSelector = useSelector(selectAuth)
   const router = useRouter()
+  const [love, setLove] = useState(false)
 
   return (
     <Box
       w={["140px", "213px", "213px"]}
       h={["290px", "360px", "360px"]}
-      borderWidth="1px"
+
+
       borderRadius="xl"
       overflow="hidden"
       boxShadow=" 1px 2px 3px 4px rgba(245,251,251)"
@@ -31,16 +33,25 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
         transitionDuration: "0.5s",
       }}
     >
-      <Stack direction="row" justifyContent="end">
-        <Stack px="40px" pt="35px">
-          <Image w="100%" h="100%" objectFit="cover" src={productImage} />
+      <Stack direction="row" justifyContent="center">
+        <Stack px="40px" pt="20px">
+          <Box
+            w="180px"
+            h="180px"
+            backgroundRepeat="no-repeat"
+            backgroundSize="contain"
+            backgroundPosition="center"
+            backgroundImage={productImage}
+            display="flex"
+            justifyContent="end"
+          >
+            <Box onClick={() => setLove(!love)} position="absolute" backgroundColor="gray.200" opacity={0.6} display="flex" borderRadius="50%" w="40px" h="40px" justifyContent="center">
+              <Icon as={BsSuitHeartFill} color={!love ? "gray.400" : "red.600"} boxSize="30px" mX="auto" my="auto" />
+            </Box>
+          </Box>
+
         </Stack>
-        <Box pt="14px" pr="22px" position="absolute">
-          <Icon as={BsFillCircleFill} color="gray.100" w="44px" h="44px" />
-        </Box>
-        <Box pt="25px" pr="30.5px" position="absolute">
-          <Icon as={BsSuitHeartFill} color="gray.400" w="26.32px" h="23.69" />
-        </Box>
+
       </Stack>
       <Stack pl="24px" pr="10px" pt="3">
         <Text
@@ -52,6 +63,8 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
           fontWeight="700"
           fontFamily="sans-serif"
           variant="mini-title"
+          onClick={() => router.push(`/product/detail/${id}`)}
+          cursor="pointer"
         >
           {medName}
         </Text>
@@ -112,7 +125,7 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
               lg: "14px",
             }}
           >
-            / Strip
+            /{kemasan}
           </Text>
         </HStack>
 

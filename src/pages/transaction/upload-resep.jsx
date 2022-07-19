@@ -62,6 +62,10 @@ const uploadResep = () => {
         }, 3000)
     }
 
+    const cancelHandler = () => {
+        setSelectedFileArray([])
+    }
+
     return (
         <Container
             width={["100%", "90%", "90%"]}
@@ -88,7 +92,7 @@ const uploadResep = () => {
                     marginLeft={["0px", "auto", "auto"]}
                     marginRight={["0px", "auto", "auto"]}
                     boxShadow={["none", "0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)"]}
-                    padding={[3, 6, 6]}
+                    padding={[3, 8, 8]}
                     borderRadius="18px"
                     marginBottom={[10, 10, 10]}
 
@@ -168,13 +172,13 @@ const uploadResep = () => {
                     <Grid
                         templateColumns={["repeat(1, 1fr)", "repeat(3, 1fr)"]} gap={2}
                         mt={[3, 6, 6]}
-                        mb={[10, 10, 10]}
+                        mb={[15, 15, 15]}
                     >
                         <GridItem justifyContent="space-between" display="flex" alignItems="center" colSpan={[1, 2, 2]} />
-                        <GridItem colSpan={[1, 1, 1]} justifyContent="space-evenly" display="flex" alignItems="center">
+                        <GridItem colSpan={[1, 1, 1]} justifyContent="space-evenly" display="flex" alignItems="center" >
                             {selectedFileArray.length !== 0 &&
                                 <>
-                                    <Button variant="main-outline">
+                                    <Button variant="main-outline" onClick={() => cancelHandler()}>
                                         Cancel
                                     </Button>
                                     <Button
