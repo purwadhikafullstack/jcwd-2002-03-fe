@@ -13,8 +13,8 @@ import { useSelector } from "react-redux";
 import { selectAuth } from "../redux/reducer/authSlice";
 
 const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
-  const authSelector = useSelector(selectAuth)
-  const router = useRouter()
+  const authSelector = useSelector(selectAuth);
+  const router = useRouter();
 
   return (
     <Box
@@ -116,11 +116,19 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
           </Text>
         </HStack>
 
-        <Button variant="main-outline" w="92%" onClick={() => authSelector.role === "user" ? router.push("/cart") : router.push("/auth/login")}>
+        <Button
+          variant="main-outline"
+          w="92%"
+          onClick={() =>
+            authSelector.role === "user"
+              ? router.push("/cart")
+              : router.push("/auth/login")
+          }
+        >
           Keranjang
         </Button>
       </Stack>
-    </Box >
+    </Box>
   );
 };
 export default ProductCard;
