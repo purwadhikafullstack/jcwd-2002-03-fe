@@ -1,3 +1,4 @@
+
 import { FaShoppingCart } from "react-icons/fa"
 import { HiDotsVertical, HiHome } from "react-icons/hi"
 import CartBotomNavbar from "../component/bottomNavBar/CartBotomNavbar"

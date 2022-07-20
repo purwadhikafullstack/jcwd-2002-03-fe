@@ -12,11 +12,13 @@ import { BsSuitHeartFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { selectAuth } from "../redux/reducer/authSlice";
 
+
 const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasan, discountPrice }) => {
   const authSelector = useSelector(selectAuth)
   const router = useRouter()
   const [love, setLove] = useState(false)
-
+  
+ 
   return (
     <Box
       w={["150px", "230px", "230px"]}
@@ -130,11 +132,19 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasa
           </Text>
         </HStack>
 
-        <Button variant="main-outline" w="92%" onClick={() => authSelector.role === "user" ? router.push("/cart") : router.push("/auth/login")}>
+        <Button
+          variant="main-outline"
+          w="92%"
+          onClick={() =>
+            authSelector.role === "user"
+              ? router.push("/cart")
+              : router.push("/auth/login")
+          }
+        >
           Keranjang
         </Button>
       </Stack>
-    </Box >
+    </Box>
   );
 };
 export default ProductCard;

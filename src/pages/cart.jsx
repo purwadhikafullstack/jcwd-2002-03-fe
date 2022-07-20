@@ -24,15 +24,15 @@ import api from "../lib/api";
 const Cart = () => {
   const cartSelector = useSelector(selectCart);
   const authSelector = useSelector(selectAuth);
-  const [productData, setProductData] = useState();
   const router = useRouter()
+  const [selectedItem, setSelectedItem] = useState([]);
 
   const fetchProduct = async () => {
     try {
       const UserId = 2;
       const res = await api.get(`/cart/${UserId}`);
       setProductData(res.data.result.rows);
-      console.log(res.data.result.rows);
+      // console.log(res.data.result.rows);
     } catch (err) {
       console.log(err);
     }
@@ -44,18 +44,28 @@ const Cart = () => {
           key={val.id}
           id={val?.id}
           med_name={val?.Product?.med_name}
-          image_url={val?.Product?.Product_images[0].image_url}
+          image_url={val?.Product?.Product_images[0]?.image_url}
           discount={val?.Product?.discount}
           selling_price={val?.price}
           quantity1={val?.quantity}
           ProductId={val?.ProductId}
+          subTotal={val?.sub_total}
           passingFetchProduct={() => fetchProduct()}
+          setSelectedItem={setSelectedItem}
+          props={val}
+          selectedItem={selectedItem}
         />
       );
     });
   };
+  const grandTotal = () => {
+    return productData?.reduce((sum, object) => {
+      return sum + object.sub_total;
+    }, 0);
+  };
   useEffect(() => {
     fetchProduct();
+
     if (!authSelector.id || authSelector.role !== "user") {
       router.push("/auth/login")
     }
@@ -74,6 +84,7 @@ const Cart = () => {
       mr="auto"
     />
   }
+
   return (
     <Grid templateColumns="repeat(6,1fr)" paddingX={[0, 6, 6]} gap={4}>
       <GridItem colSpan={[0, 6, 6]} padding={2}>
@@ -122,10 +133,10 @@ const Cart = () => {
                 alignItems="center"
               >
                 <Text variant="subtitle-bold" color="#737A8D" fontWeight="400">
-                  Sub total
+                  Grand total
                 </Text>
                 <Text variant="subtitle-bold" color="#737A8D">
-                  Rp.13.000
+                  {grandTotal()}
                 </Text>
               </Box>
               <Divider />
@@ -135,7 +146,7 @@ const Cart = () => {
                 alignItems="center"
               >
                 <Text variant="subtitle-bold">Total</Text>
-                <Text variant="subtitle-bold">Rp.13.000</Text>
+                <Text variant="subtitle-bold">{grandTotal()}</Text>
               </Box>
               <Button variant="main" mt={3}>
                 Bayar

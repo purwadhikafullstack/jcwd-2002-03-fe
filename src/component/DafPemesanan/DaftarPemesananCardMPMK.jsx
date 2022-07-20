@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { TbMessageCircle } from "react-icons/tb";
 
-const DaftarPemesananCardMp = () => {
+const DaftarPemesananCardMp = ({ productName, price, subtotal, image }) => {
   // render dua kali unutk dua card menungu konfirmasi upload resep
   // dan menunggu pembayaran
   return (
@@ -68,6 +68,28 @@ const DaftarPemesananCardMp = () => {
             Menunggu Pembayaran
           </Text>
         </Box>
+        <Box
+          w={["130px", "140px", "156px"]}
+          h={["17px", "20px", "26px"]}
+          bgColor="#fff5d3"
+          border="1px"
+          borderRadius="2px"
+          borderColor="#FFDE6B"
+          pl={["12px", "12px", "14px"]}
+          pt="2px"
+        >
+          <Text
+            fontSize={{
+              base: "10px",
+              md: "12px",
+              lg: "12px",
+            }}
+            fontWeight="400"
+            color="#cbaf4e"
+          >
+            Menunggu Konfirmasi
+          </Text>
+        </Box>
       </Stack>
       <Divider mt="12px" mb="12px" />
       <Grid
@@ -80,12 +102,7 @@ const DaftarPemesananCardMp = () => {
       >
         <GridItem colSpan={1}>
           <Box w={["61px", "70px", "75px"]} h={["53px", "75px", "80px"]}>
-            <Image
-              w="100%"
-              h="100%"
-              objectFit="cover"
-              src="https://lifepack.id/wp-content/uploads/2020/12/94-1.jpg"
-            />
+            <Image w="100%" h="100%" objectFit="cover" src={image} />
           </Box>
         </GridItem>
         <GridItem colSpan={[2, 1, 4]}>
@@ -105,7 +122,7 @@ const DaftarPemesananCardMp = () => {
                 }}
                 fontWeight="500"
               >
-                Panadol Flu Dan Batuk
+                {productName}
               </Text>
               <Text
                 mb="22px"
@@ -131,7 +148,7 @@ const DaftarPemesananCardMp = () => {
               </Text>
             </Box>
             <Text variant="caption-ligth" fontWeight="700" fontSize="14px">
-              Rp13.000
+              {price}
             </Text>
           </Stack>
           <Divider display={["none", "none", "flex"]} mt="10px" mb="12px" />
