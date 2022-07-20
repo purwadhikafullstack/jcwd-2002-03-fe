@@ -15,8 +15,13 @@ const transaction = () => {
   const [limitNumber, setLimitNumber] = useState(5)
   const [dirValue, setDirValue] = useState("DESC")
   const [maxPage, setMaxPage] = useState(1)
+  const searchSelector = useSelector((state) => state.search);
+  const [searchValue, setSearchValue] = useState(searchSelector.searchInput);
+  const [searchInput, setSearchInput] = useState("");
+  const dispatch = useDispatch()
   const toast = useToast()
   const router = useRouter()
+
   const { isPaid, isDone, isPacking, isSend } = router.query
 
   const fetchTransaction = async (
@@ -68,14 +73,25 @@ const transaction = () => {
   };
 
   const inputHandler = (event) => {
-    const { value } = event.target;
     setSearchInput(event.target.value);
   };
   useEffect(() => {
     fetchTransaction()
+    // setSearchValue(searchSelector.searchInput);
+    // setPageNumber(1);
+    // if (router.isReady) {
+    //   if (router.query.searchProduk) {
+    //     dispatch(search(router.query.searchProduk));
+    //   }
+    // }
+    // router.push({
+    //   query: {
+    //     searchName: searchValue || undefined,
+    //   },
+    // });
 
 
-  }, [pageNumber, limitNumber, dirValue, router.query])
+  }, [pageNumber, limitNumber, dirValue, router.query, searchSelector.searchInput, searchValue])
 
   return (
     <>

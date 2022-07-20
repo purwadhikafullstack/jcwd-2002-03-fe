@@ -1,9 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import {
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Button,
   Checkbox,
   Divider,
@@ -12,9 +9,9 @@ import {
   Spinner,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
-import { useDispatch, useSelector } from "react-redux";
-import { cart, selectCart } from "redux/reducer/cartSlice";
+import { useSelector } from "react-redux";
 import { selectAuth } from "redux/reducer/authSlice";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -22,19 +19,25 @@ import ProductCart from "../component/cart/ProductCart";
 import api from "../lib/api";
 
 const Cart = () => {
-  const cartSelector = useSelector(selectCart);
   const authSelector = useSelector(selectAuth);
   const router = useRouter()
   const [selectedItem, setSelectedItem] = useState([]);
+  const [productData, setProductData] = useState([])
+  const toast = useToast()
 
   const fetchProduct = async () => {
     try {
-      const UserId = 2;
-      const res = await api.get(`/cart/${UserId}`);
+      const res = await api.get("/cart");
       setProductData(res.data.result.rows);
       // console.log(res.data.result.rows);
     } catch (err) {
-      console.log(err);
+      toast({
+        title: "error",
+        status: "error",
+        duration: 5000,
+        description: err?.response?.data?.message || err?.message,
+        isClosable: true
+      })
     }
   };
   const renderProductList = () => {
@@ -49,7 +52,7 @@ const Cart = () => {
           selling_price={val?.price}
           quantity1={val?.quantity}
           ProductId={val?.ProductId}
-          subTotal={val?.sub_total}
+          subTotal={val?.sub_total.toLocaleString()}
           passingFetchProduct={() => fetchProduct()}
           setSelectedItem={setSelectedItem}
           props={val}
@@ -83,6 +86,25 @@ const Cart = () => {
       ml="auto"
       mr="auto"
     />
+  }
+
+  const buyItems = async () => {
+    try {
+      const res = await api.post("/transaction/create-transaction", selectedItem)
+      toast({
+        status: "success",
+        title: "success buy product",
+        duration: 5000,
+        description: res?.data?.message,
+        isClosable: true
+      })
+
+    } catch (err) {
+      toast({
+        status: "error",
+        description: "error transaction"
+      })
+    }
   }
 
   return (
@@ -148,7 +170,7 @@ const Cart = () => {
                 <Text variant="subtitle-bold">Total</Text>
                 <Text variant="subtitle-bold">{grandTotal()}</Text>
               </Box>
-              <Button variant="main" mt={3}>
+              <Button variant="main" mt={3} onClick={() => buyItems()}>
                 Bayar
               </Button>
             </Stack>

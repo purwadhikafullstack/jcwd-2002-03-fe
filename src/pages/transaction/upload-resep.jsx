@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react"
-import { Box, Button, Container, Divider, Grid, GridItem, Image, Input, List, ListIcon, ListItem, Spinner, Stack, Text, useToast } from "@chakra-ui/react"
+import { Box, Button, Container, Divider, Image, Input, List, ListIcon, ListItem, Spinner, Stack, Text, useToast } from "@chakra-ui/react"
 import { MdCheckCircle } from "react-icons/md"
 import { useRouter } from "next/router"
 import { CloseIcon } from "@chakra-ui/icons"
@@ -70,7 +70,7 @@ const uploadResep = () => {
 
     const authSelector = useSelector(selectAuth)
 
-    if (authSelector.id || authSelector.role !== "user") {
+    if (!authSelector.id || authSelector.role !== "user") {
         router.push("/auth/login")
 
         return <Spinner thickness='4px'
@@ -113,7 +113,6 @@ const uploadResep = () => {
                     boxShadow={["none", "0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)"]}
                     padding={[3, 8, 8]}
                     borderRadius="18px"
-                    marginBottom={[10, 10, 10]}
 
                 >
                     <Text variant={["title", "caption-bold"]}>
@@ -176,7 +175,7 @@ const uploadResep = () => {
                                 </Box>
                             </Box>
                             <Input type="file" id="input-file-upload" multiple ref={inputRef} display="none" onChange={handleChange} />
-                            <Box alignItems="center" justifyContent="center" display="flex">
+                            <Box h={["md", "sm"]} alignItems="center" justifyContent="center" display="flex">
                                 <Button
                                     colorScheme="teal"
                                     type="button"
@@ -188,28 +187,26 @@ const uploadResep = () => {
                         </Stack>
                     </Box>
 
-                    <Grid
-                        templateColumns={["repeat(1, 1fr)", "repeat(3, 1fr)"]} gap={2}
-                        mt={[3, 6, 6]}
-                        mb={[15, 15, 15]}
-                    >
-                        <GridItem justifyContent="space-between" display="flex" alignItems="center" colSpan={[1, 2, 2]} />
-                        <GridItem colSpan={[1, 1, 1]} justifyContent="space-evenly" display="flex" alignItems="center" >
-                            {selectedFileArray.length !== 0 &&
-                                <>
-                                    <Button variant="main-outline" onClick={() => cancelHandler()}>
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        variant="main"
-                                        onClick={() => uploadHandler()}
-                                    >
-                                        Unggah
-                                    </Button>
-                                </>
-                            }
-                        </GridItem>
-                    </Grid>
+
+                    <Box justifyContent="end" display="flex" alignItems="center" my={3}>
+                        {selectedFileArray.length !== 0 &&
+                            <Box width={["60%", "30%"]} alignItems="center" display="flex" justifyContent="space-around">
+                                <Button height="36px" variant="outline" type="button" colorScheme="teal" onClick={() => cancelHandler()}>
+                                    Cancel
+                                </Button>
+                                <Button
+                                    colorScheme="teal"
+                                    type="button"
+                                    height="36px"
+                                    variant="solid"
+                                    isLoading={uploading}
+                                    onClick={() => uploadHandler()}
+                                >
+                                    Unggah
+                                </Button>
+                            </Box>
+                        }
+                    </Box>
                 </Box>
             </Box>
             {
@@ -239,7 +236,7 @@ const uploadResep = () => {
                     height={["50vh", "80vh", "80vh"]}
                     marginLeft={["0px", "auto", "auto"]}
                     marginRight={["0px", "auto", "auto"]}
-                    marginTop={["20px", "5px"]}
+                    marginTop={["30px", "5px"]}
                     padding={[3, 6, 6]}
                     display="flex"
                 >

@@ -26,8 +26,8 @@ const DesktopNavBar = ({ icon1 = FaBell, icon2 = FaShoppingCart, link1 = "/dafta
     const mdBar = () => {
         return (
             <HStack spacing={8}>
-                <Icon cursor="pointer" boxSize={6} as={icon1} color="#008D8F" _hover={{ color: "white" }} onClick={() => router.push(link1)} />
-                <Icon cursor="pointer" boxSize={6} as={icon2} color="#008D8F" _hover={{ color: "white" }} onClick={() => router.push(link2)} />
+                <Icon cursor="pointer" boxSize={6} as={icon1} color="#008D8F" _hover={{ transform: "rotate(20deg)" }} onClick={() => router.push(link1)} />
+                <Icon cursor="pointer" boxSize={6} as={icon2} color="#008D8F" _hover={{ transform: "rotate(20deg)" }} onClick={() => router.push(link2)} />
             </HStack>
         )
     }

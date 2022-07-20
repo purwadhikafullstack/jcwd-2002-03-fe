@@ -207,7 +207,6 @@ const MyProfileCom = () => {
           kodePos: values.kodePos,
           UserId: 1,
         });
-        console.log(Address);
       } catch (err) {
         console.log(err);
       }
@@ -266,7 +265,7 @@ const MyProfileCom = () => {
     }
   }, [selectedFile]);
   return (
-    <Box mt={[40, 40, 40]} mb={[0, 0, 114]} px={[10, 10, 10]}>
+    <Box mt={[10, 20, 20]} mb={[0, 0, 114]} px={[10, 10, 10]}>
       <Stack direction="row" alignItems="center" mb="10px">
         <Icon as={FaRegUser} w="14px" h="20px" />
         <Text>{profileSelector.name}</Text>

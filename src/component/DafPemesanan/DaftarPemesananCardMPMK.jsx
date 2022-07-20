@@ -6,12 +6,12 @@ import {
   Image,
   Grid,
   GridItem,
-  Button,
   Icon,
 } from "@chakra-ui/react";
 import { TbMessageCircle } from "react-icons/tb";
+import PaymentReceipt from "../transaction/PaymentReceipt";
 
-const DaftarPemesananCardMp = ({ productName, price, subtotal, image }) => {
+const DaftarPemesananCardMp = ({ productName, price, subtotal, image, transactionId }) => {
   // render dua kali unutk dua card menungu konfirmasi upload resep
   // dan menunggu pembayaran
   return (
@@ -161,7 +161,7 @@ const DaftarPemesananCardMp = ({ productName, price, subtotal, image }) => {
               Subtotal
             </Text>
             <Text variant="caption-ligth" fontSize="14px" fontWeight="700">
-              Rp22.000
+              {subtotal}
             </Text>
           </Stack>
         </GridItem>
@@ -204,16 +204,7 @@ const DaftarPemesananCardMp = ({ productName, price, subtotal, image }) => {
             </Text>
           </Box>
           <Box pt="19px">
-            <Button
-              w="157px"
-              h="30px"
-              variant="main"
-              fontSize="12px"
-              fontWeight="700"
-              textAlign="center"
-            >
-              Bayar Sekarang
-            </Button>
+            <PaymentReceipt transactionId={transactionId} />
           </Box>
         </Stack>
       </Stack>

@@ -4,8 +4,8 @@ import jsCookie from "js-cookie"
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { logout } from "../redux/reducer/authSlice"
-import BottomBanner from "../component/BotomBanner";
-import PromotionCard from "../component/PromotionCard";
+import BottomBanner from "../component/banner/BotomBanner";
+import PromotionCard from "../component/banner/PromotionCard";
 import ResepBanner from "../component/ResepBanner";
 import SlideShow from "../component/SlideShow";
 

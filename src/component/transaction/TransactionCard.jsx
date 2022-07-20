@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Divider, HStack, Icon, Stack, Text } from "@chakra-ui/react"
+import { Box, Button, Checkbox, Divider, HStack, Icon, Stack, Text, useToast } from "@chakra-ui/react"
 import React from "react"
 import { IoChatbubbleEllipses } from "react-icons/io5"
 import moment from "moment"
@@ -8,8 +8,33 @@ import { MdArrowDropDown } from "react-icons/md"
 import PrescriptionsHandler from "./PrescriptionsHandler"
 import TransactionDetail from "./TransactionDetail"
 import ApproveTransaction from "./ApproveTransaction"
+import api from "../../lib/api"
 
 const TransactionCard = ({ props, fetchTransaction }) => {
+
+    const toast = useToast()
+
+    const updateStatusPayment = async (dataStatus = {}) => {
+        try {
+            const res = await api.patch(`/transaction/${props.id}/transaction-status`, dataStatus)
+            toast({
+                title: "success",
+                status: "success",
+                description: res?.data?.message || "transaction approved successfuly",
+                duration: 5000,
+                isClosable: true
+            })
+        } catch (err) {
+            toast({
+                status: "error",
+                title: "error",
+                description: "erorr update Payment status",
+                duration: 5000,
+                isClosable: true
+            })
+        }
+    }
+
     return (
         <Box mt={4} bgColor="whiteAlpha.800" padding={4} width="100%" boxShadow="0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)">
             <Box borderBottom="1px solid black" display="flex" justifyContent="space-between" paddingBottom={2}>
@@ -120,7 +145,7 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                         nomerPesanan={props.nomer_pesanan}
                         username={props.User.name}
                         dateOrder={moment(props.createdAt).format("LLL")}
-                        totalPrice={props.total_price.toLocaleString()}
+                        totalPrice={props.total_price}
                         itemsLength={props.Transaction_items.length}
                         payment={props.Payments}
                     />
@@ -128,18 +153,23 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                 <Box display="flex" justifyContent="space-between" alignItems="center">
                     <HStack spacing={5}>
                         <Button variant="ghost" colorScheme="teal">Tolak Pesanan</Button>
-                        <ApproveTransaction
-                            key={props.id}
-                            transactionDetail={props.Transaction_items}
-                            nomerPesanan={props.nomer_pesanan}
-                            username={props.User.name}
-                            dateOrder={moment(props.createdAt).format("LLL")}
-                            totalPrice={props.total_price.toLocaleString()}
-                            itemsLength={props.Transaction_items.length}
-                            payment={props.Payments}
-                            TransactionId={props.id}
-                        />
-
+                        {props.isPaid === false &&
+                            <ApproveTransaction
+                                key={props.id}
+                                transactionDetail={props.Transaction_items}
+                                nomerPesanan={props.nomer_pesanan}
+                                username={props.User.name}
+                                dateOrder={moment(props.createdAt).format("LLL")}
+                                totalPrice={props.total_price}
+                                itemsLength={props.Transaction_items.length}
+                                payment={props.Payments}
+                                TransactionId={props.id}
+                                updateStatusPayment={updateStatusPayment}
+                            />
+                        }
+                        {props.isPacking === true && props.isSend === false &&
+                            <Button colorScheme="teal" onClick={() => updateStatusPayment({ isSend: true })}>Minta Penjemputan</Button>
+                        }
                     </HStack>
                 </Box>
             </Box>

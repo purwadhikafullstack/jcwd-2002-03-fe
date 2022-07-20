@@ -163,6 +163,15 @@ const navLinks = [
         bottomNav: undefined,
         displayAboutCompany: <AboutCompany />
     },
+    {
+        name: "myProfile",
+        path: "/my-profile",
+        title: "My Profile",
+        base: <MobileNavbar title="My Profile" />,
+        md: <DesktopNavBar />,
+        bottomNav: undefined,
+        displayAboutCompany: <AboutCompany />
+    },
 ]
 
 
