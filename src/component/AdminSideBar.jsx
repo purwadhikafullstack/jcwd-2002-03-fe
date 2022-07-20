@@ -9,6 +9,7 @@ import {
   AccordionIcon,
   AccordionPanel,
   SimpleGrid,
+  Text,
 } from "@chakra-ui/react";
 import { FiHome, FiTrendingUp } from "react-icons/fi";
 import { FaPills } from "react-icons/fa";
@@ -86,30 +87,37 @@ const AdminSideBar = () => {
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
               >
-                Semua Pesanan
+                <Text onClick={() => { router.push("/admin/transaction") }}>
+                  Semua Pesanan
+                </Text>
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
                 onClick={() => router.push("/admin/transaction")}
               >
-                Pesanan Baru
+                <Text onClick={() => { router.push({ pathname: "/admin/transaction", query: { isPaid: false } }) }}>
+                  Pesanan Baru
+                </Text>
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
+                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isPacking: true } }) }}
               >
                 Siap Kirim
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
+                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isSend: true } }) }}
               >
                 Dalam Pengiriman
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
+                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isDone: true } }) }}
               >
                 Selesai
               </AccordionPanel>

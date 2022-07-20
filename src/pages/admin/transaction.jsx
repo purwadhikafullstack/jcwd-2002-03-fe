@@ -1,39 +1,23 @@
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  HStack,
-  Icon,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Select,
-  Slider,
-  SliderThumb,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { BsSearch } from "react-icons/bs";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react"
+import { Box, HStack, Icon, Input, InputGroup, InputRightElement, Select, Slider, SliderThumb, Text, useToast } from "@chakra-ui/react"
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
+import { BsSearch } from "react-icons/bs"
+import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux";
-import TransactionCard from "../../component/transaction/TransactionCard";
-import AdminSideBar from "../../component/AdminSideBar";
-import api from "../../lib/api";
 import { search } from "../../redux/reducer/search";
+import TransactionCard from "../../component/transaction/TransactionCard"
+import AdminSideBar from "../../component/AdminSideBar"
+import api from "../../lib/api"
 
 const transaction = () => {
-  const router = useRouter();
-  const searchSelector = useSelector((state) => state.search);
-  const dispatch = useDispatch();
-
-  const [dataTrasactions, setDataTransaction] = useState([]);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [limitNumber, setLimitNumber] = useState(5);
-  const [dirValue, setDirValue] = useState("DESC");
-  const [maxPage, setMaxPage] = useState(1);
-  const [searchValue, setSearchValue] = useState(searchSelector.searchInput);
-  const [searchInput, setSearchInput] = useState("");
-  const toast = useToast();
+  const [dataTrasactions, setDataTransaction] = useState([])
+  const [pageNumber, setPageNumber] = useState(1)
+  const [limitNumber, setLimitNumber] = useState(5)
+  const [dirValue, setDirValue] = useState("DESC")
+  const [maxPage, setMaxPage] = useState(1)
+  const toast = useToast()
+  const router = useRouter()
+  const { isPaid, isDone, isPacking, isSend } = router.query
 
   const fetchTransaction = async (
     queryParams = {
@@ -43,24 +27,29 @@ const transaction = () => {
         _limit: limitNumber,
         _page: pageNumber,
         searchName: searchValue,
+        isPaid,
+        isPacking,
+        isSend,
+        isDone
       },
     }
   ) => {
     try {
-      const res = await api.get("/transaction", queryParams);
-      const data = res?.data?.result.rows;
-      setDataTransaction(data);
-      setMaxPage(res.data.result.totalPages);
+      const res = await api.get("/transaction", queryParams)
+      const data = res?.data?.result.rows
+      setDataTransaction(data)
+      setMaxPage(res.data.result.totalPages)
     } catch (err) {
       toast({
         title: "error",
         status: "error",
         description: err?.response?.data?.message || err?.message,
         duration: 5000,
-        isClosable: true,
-      });
+        isClosable: true
+      })
     }
-  };
+  }
+
 
   const pageButtonHandler = (dir) => {
     if (dir === "dec") {
@@ -82,33 +71,11 @@ const transaction = () => {
     const { value } = event.target;
     setSearchInput(event.target.value);
   };
-
   useEffect(() => {
-    setSearchValue(searchSelector.searchInput);
-    setPageNumber(1);
-  }, [searchSelector.searchInput]);
+    fetchTransaction()
 
-  useEffect(() => {
-    fetchTransaction();
-  }, [pageNumber, limitNumber, dirValue]);
 
-  useEffect(() => {
-    fetchTransaction();
-
-    router.push({
-      query: {
-        searchName: searchValue || undefined,
-      },
-    });
-  }, [searchValue]);
-
-  useEffect(() => {
-    if (router.isReady) {
-      if (router.query.searchProduk) {
-        dispatch(search(router.query.searchProduk));
-      }
-    }
-  }, []);
+  }, [pageNumber, limitNumber, dirValue, router.query])
 
   return (
     <>

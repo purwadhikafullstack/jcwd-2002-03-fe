@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react"
 import { FaReceipt } from "react-icons/fa"
 
-const TransactionDetail = ({ transactionDetail, username, dateOrder, nomerPesanan, totalPrice, itemsLength }) => {
+const TransactionDetail = ({ transactionDetail, username, dateOrder, nomerPesanan, totalPrice, itemsLength, payment }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     console.log(transactionDetail)
     return (
@@ -38,14 +38,14 @@ const TransactionDetail = ({ transactionDetail, username, dateOrder, nomerPesana
                         </Breadcrumb>
                         {transactionDetail.length !== 0 && transactionDetail.map((val) => {
                             return (
-                                <>
+                                <div key={val.id}>
                                     <Text variant="subtitle" fontSize="16px">{val.Product.med_name}</Text>
-                                    <HStack spacing={5} mb={2}>
-                                        <Text variant="caption">{val?.Product?.category?.category_name}</Text>
-                                        <Text variant="caption">{val?.Product?.kemasan}</Text>
-                                        <Text variant="caption">{val?.quantity} X {val?.price}</Text>
+                                    <HStack spacing={5} mb={2} key={val.id} >
+                                        <Text variant="caption" >{val?.Product?.category?.category_name}</Text>
+                                        <Text variant="caption" >{val?.Product?.kemasan}</Text>
+                                        <Text variant="caption" >{val?.quantity} X {val?.price}</Text>
                                     </HStack>
-                                </>
+                                </div>
                             )
                         })}
 
@@ -65,7 +65,6 @@ const TransactionDetail = ({ transactionDetail, username, dateOrder, nomerPesana
                         <Button colorScheme="teal" variant="outline" mr={3} onClick={onClose}>
                             Kembali
                         </Button>
-                        <Button colorScheme="teal">Terima Pesanan</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

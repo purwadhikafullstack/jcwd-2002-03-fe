@@ -16,6 +16,7 @@ import {
   TabPanel,
   Select,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -35,6 +36,7 @@ const ProductList = () => {
   const [dir, setDir] = useState();
   const router = useRouter();
   const { filter } = router.query;
+  const toast = useToast()
   // console.log(typeof filter);
   const fetchProducts = async (
     queryParams = {
@@ -60,6 +62,13 @@ const ProductList = () => {
       }
       setMaxPage(Math.ceil(res.data.result.count / 24));
     } catch (err) {
+      toast({
+        title: "error",
+        status: "error",
+        description: "network error",
+        duration: 5000,
+        isClosable: true
+      })
     }
   };
   const renderProducts = () => {
@@ -69,10 +78,12 @@ const ProductList = () => {
           key={val.id.toString()}
           medName={val?.med_name}
           Kategori={val?.Kategori}
-          discount={val?.discount}
-          sellingPrice={val?.selling_price}
+          discount={val.discount * 100}
+          sellingPrice={val?.selling_price.toLocaleString()}
           productImage={val?.Product_images[0]?.image_url}
           id={val.id}
+          discountPrice={(val.selling_price - (val.selling_price * val.discount)).toLocaleString()}
+          kemasan={val.kemasan}
         />
       );
     });

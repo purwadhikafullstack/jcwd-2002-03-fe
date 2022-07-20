@@ -228,9 +228,10 @@ const AdminDaftarProduk = () => {
   };
 
   const idxCell = (props) => {
-    console.log(props);
-    return <Text>{props.row.index + 1}</Text>;
-  };
+    return (
+      <Text>{props.row.index + 1}</Text>
+    )
+  }
 
   const cellFunction = (props) => {
     return (
@@ -251,7 +252,7 @@ const AdminDaftarProduk = () => {
   const coloumFunction = () => [
     {
       Header: "No",
-      Cell: idxCell,
+      Cell: idxCell
     },
     {
       Header: "Nama Obat",
