@@ -12,7 +12,6 @@ import {
   Button,
   Icon,
   Select,
-  Spinner,
   useToast,
 } from "@chakra-ui/react";
 import { BiSort } from "react-icons/bi";
@@ -56,7 +55,6 @@ const DaftarPemesanan = () => {
       const res = await api.get("/transaction/user-transaction/", {
         ...queryParams,
       });
-      console.log(res.data.result.rows);
       setTransaction(res.data.result.rows);
       clearExpiredTransaction()
     } catch (err) {

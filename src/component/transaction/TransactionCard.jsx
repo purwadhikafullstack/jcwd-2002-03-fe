@@ -35,8 +35,6 @@ const TransactionCard = ({ props, fetchTransaction }) => {
         }
     }
 
-    console.log(props)
-
     return (
         <Box mt={4} bgColor="whiteAlpha.800" padding={4} width="100%" boxShadow="0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08)">
             <Box borderBottom="1px solid black" display="flex" justifyContent="space-between" paddingBottom={2}>
