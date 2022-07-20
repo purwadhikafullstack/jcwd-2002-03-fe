@@ -9,6 +9,7 @@ import {
   Divider,
   Grid,
   GridItem,
+  Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -16,14 +17,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { cart, selectCart } from "redux/reducer/cartSlice";
 import { selectAuth } from "redux/reducer/authSlice";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import ProductCart from "../component/cart/ProductCart";
 import api from "../lib/api";
 
 const Cart = () => {
   const cartSelector = useSelector(selectCart);
   const authSelector = useSelector(selectAuth);
-  const [productData, setProductData] = useState();
+  const router = useRouter()
   const [selectedItem, setSelectedItem] = useState([]);
+
   const fetchProduct = async () => {
     try {
       const UserId = 2;
@@ -62,24 +65,26 @@ const Cart = () => {
   };
   useEffect(() => {
     fetchProduct();
-    console.log(selectedItem);
-    //   if (!authSelector.id || authSelector.role === "admin") {
-    //     window.history.back()
-    // }
-  }, [selectedItem]);
-  //   if (!authSelector.id || authSelector.role === "admin") {
-  //     return <Spinner thickness='4px'
-  //         speed='0.65s'
-  //         emptyColor='gray.200'
-  //         color='blue.500'
-  //         size='xl'
-  //         display="flex"
-  //         mt="10px"
-  //         mb="auto"
-  //         ml="auto"
-  //         mr="auto"
-  //     />
-  // }
+
+    if (!authSelector.id || authSelector.role !== "user") {
+      router.push("/auth/login")
+    }
+  }, []);
+
+  if (!authSelector.id || authSelector.role !== "user") {
+    return <Spinner thickness='4px'
+      speed='0.65s'
+      emptyColor='gray.200'
+      color='blue.500'
+      size='xl'
+      display="flex"
+      mt="10px"
+      mb="auto"
+      ml="auto"
+      mr="auto"
+    />
+  }
+
   return (
     <Grid templateColumns="repeat(6,1fr)" paddingX={[0, 6, 6]} gap={4}>
       <GridItem colSpan={[0, 6, 6]} padding={2}>

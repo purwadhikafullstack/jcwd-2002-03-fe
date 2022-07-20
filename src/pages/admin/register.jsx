@@ -1,32 +1,29 @@
-import React, { useEffect, useState } from "react"
-import { Box, Button, Checkbox, Divider, FormControl, FormHelperText, FormLabel, Grid, GridItem, Icon, Img, Input, InputGroup, InputLeftElement, InputRightElement, Spinner, Stack, Text, useToast } from "@chakra-ui/react"
-import { FcGoogle } from "react-icons/fc"
+import React, { useState } from "react"
+import { Box, Button, FormControl, FormHelperText, FormLabel, Grid, GridItem, Icon, Img, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text, useToast, Spinner, Link } from "@chakra-ui/react"
+import { CgProfile } from "react-icons/cg"
 import { MdEmail } from "react-icons/md"
 import { IoIosLock } from "react-icons/io"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useFormik } from "formik"
 import * as Yup from "yup"
-import { useRouter } from "next/router"
-import { useDispatch, useSelector } from "react-redux"
-import jsCookie from "js-cookie"
-import { selectAuth, signin } from "../../redux/reducer/authSlice"
+import { useSelector } from "react-redux"
 import api from "../../lib/api"
+import { selectAuth } from "../../redux/reducer/authSlice"
 
-const login = () => {
+const register = () => {
     const [hidden, setHidden] = useState(false)
-    const [accept, setAccept] = useState(false)
     const toast = useToast();
-    const authSelector = useSelector(selectAuth)
-    const dispatch = useDispatch()
 
-    const router = useRouter()
+    const authSelector = useSelector(selectAuth)
 
     const formik = useFormik({
         initialValues: {
+            name: "",
             password: "",
             email: "",
         },
         validationSchema: Yup.object().shape({
+            name: Yup.string().required("This field is required").min(5, "minimum 5 character").max(20, "maximum 20 character"),
             password: Yup.string()
                 .required("This field is required")
                 .matches(
@@ -39,25 +36,17 @@ const login = () => {
         onSubmit: (values) => {
             setTimeout(async () => {
                 try {
-                    const res = await api.post("/auth/admin/login", values);
+                    const res = await api.post("/auth/admin/register", values);
                     if (res?.data?.message !== undefined) {
                         toast({
-                            title: "login Success",
+                            title: "Account created.",
                             description: `${res.data.message} `,
                             status: "success",
-                            duration: 2000,
+                            duration: 9000,
                             isClosable: true,
                         });
                     }
-
-                    const stringifyAdmin = JSON.stringify(res.data.result.user);
-                    jsCookie.set("user_token", res.data.result.token)
-                    localStorage.setItem("user", stringifyAdmin)
-
-                    dispatch(signin(res.data.result.user))
                     formik.setSubmitting(false);
-
-                    router.push("/admin/admin-dashboard")
                 } catch (err) {
                     toast({
                         status: "error",
@@ -78,13 +67,10 @@ const login = () => {
         formik.setFieldValue(name, value);
     };
 
-    useEffect(() => {
-        if (authSelector.role === "admin") {
-            router.push("/admin/admin-dashboard")
-        }
-    }, [authSelector])
-
-    if (authSelector.role === "admin") {
+    if (authSelector.role !== "Admin") {
+        window.history.back()
+    }
+    if (authSelector.role !== "Admin") {
         return <Spinner thickness='4px'
             speed='0.65s'
             emptyColor='gray.200'
@@ -97,17 +83,30 @@ const login = () => {
             mr="auto"
         />
     }
+
     return (
         <Grid templateColumns="repeat(2,1fr)" margin="auto" width="100%" height="100vh">
             <GridItem display={["none", "grid", "grid"]} colSpan={[0, 1, 1]} background="linear-gradient(142.04deg, rgba(254, 254, 254, 0) -1.93%, #E4F4F8 107.32%)">
                 <Img src="/login_image.svg" />
             </GridItem>
-            <GridItem colSpan={[2, 1, 1]} alignItems="center" mt={[4]} display="flex" justifyContent="center">
+            <GridItem colSpan={[2, 1, 1]} alignItems="center" mt={[4]}>
                 <Box width={["90%", "80%"]} margin="auto">
-                    <Stack spacing={["12px", "16px"]} mb="30px">
-                        < Box >
-                            <Text variant="title" display={["none", "block", "block"]}>Masuk</Text>
-                        </Box>
+                    < Box >
+                        <Text variant="title" display={["none", "block", "block"]}>Daftarkan Admin Baru</Text>
+                    </Box>
+                    <Stack spacing={["12px", "24px"]}>
+                        <FormControl isInvalid={formik.errors.name}>
+                            <FormLabel htmlFor='name'>Name</FormLabel>
+                            <InputGroup>
+                                <InputLeftElement
+                                    pointerEvents='none'
+                                >
+                                    <Icon as={CgProfile} />
+                                </InputLeftElement>
+                                <Input placeholder="name" name="name" onChange={inputHandler} />
+                            </InputGroup>
+                            <FormHelperText>{formik.errors.name}</FormHelperText>
+                        </FormControl>
                         <FormControl isInvalid={formik.errors.email}>
                             <FormLabel htmlFor='email'>Email Address</FormLabel>
                             <InputGroup>
@@ -135,19 +134,6 @@ const login = () => {
                             </InputGroup>
                             <FormHelperText>{formik.errors.password}</FormHelperText>
                         </FormControl>
-                        <Box display="flex" justifyContent="space-between" alignItems="center">
-                            <Checkbox
-                                isChecked={accept}
-                                onChange={() => setAccept(!accept)}
-                            >
-                                <Text variant="caption">
-                                    Ingat saya
-                                </Text>
-                            </Checkbox>
-                            <Text variant="caption">
-                                Lupa kata sandi ?
-                            </Text>
-                        </Box>
                     </Stack>
                     <Button
                         colorScheme="teal"
@@ -157,34 +143,14 @@ const login = () => {
                         type="submit"
                         isLoading={formik.isSubmitting}
                         disabled={formik.isSubmitting}
-                        mt="25px"
                     >
-                        Masuk
+                        Register
                     </Button>
-                    <Box marginY={["10px", "20px"]} display="flex" alignItems="center" justifyContent="space-between">
-                        <Divider width="30%" />
-                        <Text mx={2} textAlign="center">Atau Masuk Dengan</Text>
-                        <Divider width="30%" />
-                    </Box>
-                    <Grid
-                        mt={["32px"]}
-                        display="flex"
-                        templateColumns="repeat(2,1fr)"
-                        gap={4}
-                        alignItems="center"
-                        justifyContent="space-between"
-                    >
-                        <GridItem colSpan={1} width="100%">
-                            <Button width="100%" height="48px" variant="outline">
-                                <Icon as={FcGoogle} mr={2} boxSize={6} />
-                                <Text>Masuk dengan Google</Text>
-                            </Button>
-                        </GridItem>
-                    </Grid>
+                    <Text textAlign="center"><Link href="/admin/admin-dashboard">Back to Admin Dashboard</Link></Text>
                 </Box>
             </GridItem >
         </Grid >
     )
 }
 
-export default login
+export default register

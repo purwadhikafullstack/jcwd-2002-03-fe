@@ -1,13 +1,16 @@
 import React from "react"
 import {
+    Avatar,
     Button,
     Grid,
     GridItem,
+    HStack,
     Icon,
     Img,
     Input,
     InputGroup,
     InputRightElement,
+    Text,
     useBreakpointValue
 } from "@chakra-ui/react"
 import { BsSearch } from "react-icons/bs"
@@ -16,22 +19,42 @@ import { useRouter } from "next/router"
 import { useSelector } from "react-redux"
 import { selectAuth } from "../../redux/reducer/authSlice"
 
-const DesktopNavBar = () => {
+const DesktopNavBar = ({ icon1 = FaBell, icon2 = FaShoppingCart, link1 = "/daftar-pemesanan", link2 = "/cart" }) => {
     const router = useRouter()
     const authSelector = useSelector(selectAuth)
 
-    const buttonOrIcon = useBreakpointValue({
-        base: (
-            <>
-                <Icon as={FaBell} color="#008D8F" _hover={{ color: "white" }} />
-                <Icon as={FaShoppingCart} color="#008D8F" _hover={{ color: "white" }} onClick={() => router.push("/cart")} />
-            </>
-        ), md: (
+    const mdBar = () => {
+        return (
+            <HStack spacing={8}>
+                <Icon cursor="pointer" boxSize={6} as={icon1} color="#008D8F" _hover={{ color: "white" }} onClick={() => router.push(link1)} />
+                <Icon cursor="pointer" boxSize={6} as={icon2} color="#008D8F" _hover={{ color: "white" }} onClick={() => router.push(link2)} />
+            </HStack>
+        )
+    }
+
+    const logedinUser = () => {
+        if (authSelector.role === "user") {
+            return (
+                <>
+                    {mdBar()}
+                    <HStack spacing={1}>
+                        <Avatar size="sm" name={authSelector.name} src={authSelector.image_url} />
+                        <Text variant="caption" fontWeight={600}>{authSelector.name}</Text>
+                    </HStack>
+                </>
+            )
+        }
+        return (
             <>
                 <Button width='40%' variant="main-outline" onClick={() => router.push("auth/login")}>Masuk</Button>
                 <Button width='40%' variant="main" onClick={() => router.push("/auth/register")}>Daftar</Button>
             </>
         )
+    }
+
+    const buttonOrIcon = useBreakpointValue({
+        base: (mdBar()),
+        md: (logedinUser())
     })
 
     return (
@@ -45,8 +68,6 @@ const DesktopNavBar = () => {
             padding={[5, 5, 10]}
             h="92"
             maxWidth="100%"
-            background="linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12)"
-
         >
             <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]}  >
                 <Img src="/logo.svg" />
@@ -55,7 +76,7 @@ const DesktopNavBar = () => {
                 <InputGroup>
                     <Input h={["36px", "44px", "44px"]} />
                     <InputRightElement>
-                        <Icon as={BsSearch} color="#FFFFF" />
+                        <Icon as={BsSearch} onClick={() => router.push("/product-list")} cursor="pointer" color="#FFFFF" />
                     </InputRightElement>
                 </InputGroup>
             </GridItem >
