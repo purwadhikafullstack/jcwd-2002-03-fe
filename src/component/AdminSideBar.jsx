@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 
 const { default: AdminNavbar } = require("./AdminNavbar");
 
-const AdminSideBar = ({ setDone, setSend, setPacking, setPaid }) => {
+const AdminSideBar = () => {
   const router = useRouter()
 
 
@@ -89,7 +89,7 @@ const AdminSideBar = ({ setDone, setSend, setPacking, setPaid }) => {
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
               >
-                <Text onClick={() => { router.push({ pathname: "/admin/transaction" }) }}>
+                <Text onClick={() => { router.push("/admin/transaction") }}>
                   Semua Pesanan
                 </Text>
               </AccordionPanel>
@@ -97,28 +97,28 @@ const AdminSideBar = ({ setDone, setSend, setPacking, setPaid }) => {
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
               >
-                <Text onClick={() => { router.push({ pathname: "/admin/transaction", query: { isPaid: "true" } }) }}>
+                <Text onClick={() => { router.push({ pathname: "/admin/transaction", query: { isPaid: false } }) }}>
                   Pesanan Baru
                 </Text>
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
-                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isPacking: "true" } }) }}
+                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isPacking: true } }) }}
               >
                 Siap Kirim
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
-                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isSend: "true" } }) }}
+                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isSend: true } }) }}
               >
                 Dalam Pengiriman
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
-                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isDone: "true" } }) }}
+                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isDone: true } }) }}
               >
                 Selesai
               </AccordionPanel>

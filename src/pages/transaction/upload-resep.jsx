@@ -3,6 +3,8 @@ import { Box, Button, Container, Divider, Grid, GridItem, Image, Input, List, Li
 import { MdCheckCircle } from "react-icons/md"
 import { useRouter } from "next/router"
 import { CloseIcon } from "@chakra-ui/icons"
+import { useSelector } from "react-redux"
+import { selectAuth } from "../../redux/reducer/authSlice"
 import api from "../../lib/api"
 
 const uploadResep = () => {
@@ -66,6 +68,23 @@ const uploadResep = () => {
         setSelectedFileArray([])
     }
 
+    const authSelector = useSelector(selectAuth)
+
+    if (authSelector.id || authSelector.role !== "user") {
+        router.push("/auth/login")
+
+        return <Spinner thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='xl'
+            display="flex"
+            mt="10px"
+            mb="auto"
+            ml="auto"
+            mr="auto"
+        />
+    }
     return (
         <Container
             width={["100%", "90%", "90%"]}

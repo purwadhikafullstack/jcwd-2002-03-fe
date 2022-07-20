@@ -15,20 +15,17 @@ const TransactionCard = ({ props, fetchTransaction }) => {
             <Box borderBottom="1px solid black" display="flex" justifyContent="space-between" paddingBottom={2}>
                 <Box>
                     <HStack spacing="20px">
-                        {props.isPaid === false &&
-                            <Checkbox>Pesanan Baru</Checkbox>
-                        }
-                        {props.isPacking === true && props.isPacking === false &&
-                            <Checkbox>Pesanan Dalam Proses</Checkbox>
-                        }
-                        {props.isPaid === true && props.isPacking === true && props.isSend === false &&
-                            <Checkbox>Pesanan Siap dikirim</Checkbox>
-                        }
-                        {props.isSend === true &&
+                        {props.isSend === true && props.isDone === false &&
                             <Checkbox>Pesanan Dalam Pengiriman</Checkbox>
                         }
                         {props.isDone === true &&
                             <Checkbox>Pesanan Selesai</Checkbox>
+                        }
+                        {props.isPaid === false &&
+                            <Checkbox>Pesanan Baru</Checkbox>
+                        }
+                        {props.isPacking === true && props.isSend === false &&
+                            <Checkbox>Pesanan Siap dikirim</Checkbox>
                         }
                         <Text>{props.nomer_pesanan}</Text>
                         <Text alignItems="center">{moment(props.createdAt).format("LLL")}</Text>

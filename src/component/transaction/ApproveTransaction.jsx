@@ -23,12 +23,10 @@ import api from "../../lib/api"
 const ApproveTransaction = ({ transactionDetail, username, dateOrder, nomerPesanan, totalPrice, itemsLength, payment, TransactionId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const toast = useToast()
-    // console.log("payment", payment)
-    console.log("transactionId", TransactionId)
 
     const updateStatusPayment = async (dataStatus = {}) => {
         try {
-            const res = await api.patch(`/transaction/${TransactionId}/payment-status`, dataStatus)
+            const res = await api.patch(`/transaction/${TransactionId}/transaction-status`, dataStatus)
             toast({
                 title: "success",
                 status: "success",
@@ -109,7 +107,7 @@ const ApproveTransaction = ({ transactionDetail, username, dateOrder, nomerPesan
                         <Button colorScheme="teal" variant="outline" mr={3} onClick={onClose}>
                             Kembali
                         </Button>
-                        <Button colorScheme="teal" onClick={() => updateStatusPayment({ isPaid: true })}>Approve</Button>
+                        <Button colorScheme="teal" onClick={() => updateStatusPayment({ isPaid: true, isPacking: true })}>Approve</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

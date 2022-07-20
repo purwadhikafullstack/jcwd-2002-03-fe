@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Button, Checkbox, Divider, FormControl, FormHelperText, Link, FormLabel, Grid, GridItem, Icon, Img, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text, useBreakpointValue, useToast } from "@chakra-ui/react"
+import { Box, Button, Checkbox, Divider, FormControl, FormHelperText, Link, FormLabel, Grid, GridItem, Icon, Img, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text, useBreakpointValue, useToast, Spinner } from "@chakra-ui/react"
 import { FcGoogle } from "react-icons/fc"
 import { BsFacebook } from "react-icons/bs"
 import { CgProfile } from "react-icons/cg"
@@ -8,12 +8,17 @@ import { IoIosLock } from "react-icons/io"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useFormik } from "formik"
 import * as Yup from "yup"
+import { useRouter } from "next/router"
+import { useSelector } from "react-redux"
+import { selectAuth } from "../../redux/reducer/authSlice"
 import api from "../../lib/api"
 
 const register = () => {
     const [hidden, setHidden] = useState(false)
     const [accept, setAccept] = useState(false)
     const toast = useToast();
+    const authSelector = useSelector(selectAuth)
+    const router = useRouter()
 
     const logoButton = useBreakpointValue({
         base: {
@@ -79,8 +84,25 @@ const register = () => {
         formik.setFieldValue(name, value);
     };
 
+
+    if (authSelector.role === "user") {
+        router.push("/")
+
+        return <Spinner thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='xl'
+            display="flex"
+            mt="10px"
+            mb="auto"
+            ml="auto"
+            mr="auto"
+        />
+    }
+
     return (
-        <Grid templateColumns="repeat(2,1fr)" margin="auto" width="100%" height="100vh">
+        <Grid templateColumns="repeat(2,1fr)" margin="auto" width="100%" height="100%" alignItems="center" >
             <GridItem display={["none", "grid", "grid"]} colSpan={[0, 1, 1]} background="linear-gradient(142.04deg, rgba(254, 254, 254, 0) -1.93%, #E4F4F8 107.32%)">
                 <Img src="/login_image.svg" />
             </GridItem>

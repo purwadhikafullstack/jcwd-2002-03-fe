@@ -16,10 +16,6 @@ const transaction = () => {
     const toast = useToast()
     const router = useRouter()
     const { isPaid, isDone, isPacking, isSend } = router.query
-    console.log("ispaid", isPaid)
-    console.log("isDone", isDone)
-    console.log("isPacking", isPacking)
-    console.log("isSend", isSend)
 
     const fetchTransaction = async (
         queryParams = {
@@ -28,10 +24,10 @@ const transaction = () => {
                 _sortDir: dirValue || "DESC",
                 _limit: limitNumber,
                 _page: pageNumber,
-                _isPaid: isPaid,
-                _isPacking: isPacking,
-                _isSend: isSend,
-                _isDone: isDone
+                isPaid,
+                isPacking,
+                isSend,
+                isDone
             },
         }
     ) => {
@@ -68,14 +64,13 @@ const transaction = () => {
     }
     useEffect(() => {
         fetchTransaction()
-        console.log(router.query.isPaid)
 
 
-    }, [pageNumber, limitNumber, dirValue, isDone, isPaid, isPacking, isSend])
+    }, [pageNumber, limitNumber, dirValue, router.query])
 
     return (
         <>
-            <AdminSideBar fetchData={fetchTransaction} setPacking={setIsPacking} setDone={setIsDone} setSend={setIsSend} />
+            <AdminSideBar fetchData={fetchTransaction} />
             <Box
                 bg="linear-gradient(155.7deg, #D6F5F3 -45.88%, #F7FCFC 45.77%, #F1F5FC 117.72%)"
                 ml="64"

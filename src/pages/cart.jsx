@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { cart, selectCart } from "redux/reducer/cartSlice";
 import { selectAuth } from "redux/reducer/authSlice";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import ProductCart from "../component/cart/ProductCart";
 import api from "../lib/api";
 
@@ -24,6 +25,8 @@ const Cart = () => {
   const cartSelector = useSelector(selectCart);
   const authSelector = useSelector(selectAuth);
   const [productData, setProductData] = useState();
+  const router = useRouter()
+
   const fetchProduct = async () => {
     try {
       const UserId = 2;
@@ -53,11 +56,12 @@ const Cart = () => {
   };
   useEffect(() => {
     fetchProduct();
-    if (!authSelector.id || authSelector.role === "admin") {
-      window.history.back()
+    if (!authSelector.id || authSelector.role !== "user") {
+      router.push("/auth/login")
     }
   }, []);
-  if (!authSelector.id || authSelector.role === "admin") {
+
+  if (!authSelector.id || authSelector.role !== "user") {
     return <Spinner thickness='4px'
       speed='0.65s'
       emptyColor='gray.200'
@@ -69,6 +73,7 @@ const Cart = () => {
       ml="auto"
       mr="auto"
     />
+
   }
   return (
     <Grid templateColumns="repeat(6,1fr)" paddingX={[0, 6, 6]} gap={4}>
