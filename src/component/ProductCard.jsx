@@ -126,7 +126,7 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasa
               lg: "14px",
             }}
           >
-            /{kemasan}
+            / {kemasan}
           </Text>
         </HStack>
 
