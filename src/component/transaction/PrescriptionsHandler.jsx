@@ -297,7 +297,7 @@ const PrescriptionsHandler = ({ image, orderDate, transactionId, fetchTransactio
                             disabled={formik.isSubmitting || arrayOfItem.length === 0}
                         >Proses Resep</Button>
                     </ModalFooter>
-                </ModalContent>
+                </ModalContent >
             </Modal >
         </>
     )

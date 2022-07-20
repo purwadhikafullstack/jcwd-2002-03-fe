@@ -1,50 +1,74 @@
-import React from "react"
-import { Grid, GridItem, Icon, Text } from "@chakra-ui/react"
+import React, { useEffect, useState } from "react"
+import { HStack, Box, Icon, Text, Slide } from "@chakra-ui/react"
 import { HiHome } from "react-icons/hi"
-import { BiCategoryAlt } from "react-icons/bi"
 import { RiBillLine } from "react-icons/ri"
 import { TbHeadset } from "react-icons/tb"
 import { FaRegUserCircle } from "react-icons/fa"
+import { GiMedicines } from "react-icons/gi"
+import { useRouter } from "next/router"
 
 const HomeBottomNavBar = () => {
+    const [currentScrollValue, setCurrentScrollValue] = useState()
+    const [prevScrollValue, setPrevScrollValue] = useState(window.scrollY)
+    const [show, setShow] = useState(true)
+
+    const router = useRouter()
+
+    const scrollProgress = () => {
+        window.onscroll = () => {
+            setCurrentScrollValue(window.scrollY)
+            if (prevScrollValue < currentScrollValue) {
+                setShow(false)
+            } else {
+                setShow(true)
+            }
+            setPrevScrollValue(currentScrollValue)
+        }
+    }
+
+
+
+    useEffect(() => {
+        scrollProgress()
+    }, [currentScrollValue])
+
     return (
-
-        <Grid
-            background="#F6FAFB"
-            templateColumns="repeat(5, 1fr)"
-            display={["flex", "none", "none"]}
-            gap={2}
-            justifyContent="space-evenly"
-            bottom={0}
-            paddingBottom={3}
-            paddingTop={3}
-            left={0}
-            right={0}
-            position="fixed"
-            mt={10}
-
+        <Slide
+            direction='bottom' in={show} style={{ zIndex: 100 }}
         >
-            <GridItem colSpan={1} alignItems="center" display="block" justifyContent="center" textAlign="center">
-                <Icon as={HiHome} boxSize="35px" color="#B4B9C7" />
-                <Text>Beranda</Text>
-            </GridItem>
-            <GridItem colSpan={1} alignItems="center" display="block" justifyContent="center" textAlign="center">
-                <Icon as={BiCategoryAlt} boxSize="35px" color="#B4B9C7" />
-                <Text>Kategori</Text>
-            </GridItem>
-            <GridItem colSpan={1} alignItems="center" display="block" justifyContent="center" textAlign="center">
-                <Icon as={RiBillLine} boxSize="35px" color="#B4B9C7" />
-                <Text>Transaksi</Text>
-            </GridItem>
-            <GridItem colSpan={1} alignItems="center" display="block" justifyContent="center" textAlign="center">
-                <Icon as={TbHeadset} boxSize="35px" color="#B4B9C7" />
-                <Text>Bantuan</Text>
-            </GridItem>
-            <GridItem colSpan={1} alignItems="center" display="block" justifyContent="center" textAlign="center">
-                <Icon as={FaRegUserCircle} boxSize="35px" color="#B4B9C7" />
-                <Text>Profile</Text>
-            </GridItem>
-        </Grid >
+            <HStack
+                background="#F6FAFB"
+                display={["flex", "none", "none"]}
+                justifyContent="space-evenly"
+                bottom={0}
+                paddingBottom={3}
+                paddingTop={3}
+                left={0}
+                right={0}
+            // position="fixed"
+            >
+                <Box alignItems="center" textAlign="center" onClick={() => router.push("/")}>
+                    <Icon as={HiHome} boxSize="25px" color="#B4B9C7" />
+                    <Text fontSize="12px">Beranda</Text>
+                </Box>
+                <Box alignItems="center" textAlign="center" onClick={() => router.push("/product-list")}>
+                    <Icon as={GiMedicines} boxSize="25px" color="#B4B9C7" />
+                    <Text fontSize="12px">Kategori</Text>
+                </Box>
+                <Box alignItems="center" textAlign="center" onClick={() => router.push("/transaction/menunggu-konfirmasi")}>
+                    <Icon as={RiBillLine} boxSize="25px" color="#B4B9C7" />
+                    <Text fontSize="12px">Transaksi</Text>
+                </Box>
+                <Box alignItems="center" textAlign="center" onClick={() => router.push("/")}>
+                    <Icon as={TbHeadset} boxSize="25px" color="#B4B9C7" />
+                    <Text fontSize="12px">Bantuan</Text>
+                </Box>
+                <Box alignItems="center" textAlign="center" onClick={() => router.push("/my-profile")}>
+                    <Icon as={FaRegUserCircle} boxSize="25px" color="#B4B9C7" />
+                    <Text fontSize="12px">Profile</Text>
+                </Box>
+            </HStack >
+        </Slide>
     )
 }
 

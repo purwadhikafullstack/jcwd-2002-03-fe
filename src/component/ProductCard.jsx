@@ -3,27 +3,31 @@ import {
   Button,
   HStack,
   Icon,
-  Image,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { BsFillCircleFill, BsSuitHeartFill } from "react-icons/bs";
+import { useState } from "react";
+import { BsSuitHeartFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { selectAuth } from "../redux/reducer/authSlice";
 
-const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
-  const authSelector = useSelector(selectAuth);
-  const router = useRouter();
 
+const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasan, discountPrice }) => {
+  const authSelector = useSelector(selectAuth)
+  const router = useRouter()
+  const [love, setLove] = useState(false)
+  
+ 
   return (
     <Box
-      w={["140px", "213px", "213px"]}
+      w={["150px", "230px", "230px"]}
       h={["290px", "360px", "360px"]}
-      borderWidth="1px"
+
+
       borderRadius="xl"
       overflow="hidden"
-      boxShadow=" 1px 2px 3px 4px rgba(245,251,251)"
+      boxShadow="-1px -1px 5px 4px rgba(0, 12, 54, 0.03), 2px 2px 2px rgba(33, 51, 96, 0.04), 4px 4px 4px 6px rgba(0, 155, 144, 0.04)"
       mb={5}
       _hover={{
         boxShadow: " 1px 2px 3px 4px rgba(237,248,248)",
@@ -31,18 +35,28 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
         transitionDuration: "0.5s",
       }}
     >
-      <Stack direction="row" justifyContent="end">
-        <Stack px="40px" pt="35px">
-          <Image w="100%" h="100%" objectFit="cover" src={productImage} />
+      <Stack direction="row" justifyContent="center">
+        <Stack px="40px" pt="20px">
+          <Box
+            w={["110px", "180px"]}
+            h={["110px", "180px"]}
+            backgroundRepeat="no-repeat"
+            backgroundSize="contain"
+            backgroundPosition="center"
+            backgroundImage={productImage}
+            display="flex"
+            justifyContent="end"
+            boxShadow="1px 2px 3px 4px rgba(237,248,248)"
+          >
+            <Box mt={1} mx={1} onClick={() => setLove(!love)} position="absolute" backgroundColor="gray.200" opacity={0.6} display="flex" borderRadius="50%" w="40px" h="40px" justifyContent="center">
+              <Icon as={BsSuitHeartFill} color={!love ? "gray.400" : "red.600"} boxSize="30px" mx="auto" my="auto" />
+            </Box>
+          </Box>
+
         </Stack>
-        <Box pt="14px" pr="22px" position="absolute">
-          <Icon as={BsFillCircleFill} color="gray.100" w="44px" h="44px" />
-        </Box>
-        <Box pt="25px" pr="30.5px" position="absolute">
-          <Icon as={BsSuitHeartFill} color="gray.400" w="26.32px" h="23.69" />
-        </Box>
+
       </Stack>
-      <Stack pl="24px" pr="10px" pt="3">
+      <Stack px="20px" py={3} alignItems="center">
         <Text
           fontSize={{
             base: "12px",
@@ -52,10 +66,12 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
           fontWeight="700"
           fontFamily="sans-serif"
           variant="mini-title"
+          onClick={() => router.push(`/product/detail/${id}`)}
+          cursor="pointer"
         >
           {medName}
         </Text>
-        <Stack direction="row">
+        <Box display="flex" alignItems="center" justifyContent="space-evenly">
           <Box
             border="1px"
             borderColor="#FF6B6B"
@@ -89,9 +105,9 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
               lg: "14px",
             }}
           >
-            Rp. 17.000
+            Rp. {sellingPrice}
           </Text>
-        </Stack>
+        </Box>
         <HStack paddingBottom="10px">
           <Text
             mr="10"
@@ -102,7 +118,7 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
               lg: "14px",
             }}
           >
-            Rp. {sellingPrice}
+            Rp. {discountPrice}
           </Text>
           <Text
             variant="caption"
@@ -112,7 +128,7 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage }) => {
               lg: "14px",
             }}
           >
-            / Strip
+            / {kemasan}
           </Text>
         </HStack>
 

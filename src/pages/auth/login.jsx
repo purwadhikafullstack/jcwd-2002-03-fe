@@ -29,11 +29,11 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdEmail } from "react-icons/md";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import api from "../../lib/api";
 import jsCookies from "js-cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { signin } from "../../redux/reducer/authSlice";
+import api from "../../lib/api";
 
 const login = () => {
   const [hidden, setHidden] = useState(false);
@@ -64,23 +64,20 @@ const login = () => {
     }),
     validateOnChange: false,
     onSubmit: (values) => {
-      //   console.log(values);
       setTimeout(async () => {
         try {
           const res = await api.post("/auth/signin", values);
 
           const userResponse = res.data.result;
-          //   console.log(userResponse);
 
-          // jsCookies.set("user_token", userResponse.token);
-
-          const userResponseAdded = { ...userResponse.user };
-          const stringifyAdmin = JSON.stringify(res.data.result.user);
+          const userResponseAdded = { ...userResponse.user, role: "user" };
+          const stringifyAdmin = JSON.stringify(userResponseAdded);
           jsCookies.set("user_token", res.data.result.token);
           localStorage.setItem("user", stringifyAdmin);
 
           dispatch(signin(userResponseAdded));
           formik.setSubmitting(false);
+          window.history.back()
         } catch (err) {
           toast({
             title: "Login failed",
@@ -122,7 +119,6 @@ const login = () => {
           <Stack
             mt={["32px"]}
             display="flex"
-            templateColumns="repeat(2,1fr)"
             spacing={["12px", "24px"]}
           >
             <FormControl isInvalid={formik.errors.credential}>
@@ -170,7 +166,7 @@ const login = () => {
               </Text>
             </Checkbox>
             <Link
-              onClick={() => router.push("/auth/request-reset-password")}
+              href="/auth/request-reset-password"
               color="#B4B9C7"
               fontSize="12px"
             >
@@ -221,7 +217,7 @@ const login = () => {
           <HStack spacing="1" justify="center" mt={["48px"]} variant="caption">
             <Text>Belum punya akun?</Text>
             <Link
-              onClick={() => router.push("/auth/register")}
+              href="/auth/register"
               color="blue.400"
             >
               Register
