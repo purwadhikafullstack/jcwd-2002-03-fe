@@ -21,7 +21,6 @@ import {
 const ApproveTransaction = ({ transactionDetail, username, dateOrder, nomerPesanan, totalPrice, itemsLength, payment, updateStatusPayment }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-
     return (
         <>
             <Button onClick={onOpen} colorScheme="teal">Terima Pesanan</Button>
@@ -56,7 +55,7 @@ const ApproveTransaction = ({ transactionDetail, username, dateOrder, nomerPesan
                                 <Text variant="subtitle" fontSize="16px">Bukti Pembayaran</Text>
                                 <Box h="300px" width="250px" overflow="scroll" border="1px solid teal" mb={2}>
                                     <Box
-                                        backgroundImage={payment.image_url}
+                                        backgroundImage={payment[0].image_url}
                                         backgroundRepeat="no-repeat"
                                         backgroundSize="contain"
                                         backgroundPosition="center"

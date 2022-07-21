@@ -30,6 +30,21 @@ const DaftarPemesanan = () => {
   const toast = useToast()
 
 
+  const clearExpiredTransaction = async () => {
+    try {
+      await api.patch("/transaction/reject/exp-date")
+
+    } catch (err) {
+      toast({
+        title: "error",
+        status: "error",
+        description: err?.respone?.data?.message || err?.message,
+        duration: 20000,
+        isClosable: true
+      })
+    }
+  }
+
   const fetchTransaction = async (
     queryParams = {
       params: {
@@ -43,6 +58,7 @@ const DaftarPemesanan = () => {
       });
       console.log(res.data.result.rows);
       setTransaction(res.data.result.rows);
+      clearExpiredTransaction()
     } catch (err) {
       toast({
         status: "error",
@@ -70,9 +86,7 @@ const DaftarPemesanan = () => {
       );
     });
   };
-  // useEffect(() => {
-  //   fetchTransaction();
-  // }, []);
+
   useEffect(() => {
     fetchTransaction();
   }, []);

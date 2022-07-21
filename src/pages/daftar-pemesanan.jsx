@@ -5,10 +5,10 @@ import { Spinner } from "@chakra-ui/react";
 import { selectAuth } from "../redux/reducer/authSlice";
 import DaftarPemesananCom from "../component/DafPemesanan/DaftarPemesananCom";
 
-
 const DaftarPemesanan = () => {
   const router = useRouter()
   const authSelector = useSelector(selectAuth)
+
   if (!authSelector.id || authSelector.role !== "user") {
     router.push("/auth/login")
 
