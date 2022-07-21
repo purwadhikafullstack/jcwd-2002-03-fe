@@ -3,6 +3,7 @@ import Countdown from "react-countdown";
 import { IoEllipse } from "react-icons/io5";
 
 const Timer = () => {
+  // updated At
   const rejectTransaction = () => {
     try {
       const apicall = apicall;
@@ -111,6 +112,6 @@ const Timer = () => {
       );
     }
   };
-  return <Countdown date={Date.now() + 864000} renderer={renderer} />;
+  return <Countdown date={Date.now() + 8.64e7} renderer={renderer} />;
 };
 export default Timer;

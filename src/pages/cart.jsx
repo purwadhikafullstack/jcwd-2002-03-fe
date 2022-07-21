@@ -17,19 +17,21 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ProductCart from "../component/cart/ProductCart";
 import api from "../lib/api";
+import { useRouter } from "next/router";
 
 const Cart = () => {
   const authSelector = useSelector(selectAuth);
   const router = useRouter()
   const [selectedItem, setSelectedItem] = useState([]);
-  const [productData, setProductData] = useState([])
-  const toast = useToast()
 
+  const toast = useToast();
+  const router = useRouter();
   const fetchProduct = async () => {
     try {
-      const res = await api.get("/cart");
+      const UserId = 1;
+      console.log(UserId);
+      const res = await api.get(`/cart/${UserId}`);
       setProductData(res.data.result.rows);
-
     } catch (err) {
       toast({
         title: "error",
@@ -65,6 +67,31 @@ const Cart = () => {
     return selectedItem?.reduce((sum, object) => {
       return sum + object.sub_total;
     }, 0);
+  };
+
+  const createTransaction = async () => {
+    try {
+      const res = await api.post(
+        "/transaction/create-transaction",
+        selectedItem
+      );
+      toast({
+        title: "success",
+        status: "success",
+        description: res.data.message,
+        duration: 5000,
+      });
+      fetchProduct();
+      setSelectedItem([]);
+      console.log();
+      router.push("/checkout");
+    } catch (err) {
+      console.log(err);
+      console.log(err?.response?.data?.message || err.message);
+      if (err?.response?.data?.message || err.message === "address not found") {
+        return router.push("/address-form");
+      }
+    }
   };
   useEffect(() => {
     fetchProduct();

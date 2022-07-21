@@ -49,12 +49,14 @@ const detail = ({ productDetail }) => {
   const authSelector = useSelector(selectAuth);
   const [slider, setSlider] = useState(null);
   const [quantity, setQuantity] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
   const fetchCartData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2003/cart?UserId=${2}&ProductId=${productDetail.id}`
+        `http://localhost:2003/cart?UserId=${1}&ProductId=${productDetail.id}`
       );
       setQuantity(res.data.result.quantity);
+      setSubTotal(res.data.result.sub_total);
     } catch (err) {
       toast({
         title: "error",
@@ -227,8 +229,11 @@ const detail = ({ productDetail }) => {
         ProductId: productDetail.id,
         price: productDetail.selling_price - (productDetail.selling_price * productDetail.discount),
         quantity: quantity + formik.values.quantity,
+        //   subtotal: subTotal + (formik.values.quantity * selling_price),
       });
       setQuantity(res.data.result.quantity);
+      setSubTotal(res.data.result.sub_total);
+      formik.setFieldValue("quantity", 1);
 
       toast({
         title: "Item added to cart",
@@ -246,17 +251,8 @@ const detail = ({ productDetail }) => {
   };
   const qtyBtnHandler = (dir) => {
     if (dir === "inc") {
-      if (formik.values.quantity === "") {
-        formik.setFieldValue("quantity", 1);
-        return;
-      }
-
-      if (formik.values.quantity >= quantity) return;
-
-      formik.setFieldValue("quantity", parseInt(formik.values.quantity) + 1);
+      formik.setFieldValue("quantity", formik.values.quantity + 1);
     } else if (dir === "dec") {
-      if (formik.values.quantity < 1) return;
-
       formik.setFieldValue("quantity", formik.values.quantity - 1);
     }
   };
@@ -268,7 +264,7 @@ const detail = ({ productDetail }) => {
       w={["100%", "90", "90%"]}
       marginLeft="auto"
       marginRight="auto"
-    // mb={[10, 8, 8]}
+      // mb={[10, 8, 8]}
     >
       <GridItem
         colSpan={[1, 2, 2]}

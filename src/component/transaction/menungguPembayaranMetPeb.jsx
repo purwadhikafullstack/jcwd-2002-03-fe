@@ -14,7 +14,7 @@ import { RiFileCopyFill } from "react-icons/ri";
 import api from "../../lib/api";
 import PaymentReceipt from "./PaymentReceipt";
 
-const MenungguPembayaranComMetPeb = () => {
+const MenungguPembayaranComMetPeb = ({ transaction }) => {
   // const uploadBuktiPembayaran = () => {
   //   try {
   //     await api.post("")
@@ -69,7 +69,7 @@ const MenungguPembayaranComMetPeb = () => {
         <Text variant="caption">Total Pembayaran</Text>
         <Text variant="title">Rp.22.000</Text>
       </Stack>
-      <PaymentReceipt transactionId={transactionId} />
+      <PaymentReceipt TransactionId={transaction.id} />
     </Box>
   );
 };

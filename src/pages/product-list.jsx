@@ -218,56 +218,200 @@ const ProductList = () => {
 
             <TabPanels>
               <TabPanel>
-                <SimpleGrid overflowY="scroll" columns={[2, 3, 3]} spacing={1}>
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                </SimpleGrid>
+                <InfiniteScroll
+                  dataLength={products.length}
+                  next={fetchNextPage}
+                  // calculate max pagenya berapa
+                  // count total dibagi page
+                  hasMore={page !== maxPage}
+                  loader={
+                    <Box
+                      textAlign="center"
+                      mt="5"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Spinner />
+                      <h4>Loading...</h4>
+                    </Box>
+                  }
+                >
+                  <SimpleGrid
+                    overflowY="scroll"
+                    columns={[2, 3, 3]}
+                    spacing={1}
+                  >
+                    {renderProducts()}
+                  </SimpleGrid>
+                </InfiniteScroll>
               </TabPanel>
               <TabPanel>
-                <SimpleGrid columns={1} spacing={3}>
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                </SimpleGrid>
+                <InfiniteScroll
+                  dataLength={products.length}
+                  next={fetchNextPage}
+                  // calculate max pagenya berapa
+                  // count total dibagi page
+                  hasMore={page !== maxPage}
+                  loader={
+                    <Box
+                      textAlign="center"
+                      mt="5"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Spinner />
+                      <h4>Loading...</h4>
+                    </Box>
+                  }
+                >
+                  <SimpleGrid
+                    overflowY="scroll"
+                    columns={[2, 3, 3]}
+                    spacing={1}
+                  >
+                    {renderProducts()}
+                  </SimpleGrid>
+                </InfiniteScroll>
               </TabPanel>
               <TabPanel>
-                <SimpleGrid columns={1} spacing={3}>
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                </SimpleGrid>
+                <InfiniteScroll
+                  dataLength={products.length}
+                  next={fetchNextPage}
+                  // calculate max pagenya berapa
+                  // count total dibagi page
+                  hasMore={page !== maxPage}
+                  loader={
+                    <Box
+                      textAlign="center"
+                      mt="5"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Spinner />
+                      <h4>Loading...</h4>
+                    </Box>
+                  }
+                >
+                  <SimpleGrid
+                    overflowY="scroll"
+                    columns={[2, 3, 3]}
+                    spacing={1}
+                  >
+                    {renderProducts()}
+                  </SimpleGrid>
+                </InfiniteScroll>
               </TabPanel>
               <TabPanel>
-                <SimpleGrid columns={1} spacing={3}>
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                </SimpleGrid>
+                <InfiniteScroll
+                  dataLength={products.length}
+                  next={fetchNextPage}
+                  // calculate max pagenya berapa
+                  // count total dibagi page
+                  hasMore={page !== maxPage}
+                  loader={
+                    <Box
+                      textAlign="center"
+                      mt="5"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Spinner />
+                      <h4>Loading...</h4>
+                    </Box>
+                  }
+                >
+                  <SimpleGrid
+                    overflowY="scroll"
+                    columns={[2, 3, 3]}
+                    spacing={1}
+                  >
+                    {renderProducts()}
+                  </SimpleGrid>
+                </InfiniteScroll>
               </TabPanel>
               <TabPanel>
-                <SimpleGrid columns={1} spacing={3}>
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                </SimpleGrid>
+                <InfiniteScroll
+                  dataLength={products.length}
+                  next={fetchNextPage}
+                  // calculate max pagenya berapa
+                  // count total dibagi page
+                  hasMore={page !== maxPage}
+                  loader={
+                    <Box
+                      textAlign="center"
+                      mt="5"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Spinner />
+                      <h4>Loading...</h4>
+                    </Box>
+                  }
+                >
+                  <SimpleGrid
+                    overflowY="scroll"
+                    columns={[2, 3, 3]}
+                    spacing={1}
+                  >
+                    {renderProducts()}
+                  </SimpleGrid>
+                </InfiniteScroll>
               </TabPanel>
               <TabPanel>
-                <SimpleGrid columns={1} spacing={3}>
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                </SimpleGrid>
+                <InfiniteScroll
+                  dataLength={products.length}
+                  next={fetchNextPage}
+                  // calculate max pagenya berapa
+                  // count total dibagi page
+                  hasMore={page !== maxPage}
+                  loader={
+                    <Box
+                      textAlign="center"
+                      mt="5"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Spinner />
+                      <h4>Loading...</h4>
+                    </Box>
+                  }
+                >
+                  <SimpleGrid
+                    overflowY="scroll"
+                    columns={[2, 3, 3]}
+                    spacing={1}
+                  >
+                    {renderProducts()}
+                  </SimpleGrid>
+                </InfiniteScroll>
               </TabPanel>
               <TabPanel>
-                <SimpleGrid columns={1} spacing={3}>
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                </SimpleGrid>
+                <InfiniteScroll
+                  dataLength={products.length}
+                  next={fetchNextPage}
+                  // calculate max pagenya berapa
+                  // count total dibagi page
+                  hasMore={page !== maxPage}
+                  loader={
+                    <Box
+                      textAlign="center"
+                      mt="5"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Spinner />
+                      <h4>Loading...</h4>
+                    </Box>
+                  }
+                >
+                  <SimpleGrid
+                    overflowY="scroll"
+                    columns={[2, 3, 3]}
+                    spacing={1}
+                  >
+                    {renderProducts()}
+                  </SimpleGrid>
+                </InfiniteScroll>
               </TabPanel>
             </TabPanels>
           </Tabs>
