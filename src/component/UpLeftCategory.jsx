@@ -9,7 +9,6 @@ import {
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 const UpLeftCategory = ({ setPage, setFilterByCategory }) => {
   const { isOpen: kategoriIsOpen, onToggle: kategoriOnToggle } =
@@ -74,7 +73,7 @@ const UpLeftCategory = ({ setPage, setFilterByCategory }) => {
           <Text variant="caption">Ibu &amp; Anak</Text>
         </Collapse>
       </Stack>
-    </Box>
+    </Box >
   );
 };
 export default UpLeftCategory;

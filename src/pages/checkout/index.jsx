@@ -26,12 +26,14 @@ import {
   UnorderedList,
   Image,
   Spinner,
+  HStack,
 } from "@chakra-ui/react";
 import { BsPlusLg } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { TbTruckDelivery } from "react-icons/tb";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { CloseIcon } from "@chakra-ui/icons";
 import { selectAuth } from "../../redux/reducer/authSlice";
 import Pengirimanbarang from "../../component/ongkir/Pengirimanbarang";
 import api from "../../lib/api";
@@ -48,8 +50,9 @@ const checkout = () => {
   const authSelector = useSelector(selectAuth);
   const [selectedAddress, setSelectedAddress] = useState();
   const [ongkir, setOngkir] = useState(0)
-  const [dataAddress, setDataAddres] = useState();
-  const [dataItems, setDataItems] = useState([])
+  const [kurir, setKurir] = useState("")
+  const [dataAddress, setDataAddres] = useState([]);
+  const [dataItems, setDataItems] = useState()
   const [bca, setBca] = useState(true);
   const [bcaBoolean, setBcaBoolean] = useState(true);
   const [bcaVa, setBcaVa] = useState([]);
@@ -94,8 +97,6 @@ const checkout = () => {
     }
   }
 
-
-
   // for render main address for the firsttime with parameter main_addres === true
   const mainAddress = () => {
     return dataAddress?.map((val) => {
@@ -111,7 +112,6 @@ const checkout = () => {
       const res = await api.get("/profile/address-user");
       const data = res?.data?.result;
       setDataAddres(data);
-      mainAddress()
       fetchTransaction()
     } catch (err) {
       toast({
@@ -126,16 +126,69 @@ const checkout = () => {
   if (!authSelector.id || authSelector.role === "admin") {
     window.history.back()
   }
+
+  const createPayment = async (
+    data = {
+      ongkos_kirim: ongkir, AddressId: selectedAddress.id, kurir, TransactionId: dataItems.id
+    }
+  ) => {
+    try {
+
+      const res = await api.post("/payment/create", data)
+      toast({
+        title: "success",
+        description: res?.data?.message,
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+
+    } catch (err) {
+      toast({
+        title: "error",
+        description: err?.response?.data?.message || err.message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  }
+  const deleteHandler = async (val) => {
+    try {
+      const res = await api.delete(`/profile/address/${val}/delete`)
+      toast({
+        title: "success",
+        description: res?.data?.message,
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+      });
+      fetchAddress()
+    } catch (err) {
+      toast({
+        title: "error",
+        description: err?.response?.data?.message || err.message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  }
+
+
   useEffect(() => {
+    if (router.isReady) {
+      fetchAddress()
+      fetchTransaction()
+    }
 
-
-    fetchAddress()
     mainAddress()
+
     // if (router.isReady) {
-    fetchTransaction()
+    // fetchTransaction()
     // }
 
-  }, [router.isReady]);
+  }, [router.isReady, dataAddress.length]);
 
   if (!authSelector.id || authSelector.role === "admin") {
     return <Spinner thickness='4px'
@@ -222,17 +275,22 @@ const checkout = () => {
                           alignItems="center"
                           justifyContent="space-between"
                         >
-                          <Box>
-                            <Text variant="caption" fontWeight={600}>
-                              {val.labelAlamat}
-                            </Text>
-                            <Text variant="caption">
-                              {val.alamat}, {val.kecamatan}
-                            </Text>
-                            <Text variant="caption">
-                              {val.kotaKabupaten}, {val.provinsi} {val.kodePos}
-                            </Text>
-                          </Box>
+                          <HStack width="60%">
+                            <Box>
+                              <Text variant="caption" fontWeight={600}>
+                                {val.labelAlamat}
+                              </Text>
+                              <Text variant="caption">
+                                {val.alamat}, {val.kecamatan}
+                              </Text>
+                              <Text variant="caption">
+                                {val.kotaKabupaten}, {val.provinsi} {val.kodePos}
+                              </Text>
+                            </Box>
+                            <Box onClick={() => deleteHandler(val.id)}>
+                              <CloseIcon boxSize={2} />
+                            </Box>
+                          </HStack>
                           {val === selectedAddress ? (
                             <Icon as={TbTruckDelivery} boxSize={8} mx={2} />
                           ) : (
@@ -242,7 +300,7 @@ const checkout = () => {
                             variant="main"
                             onClick={() => setSelectedAddress(val)}
                           >
-                            pilih Alamat{" "}
+                            Pilih
                           </Button>
                         </Box>
                       );
@@ -304,7 +362,7 @@ const checkout = () => {
               mt={[2, 0]}
             >
               {
-                selectedAddress && <Pengirimanbarang destinationCode={selectedAddress.city_id || 457} key={selectedAddress.city_id} setOngkir={setOngkir} />
+                selectedAddress && <Pengirimanbarang destinationCode={selectedAddress.city_id || 457} key={selectedAddress.city_id} setOngkir={setOngkir} setKurir={setKurir} />
               }
             </Box>
           </Box>
@@ -312,53 +370,59 @@ const checkout = () => {
         {/* end of address section */}
 
         {/* ringkasan order section */}
-        <Box
-          padding={[2, 5]}
-          width="100%"
-          boxShadow={[
-            "none",
-            "0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08);",
-          ]}
-          marginX={[0, 4]}
-          borderRadius="8px"
-          justifyContent="space-between"
-        >
-          <Box>
-            <Text variant="title">Ringkasan Order</Text>
-          </Box>
-          <Divider />
-          <Grid
-            templateColumns="repeat(5, 1fr)"
-            gap={2}
-            templateRows="repeat(2, 1fr)"
-          >
-            <GridItem colSpan={1} rowSpan={2}>
-              <Img src="https://static.hdmall.id/system/image_attachments/images/000/008/720/original/bisolvon-8mg-tab-str-4s-1.jpg" />
-            </GridItem>
-            <GridItem colSpan={3} rowSpan={1} padding={2} alignItems="center">
-              <Box
-                justifyContent="space-between"
-                display="flex"
-                alignItems="center"
-              >
-                <Text variant="caption-bold">Bisolovon</Text>
-                <Badge>
-                  <Text as="s">Rp.17.000</Text>
-                </Badge>
+        {dataItems && dataItems.Transaction_items.map((val) => {
+          return (
+
+            <Box
+              key={val.id}
+              padding={[2, 5]}
+              width="100%"
+              boxShadow={[
+                "none",
+                "0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08);",
+              ]}
+              marginX={[0, 4]}
+              borderRadius="8px"
+              justifyContent="space-between"
+            >
+              <Box>
+                <Text variant="title">Ringkasan Order</Text>
               </Box>
-              <Text variant="caption-bold">4 tablet</Text>
-            </GridItem>
-            <GridItem colSpan={1} rowSpan={1} padding={2}>
-              <Text variant="caption-bold">Rp.13.000</Text>
-            </GridItem>
-            <GridItem colSpan={3} rowSpan={1} padding={2}>
-              <Text variant="caption-bold">SubTotal</Text>
-            </GridItem>
-            <GridItem colSpan={1} rowSpan={1} padding={2}>
-              <Text variant="caption-bold">Rp.13.000</Text>
-            </GridItem>
-          </Grid>
-        </Box>
+              <Divider />
+              <Grid
+                templateColumns="repeat(5, 1fr)"
+                gap={2}
+                templateRows="repeat(2, 1fr)"
+              >
+                <GridItem colSpan={1} rowSpan={2}>
+                  <Img src={val.Product?.Product_images[0]?.image_url} />
+                </GridItem>
+                <GridItem colSpan={3} rowSpan={1} padding={2} alignItems="center">
+                  <Box
+                    justifyContent="space-between"
+                    display="flex"
+                    alignItems="center"
+                  >
+                    <Text variant="caption-bold">{val.Product.med_name}</Text>
+                    <Badge>
+                      <Text as="s">Rp.{val.Product.selling_price.toLocaleString()}</Text>
+                    </Badge>
+                  </Box>
+                  <Text variant="caption-bold">{val.quantity}{val.Product.kemasan}</Text>
+                </GridItem>
+                <GridItem colSpan={1} rowSpan={1} padding={2}>
+                  <Text variant="caption-bold">Rp.{(val.Product.selling_price - (val.Product.selling_price * val.Product.discount)).toLocaleString()}</Text>
+                </GridItem>
+                <GridItem colSpan={3} rowSpan={1} padding={2}>
+                  <Text variant="caption-bold">SubTotal</Text>
+                </GridItem>
+                <GridItem colSpan={1} rowSpan={1} padding={2}>
+                  <Text variant="caption-bold">Rp.{val.sub_total.toLocaleString()}</Text>
+                </GridItem>
+              </Grid>
+            </Box>
+          )
+        })}
       </GridItem>
       {/* end of ringkasan order section */}
 
@@ -388,7 +452,7 @@ const checkout = () => {
             alignItems="center"
           >
             <Text variant="caption-bold">Sub Total</Text>
-            <Text variant="caption-bold">Rp. {dataItems && dataItems.total_price}</Text>
+            <Text variant="caption-bold">Rp. {dataItems && dataItems.total_price.toLocaleString()}</Text>
           </Box>
           <Box
             my={2}
@@ -397,12 +461,13 @@ const checkout = () => {
             alignItems="center"
           >
             <Text variant="caption-bold">Pengiriman</Text>
-            {ongkir && <Text variant="caption-bold">Rp.{ongkir.toLocaleString()}</Text>}
+            {ongkir !== 0 && <Text variant="caption-bold">Rp.{ongkir.toLocaleString()}</Text>}
             {!ongkir && <Text variant="caption-bold">Silahkan Pilih Kurir</Text>}
           </Box>
           <Divider />
           <Box
             my={2}
+            mb={["20px", 0]}
             justifyContent="space-between"
             display="flex"
             alignItems="center"
@@ -478,12 +543,32 @@ const checkout = () => {
                 Konfirmasi Pembayaran
               </Button>
             </Box>
-
             {/* end of total payment section */}
+
+            <Grid
+              // color="#F6FAFB"
+              background="#F6FAFB"
+              templateColumns="repeat(6, 1fr)"
+              display={["flex", "none", "none"]}
+              gap={2}
+              justifyContent="space-evenly"
+              bottom={0}
+              paddingBottom={3}
+              paddingTop={3}
+              left={0}
+              right={0}
+              position="fixed"
+              mt={10}
+            >
+              <GridItem colSpan={6}>
+                <Button colorScheme="teal" onClick={pilihPembayaranOnOpen}>Pilih Metode Pembayaran</Button>
+              </GridItem>
+            </Grid>
 
             <Modal
               isOpen={pilihPembayaranIsOpen}
               onClose={pilihPembayaranOnClose}
+              size={["xs", "sm"]}
             >
               <ModalOverlay />
               <ModalContent>
@@ -519,15 +604,8 @@ const checkout = () => {
                         <Text variant="subtitle-bold" fontWeight={400}>
                           Total Harga
                         </Text>
-                        <Text variant="title">Rp 22.000</Text>
+                        <Text variant="title">Rp. {dataItems && (dataItems.total_price + ongkir)}</Text>
                       </Stack>
-                      <Text
-                        textAlign="center"
-                        variant="mini-title"
-                        _hover={{ cursor: "pointer", color: "#586193" }}
-                      >
-                        Lihat Detail
-                      </Text>
                     </Stack>
                   </Box>
                   <Divider mt={10} hidden={!bca} />
@@ -608,6 +686,7 @@ const checkout = () => {
                         pilihPembayaranOnClose(),
                         setBcaVa("BCA VA"),
                         setBcaBoolean(false),
+                        createPayment()
                       ]}
                       variant="main"
                     >
