@@ -48,11 +48,7 @@ const ResepBanner = () => {
                         />
                     </GridItem>
                     <GridItem mt="auto" mb="auto" ml="auto" justifyContent="center" alignItems="center" display="block" colSpan={1}>
-                        <Text
-                            fontSize="20px"
-                            fontWeight="700"
-                            color="#213360"
-                        >Punya Resep Dokter ?</Text>
+                        <Text variant="title">Punya Resep Dokter ?</Text>
                         <Text
                             fontSize="18px"
                             fontWeight="400"
@@ -89,7 +85,7 @@ const ResepBanner = () => {
                 marginLeft="auto"
                 marginRight="auto"
             >
-                <Text display={["flex", "none", "none"]} fontSize={[14]} fontWeight={[700]} color="#213360">Punya Resep Dokter ?</Text>
+                <Text display={["flex", "none", "none"]} variant="title" color="#213360">Punya Resep Dokter ?</Text>
             </Box>
             <Box>
                 {banner}

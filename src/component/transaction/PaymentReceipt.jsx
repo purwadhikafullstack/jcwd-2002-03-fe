@@ -36,17 +36,21 @@ const PaymentReceipt = ({ transactionId }) => {
     try {
       const formData = new FormData();
 
-      formData.append("payment_receipt", selectedImage);
+      formData.append("payment_receipts", selectedImage);
+      formData.append("methode", "BCA VA")
 
-      const res = await api.patch("/payment/payment-image");
+      const res = await api.patch(`/payment/${transactionId}/payment-image`, formData);
       toast({
         title: "Upload Berhasil",
-        description: res?.data?.result?.message,
+        description: res?.data?.message,
         status: "success",
         duration: 9000,
         position: "top-right",
         isClosable: true,
       });
+      onClose()
+      setSelectedImage()
+      setImagePreview()
     } catch (err) {
       toast({
         title: "upload gagal",
@@ -77,7 +81,7 @@ const PaymentReceipt = ({ transactionId }) => {
               </Button>
             </Box>
             <Input
-              accept="image/png, image/jpg"
+              accept="image/png, image/jpg, image/jpeg"
               type="file"
               ref={inputRef}
               display="none"

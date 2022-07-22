@@ -16,34 +16,11 @@ import {
     Box,
     GridItem,
     Grid,
-    useToast,
 } from "@chakra-ui/react"
-import api from "../../lib/api"
 
-const ApproveTransaction = ({ transactionDetail, username, dateOrder, nomerPesanan, totalPrice, itemsLength, payment, TransactionId }) => {
+const ApproveTransaction = ({ transactionDetail, username, dateOrder, nomerPesanan, totalPrice, itemsLength, payment, updateStatusPayment }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const toast = useToast()
 
-    const updateStatusPayment = async (dataStatus = {}) => {
-        try {
-            const res = await api.patch(`/transaction/${TransactionId}/transaction-status`, dataStatus)
-            toast({
-                title: "success",
-                status: "success",
-                description: res?.data?.message || "transaction approved successfuly",
-                duration: 5000,
-                isClosable: true
-            })
-        } catch (err) {
-            toast({
-                status: "error",
-                title: "error",
-                description: "erorr update Payment status",
-                duration: 5000,
-                isClosable: true
-            })
-        }
-    }
     return (
         <>
             <Button onClick={onOpen} colorScheme="teal">Terima Pesanan</Button>
@@ -78,7 +55,7 @@ const ApproveTransaction = ({ transactionDetail, username, dateOrder, nomerPesan
                                 <Text variant="subtitle" fontSize="16px">Bukti Pembayaran</Text>
                                 <Box h="300px" width="250px" overflow="scroll" border="1px solid teal" mb={2}>
                                     <Box
-                                        backgroundImage={payment.image_url}
+                                        backgroundImage={payment[0].image_url}
                                         backgroundRepeat="no-repeat"
                                         backgroundSize="contain"
                                         backgroundPosition="center"
@@ -97,7 +74,7 @@ const ApproveTransaction = ({ transactionDetail, username, dateOrder, nomerPesan
                                     <Box>
                                         <Text><b>Total Harga</b> ( {itemsLength} obat )</Text>
                                     </Box>
-                                    <Box><b>Rp.{totalPrice}</b></Box>
+                                    <Box><b>Rp.{totalPrice && totalPrice.toLocaleString()}</b></Box>
                                 </>
                             }
                         </Box>

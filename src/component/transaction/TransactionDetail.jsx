@@ -18,9 +18,8 @@ import {
 } from "@chakra-ui/react"
 import { FaReceipt } from "react-icons/fa"
 
-const TransactionDetail = ({ transactionDetail, username, dateOrder, nomerPesanan, totalPrice, itemsLength, payment }) => {
+const TransactionDetail = ({ transactionDetail, username, dateOrder, nomerPesanan, totalPrice, itemsLength }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    console.log(transactionDetail)
     return (
         <>
             <Button onClick={onOpen} variant="ghost" colorScheme="teal"><Icon as={FaReceipt} mr="2" /> Detail Pesanan</Button>
@@ -55,7 +54,7 @@ const TransactionDetail = ({ transactionDetail, username, dateOrder, nomerPesana
                                     <Box>
                                         <Text><b>Total Harga</b> ( {itemsLength} obat )</Text>
                                     </Box>
-                                    <Box><b>Rp.{totalPrice}</b></Box>
+                                    <Box><b>Rp.{totalPrice && totalPrice.toLocaleString()}</b></Box>
                                 </>
                             }
                         </Box>

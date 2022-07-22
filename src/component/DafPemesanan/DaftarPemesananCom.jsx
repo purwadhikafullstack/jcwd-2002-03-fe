@@ -13,6 +13,7 @@ import {
   Icon,
   Select,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { BiSort } from "react-icons/bi";
 import { useEffect, useState } from "react";
@@ -26,9 +27,29 @@ const DaftarPemesanan = () => {
   // cart kasih batasan 20 barang max
   // transaction item yang banyak uinya cuman datu produk
   const [transaction, setTransaction] = useState([]);
+  const toast = useToast()
+
+
+  const clearExpiredTransaction = async () => {
+    try {
+      await api.patch("/transaction/reject/exp-date")
+
+    } catch (err) {
+      toast({
+        title: "error",
+        status: "error",
+        description: err?.respone?.data?.message || err?.message,
+        duration: 20000,
+        isClosable: true
+      })
+    }
+  }
+
   const fetchTransaction = async (
     queryParams = {
-      params: {},
+      params: {
+
+      },
     }
   ) => {
     try {
@@ -37,8 +58,15 @@ const DaftarPemesanan = () => {
       });
       console.log(res.data.result.rows);
       setTransaction(res.data.result.rows);
+      clearExpiredTransaction()
     } catch (err) {
-      console.log(err);
+      toast({
+        status: "error",
+        title: "error",
+        description: err?.response?.data?.message || err?.message,
+        duration: 5000,
+        isClosable: true
+      })
     }
   };
   const renderDafPemMkMp = () => {
@@ -53,13 +81,12 @@ const DaftarPemesanan = () => {
           image={
             val?.Transaction_items[0]?.Product.Product_images[0]?.image_url
           }
+          transactionId={val.id}
         />
       );
     });
   };
-  // useEffect(() => {
-  //   fetchTransaction();
-  // }, []);
+
   useEffect(() => {
     fetchTransaction();
   }, []);
@@ -224,10 +251,7 @@ const DaftarPemesanan = () => {
                   </Stack>
                 </Box>
                 <Box w="720px" h="600px" overflowY="scroll" mb="10px">
-                  <DaftarPemesananCardMPMK />
-                  <DaftarPemesananCardMPMK />
-                  <DaftarPemesananCardMPMK />
-                  <DaftarPemesananCardMPMK />
+                  {renderDafPemMkMp()}
                 </Box>
               </TabPanel>
               <TabPanel p="0">

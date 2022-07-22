@@ -3,24 +3,18 @@
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
   Checkbox,
-  Flex,
   Grid,
   GridItem,
   Icon,
   IconButton,
   Img,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { cart, selectCart } from "redux/reducer/cartSlice";
+import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -43,20 +37,10 @@ const ProductCart = ({
   props,
   selectedItem,
 }) => {
-  const dispatch = useDispatch();
-  const authSelector = useSelector(selectAuth);
   const [toggleSelected, setToggleSelected] = useState(false);
-  // dispatch(
-  //   cart({
-  //     id,
-  //     image_url,
-  //     quantity,
-  //     discount,
-  //     med_name,
-  //     selling_price,
-  //     ProductId,
-  //   })
-  // );
+  const authSelector = useSelector(selectAuth)
+  const toast = useToast()
+
   const formik = useFormik({
     initialValues: {
       quantity: quantity1,
@@ -66,7 +50,7 @@ const ProductCart = ({
     }),
   });
   const finalPrice = () => {
-    const result = selling_price - selling_price * (discount / 100);
+    const result = selling_price - (selling_price * discount);
     return result.toLocaleString();
   };
   const editCartBtnHandler = async (type) => {
@@ -78,17 +62,15 @@ const ProductCart = ({
         totalQuantity = formik.values.quantity - 1;
       }
       await api.post("/cart", {
-        // UserId: authSelector.id,
-        UserId: 2,
+        UserId: authSelector.id,
         id,
         quantity: totalQuantity,
         price: selling_price,
         ProductId,
       });
-      console.log("aaa");
       passingFetchProduct();
     } catch (err) {
-      console.log(err);
+      toast({ status: "error", title: "error network", description: err?.message || "error network" })
     }
   };
   const deleteCartHandler = async () => {
@@ -96,7 +78,7 @@ const ProductCart = ({
       await api.delete(`/cart/${id}`);
       passingFetchProduct();
     } catch (err) {
-      console.log(err);
+      toast({ status: "error", title: "error network", description: err?.message || "error network" })
     }
   };
   const qtyBtnHandler = (dir) => {
@@ -113,7 +95,6 @@ const ProductCart = ({
       setSelectedItem((prev) => [...prev, props]);
       setToggleSelected(true);
     } else {
-      console.log(props);
       setSelectedItem(selectedItem.filter((event) => event.id !== props.id));
       setToggleSelected(false);
     }
@@ -154,13 +135,13 @@ const ProductCart = ({
                   </Text>
                 </Box>
               </Stack>
-              <Text variant="caption">kemasan</Text>
+              <Text variant="caption">{kemasan}</Text>
               <Stack
                 mt={4}
                 direction="row"
                 alignItems="center"
                 justifyContent="space-between"
-                // spacing={5}
+              // spacing={5}
               >
                 <Text variant="caption-bold">Sub Total</Text>
               </Stack>

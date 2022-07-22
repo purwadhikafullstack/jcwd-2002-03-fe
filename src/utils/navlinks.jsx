@@ -1,7 +1,6 @@
 
 import { FaShoppingCart } from "react-icons/fa"
 import { HiDotsVertical, HiHome } from "react-icons/hi"
-import CartBotomNavbar from "../component/bottomNavBar/CartBotomNavbar"
 import HomeBottomNavBar from "../component/bottomNavBar/HomeBottomNavBar"
 import ProductDetailBottomNavbar from "../component/bottomNavBar/ProductDetailBottomNavbar"
 import AboutCompany from "../component/aboutCompany/AboutCompany"
@@ -44,7 +43,7 @@ const navLinks = [
         title: "Keranjang Saya",
         base: <MobileNavbar key="keranjang Saya" title="keranjang Saya" />,
         md: <DesktopNavBar />,
-        bottomNav: <CartBotomNavbar />,
+        bottomNav: undefined,
         displayAboutCompany: <AboutCompany />
 
     },
@@ -159,6 +158,15 @@ const navLinks = [
         path: "/daftar-pemesanan",
         title: "Daftar Pemesanan",
         base: <MobileNavbar key="daftar-pemesanan" title="Daftar Pemesanan" icon1={FaShoppingCart} icon2={undefined} link="/cart" />,
+        md: <DesktopNavBar />,
+        bottomNav: undefined,
+        displayAboutCompany: <AboutCompany />
+    },
+    {
+        name: "myProfile",
+        path: "/my-profile",
+        title: "My Profile",
+        base: <MobileNavbar title="My Profile" />,
         md: <DesktopNavBar />,
         bottomNav: undefined,
         displayAboutCompany: <AboutCompany />
