@@ -29,7 +29,6 @@ const Cart = () => {
     try {
       const res = await api.get("/cart");
       setProductData(res.data.result.rows);
-
     } catch (err) {
       toast({
         title: "error",

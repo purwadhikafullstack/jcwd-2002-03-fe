@@ -126,11 +126,9 @@ const ProductList = () => {
       }
     }
   };
-  console.log("1", products);
   useEffect(() => {
     if (router.isReady) {
       fetchProducts();
-      console.log(products);
     }
   }, [page, filterByCategory, dir, selectedValue, router.query]);
   return (

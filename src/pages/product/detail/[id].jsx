@@ -54,14 +54,12 @@ const detail = ({ productDetail }) => {
   const fetchCartData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2003/cart/detail?UserId=${1}&ProductId=${
-          productDetail.id
+        `http://localhost:2003/cart/detail?UserId=${1}&ProductId=${productDetail.id
         }`
       );
       setQuantity(res.data.result.quantity);
       setSubTotal(res.data.result.sub_total);
     } catch (err) {
-      console.log(err.response.data.message);
       if (err.response.data.message) {
         setUserNotLogin(true);
       }
@@ -289,7 +287,7 @@ const detail = ({ productDetail }) => {
       w={["100%", "90", "90%"]}
       marginLeft="auto"
       marginRight="auto"
-      // mb={[10, 8, 8]}
+    // mb={[10, 8, 8]}
     >
       <GridItem
         colSpan={[1, 2, 2]}
@@ -527,11 +525,7 @@ export const getServerSideProps = async (context) => {
     };
   } catch (err) {
     console.log(err);
-    // toast({
-    //   status: "error",
-    //   title: "error",
-    //   description: "network error"
-    // })
+
   }
 };
 
