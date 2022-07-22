@@ -65,62 +65,6 @@ const LeftCategory = ({ setPage, setFilterProducts, filterProducts }) => {
         </Button>
       </Box>
       <Divider mb="20px" mt="20px" />
-      <Stack pl="28px" spacing="-0.5" pr="28px">
-        <Stack direction="row" justifyContent="space-between">
-          <Text mb="16px" variant="caption-bold" fontWeight="600">
-            KELUHAN
-          </Text>
-          {keluhanArrow ? (
-            <Icon
-              as={IoIosArrowUp}
-              onClick={() => [setKeluhanArrow(false), keluhanOnToggle()]}
-            />
-          ) : (
-            <Icon
-              as={IoIosArrowDown}
-              onClick={() => [setKeluhanArrow(true), keluhanOnToggle()]}
-            />
-          )}
-        </Stack>
-        <Collapse in={keluhanIsOpen} animateOpacity>
-          <CheckboxGroup borderRadius="4px">
-            <Stack spacing="10px" direction={["column", "none"]}>
-              <Checkbox>
-                <Text variant="caption">Batuk &amp; Flu</Text>
-              </Checkbox>
-              <Checkbox>
-                <Text variant="caption">Demam</Text>
-              </Checkbox>
-              <Checkbox>
-                <Text variant="caption">Imun Booster</Text>
-              </Checkbox>
-              <Checkbox>
-                <Text variant="caption">Kesehatan Seksual</Text>
-              </Checkbox>
-              <Checkbox>
-                <Text variant="caption">Mata &amp; Mulut</Text>
-              </Checkbox>
-              <Checkbox>
-                <Text variant="caption">Obat Diare</Text>
-              </Checkbox>
-              <Checkbox>
-                <Text variant="caption">Pelancar BAB</Text>
-              </Checkbox>
-              <Checkbox>
-                <Text variant="caption">Sakit Gigi</Text>
-              </Checkbox>
-            </Stack>
-          </CheckboxGroup>
-          <Text
-            mt="12px"
-            variant="caption"
-            _hover={{ cursor: "pointer", color: "#586193" }}
-          >
-            Lihat Lebih Lengkap
-          </Text>
-        </Collapse>
-      </Stack>
-      <Divider mb="20px" mt="20px" />
 
       <Stack pl="28px" pr="28px" spacing="-0.5">
         <Stack direction="row" justifyContent="space-between">
@@ -163,141 +107,14 @@ const LeftCategory = ({ setPage, setFilterProducts, filterProducts }) => {
                   _focus={{ outline: 0 }}
                   type="number"
                   placeholder="Harga Maksimal"
+                  mb={4}
                 />
               </InputGroup>
               <FormHelperText>{formik.errors.hargaMinimum}</FormHelperText>
+              <Button mb={5} w="100%" variant="main">
+                Filter Harga
+              </Button>
             </FormControl>
-          </Stack>
-        </Collapse>
-      </Stack>
-      <Divider mb="20px" mt="20px" />
-      <Stack pl="28px" pr="28px" spacing="-0.5">
-        <Stack direction="row" justifyContent="space-between">
-          <Text mb="16px" variant="caption-bold" fontWeight="600">
-            JENIS OBAT
-          </Text>
-          {jenisArrow ? (
-            <Icon
-              as={IoIosArrowUp}
-              onClick={() => [setJenisArrow(false), jenisOnToggle()]}
-            />
-          ) : (
-            <Icon
-              as={IoIosArrowDown}
-              onClick={() => [setJenisArrow(true), jenisOnToggle()]}
-            />
-          )}
-        </Stack>
-        <Collapse in={jenisIsOpen} animateOpacity>
-          <Stack>
-            <CheckboxGroup borderRadius="16px">
-              <Stack spacing="10px" direction={["column", "none"]}>
-                <Checkbox>
-                  <Text variant="caption">Drop</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Gel</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Strip</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Emulsi</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Balsem</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Cairan</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Koyo</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Serbuk</Text>
-                </Checkbox>
-              </Stack>
-            </CheckboxGroup>
-            <Text
-              mb="20px"
-              variant="caption"
-              _hover={{ cursor: "pointer", color: "#586193" }}
-            >
-              Lihat Lebih Lengkap
-            </Text>
-          </Stack>
-        </Collapse>
-      </Stack>
-      <Divider mb="20px" mt="20px" />
-      <Stack pl="28px" pr="28px" spacing="-0.5">
-        <Stack direction="row" justifyContent="space-between">
-          <Text mb="18px" variant="caption-bold" fontWeight="600">
-            BRAND OBAT
-          </Text>
-          {brandArrow ? (
-            <Icon
-              as={IoIosArrowUp}
-              onClick={() => [setBrandArrow(false), brandOnToggle()]}
-            />
-          ) : (
-            <Icon
-              as={IoIosArrowDown}
-              onClick={() => [setBrandArrow(true), brandOnToggle()]}
-            />
-          )}
-        </Stack>
-        <Collapse in={brandIsOpen} animateOpacity>
-          <Stack>
-            <InputGroup mb="18px">
-              <InputRightElement pointerEvents="none">
-                <Icon as={IoSearchOutline} color="gray.300" />
-              </InputRightElement>
-              <Input type="text" placeholder="Cari Brand" />
-            </InputGroup>
-            <CheckboxGroup borderRadius="16px">
-              <Stack spacing="10px" direction={["column", "none"]}>
-                <Checkbox
-                  value="ANTAGIN"
-                  onChange={(event) => [
-                    setFilterProducts(event.target.value),
-                    setPage(1),
-                    // router.push({
-                    //   query: { FilterProducts: { filterProducts } },
-                    // }),
-                  ]}
-                >
-                  <Text variant="caption">REDOXON</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Gel</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Strip</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Emulsi</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Balsem</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text fvariant="caption">Cairan</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Koyo</Text>
-                </Checkbox>
-                <Checkbox>
-                  <Text variant="caption">Serbuk</Text>
-                </Checkbox>
-              </Stack>
-            </CheckboxGroup>
-            <Text
-              pb="30px"
-              variant="caption"
-              _hover={{ cursor: "pointer", color: "#586193" }}
-            >
-              Lihat Lebih Lengkap
-            </Text>
           </Stack>
         </Collapse>
       </Stack>

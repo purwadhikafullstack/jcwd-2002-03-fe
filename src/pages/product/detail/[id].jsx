@@ -229,7 +229,7 @@ const detail = ({ productDetail }) => {
         ProductId: productDetail.id,
         price: productDetail.selling_price - (productDetail.selling_price * productDetail.discount),
         quantity: quantity + formik.values.quantity,
-        //   subtotal: subTotal + (formik.values.quantity * selling_price),
+        subtotal: subTotal + formik.values.quantity * subTotal,
       });
       setQuantity(res.data.result.quantity);
       setSubTotal(res.data.result.sub_total);

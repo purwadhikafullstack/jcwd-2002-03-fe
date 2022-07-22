@@ -17,10 +17,20 @@ import {
   Select,
   Spinner,
   useToast,
+  FormControl,
+  InputGroup,
+  InputLeftElement,
+  Input,
+  FormHelperText,
+  InputRightElement,
+  Icon,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { BsSearch } from "react-icons/bs";
 import LeftCategory from "../component/LeftCategory";
 import UpLeftCategory from "../component/UpLeftCategory";
 import api from "../lib/api";
@@ -31,12 +41,12 @@ const ProductList = () => {
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [filterByCategory, setFilterByCategory] = useState();
-  const [filterProducts, setFilterProducts] = useState();
   const [selectedValue, setSelectedValue] = useState();
+  const [searchValue, setSearchValue] = useState();
   const [dir, setDir] = useState();
   const router = useRouter();
-  const toast = useToast()
-  const { searchProduct, selectedProduct, _sortBy, _sortDir } = router.query
+  const toast = useToast();
+  const { searchProduct, selectedProduct, _sortBy, _sortDir } = router.query;
 
   const fetchProducts = async (
     queryParams = {
@@ -46,12 +56,13 @@ const ProductList = () => {
         _sortDir,
         _limit: 24,
         _page: page,
-        searchProduct
+        searchProduct,
       },
     }
   ) => {
     try {
       const res = await api.get("/product/", queryParams);
+      console.log(res.data.result.result.rows);
       if (page === 1) {
         setProducts(res.data.result.result.rows);
       } else {
@@ -67,8 +78,8 @@ const ProductList = () => {
         status: "error",
         description: "network error",
         duration: 5000,
-        isClosable: true
-      })
+        isClosable: true,
+      });
     }
   };
   const renderProducts = () => {
@@ -82,7 +93,10 @@ const ProductList = () => {
           sellingPrice={val?.selling_price.toLocaleString()}
           productImage={val?.Product_images[0]?.image_url}
           id={val.id}
-          discountPrice={(val.selling_price - (val.selling_price * val.discount)).toLocaleString()}
+          discountPrice={(
+            val.selling_price -
+            val.selling_price * val.discount
+          ).toLocaleString()}
           kemasan={val.kemasan}
         />
       );
@@ -100,12 +114,18 @@ const ProductList = () => {
         setSelectedValue("selling_price");
         setDir("ASC");
         setPage(1);
-        router.push({ pathname: "/product-list", query: { ...router.query, _sortDir: "ASC" } })
+        router.push({
+          pathname: "/product-list",
+          query: { ...router.query, _sortDir: "ASC" },
+        });
       } else if (selectValue === "selling_price") {
         setSelectedValue("selling_price");
         setDir("DESC");
         setPage(1);
-        router.push({ pathname: "/product-list", query: { ...router.query, _sortDir: "DESC" } })
+        router.push({
+          pathname: "/product-list",
+          query: { ...router.query, _sortDir: "DESC" },
+        });
       } else if (selectValue === "az") {
         setSelectedValue("med_name");
         setDir("ASC");
@@ -117,13 +137,13 @@ const ProductList = () => {
       }
     }
   };
-  console.log("1", products)
+  console.log("1", products);
   useEffect(() => {
     if (router.isReady) {
       fetchProducts();
-      console.log(products)
+      console.log(products);
     }
-  }, [page, filterByCategory, filterProducts, dir, selectedValue, router.query]);
+  }, [page, filterByCategory, dir, selectedValue, router.query]);
   return (
     <Grid
       templateColumns={[
@@ -173,13 +193,9 @@ const ProductList = () => {
           setPage={setPage}
           setFilterByCategory={setFilterByCategory}
           filterByCategory={filterByCategory}
+          // category={products.}
         />
-        <LeftCategory
-          fetchProducts={fetchProducts}
-          setPage={setPage}
-          setFilterProducts={setFilterProducts}
-          filterProducts={filterProducts}
-        />
+        <LeftCategory fetchProducts={fetchProducts} setPage={setPage} />
       </GridItem>
       <GridItem mt={[0, 10, 10]} colSpan={4}>
         <Box mt="49px" display={["none", "none", "none", "grid"]}>
@@ -203,6 +219,33 @@ const ProductList = () => {
               </Select>
             </Stack>
           </Stack>
+          <FormControl isInvalid={formik.errors.hargaMinimum}>
+            <InputGroup>
+              <Input
+                _focus={{ outline: 0 }}
+                type="text"
+                placeholder="Search Product"
+                onChange={(event) =>
+                  formik.setFieldValue("searchProduct", event.target.value)
+                }
+              />
+              <InputRightElement>
+                <Icon
+                  as={BsSearch}
+                  color="#FFFFF"
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => [
+                    setSearchValue(formik.values.searchProduct),
+                    setPage(1),
+                    router.push({
+                      query: { SearchProducts: formik.values.searchProduct },
+                    }),
+                  ]}
+                />
+              </InputRightElement>
+            </InputGroup>
+            <FormHelperText>{formik.errors.hargaMinimum}</FormHelperText>
+          </FormControl>
         </Box>
         <Box display={["grid", "none"]}>
           <Tabs colorScheme="#000000" maxW="100vw">

@@ -45,6 +45,7 @@ const UpLeftCategory = ({ setPage, filterByCategory, setFilterByCategory }) => {
         <Collapse in={kategoriIsOpen} animateOpacity>
           <Text
             variant="mini-title"
+            _hover={{ cursor: "pointer" }}
             onClick={() => [
               setFilterByCategory(1),
               setPage(1),
