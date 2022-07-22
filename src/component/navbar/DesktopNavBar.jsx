@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
     Avatar,
     Button,
@@ -20,6 +20,7 @@ import { useSelector } from "react-redux"
 import { selectAuth } from "../../redux/reducer/authSlice"
 
 const DesktopNavBar = ({ icon1 = FaBell, icon2 = FaShoppingCart, link1 = "/daftar-pemesanan", link2 = "/cart" }) => {
+    const [inputValue, setInputValue] = useState()
     const router = useRouter()
     const authSelector = useSelector(selectAuth)
 
@@ -57,6 +58,14 @@ const DesktopNavBar = ({ icon1 = FaBell, icon2 = FaShoppingCart, link1 = "/dafta
         md: (logedinUser())
     })
 
+    const inputHandler = (e) => {
+        setInputValue(e.target.value)
+    }
+
+    const searchButtonHandler = () => {
+        router.push({ pathname: "/product-list", query: { ...router.query, searchProduct: inputValue } })
+    }
+
     return (
         <Grid
             templateColumns="repeat(5, 1fr)"
@@ -74,9 +83,9 @@ const DesktopNavBar = ({ icon1 = FaBell, icon2 = FaShoppingCart, link1 = "/dafta
             </GridItem>
             <GridItem colSpan={[4, 3, 3]}>
                 <InputGroup>
-                    <Input h={["36px", "44px", "44px"]} />
+                    <Input h={["36px", "44px", "44px"]} onChange={inputHandler} />
                     <InputRightElement>
-                        <Icon as={BsSearch} onClick={() => router.push("/product-list")} cursor="pointer" color="#FFFFF" />
+                        <Icon as={BsSearch} onClick={() => searchButtonHandler()} cursor="pointer" color="#FFFFF" />
                     </InputRightElement>
                 </InputGroup>
             </GridItem >

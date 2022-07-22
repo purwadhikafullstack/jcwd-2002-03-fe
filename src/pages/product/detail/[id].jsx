@@ -493,7 +493,6 @@ const detail = ({ productDetail }) => {
   );
 };
 export const getServerSideProps = async (context) => {
-  const toast = useToast()
   try {
     const productId = context.query.id;
     const res = await axios.get(`http://localhost:2003/product/${productId}`);
@@ -504,11 +503,6 @@ export const getServerSideProps = async (context) => {
       },
     };
   } catch (err) {
-    toast({
-      status: "error",
-      title: "error",
-      description: "network error"
-    })
 
   }
 };

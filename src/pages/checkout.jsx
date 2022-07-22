@@ -17,7 +17,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Spinner,
   Stack,
   Text,
   useDisclosure,
@@ -25,11 +24,8 @@ import {
   List,
   ListItem,
   UnorderedList,
-  Alert,
-  AlertTitle,
-  AlertDescription,
-  CloseButton,
   Image,
+  Spinner,
 } from "@chakra-ui/react";
 import { BsPlusLg } from "react-icons/bs";
 import { useSelector } from "react-redux";
@@ -37,6 +33,7 @@ import { useRouter } from "next/router";
 import { TbTruckDelivery } from "react-icons/tb";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { selectAuth } from "../redux/reducer/authSlice";
+import Pengirimanbarang from "../component/ongkir/Pengirimanbarang";
 import api from "../lib/api";
 
 const checkout = () => {
@@ -64,21 +61,15 @@ const checkout = () => {
     onOpen: pilihPembayaranOnOpen,
     onClose: pilihPembayaranOnClose,
   } = useDisclosure();
-  const {
-    isOpen: konfirmasiPembayaranIsOpen,
-    onOpen: konfirmasiPembayaranOnOpen,
-    onClose: konfirmasiPembayaranOnClose,
-  } = useDisclosure();
+
   const authSelector = useSelector(selectAuth);
-  // kasih button upload pembayaran
   const [selectedAddress, setSelectedAddress] = useState();
+  const [ongkir, setOngkir] = useState()
   const [dataAddress, setDataAddres] = useState();
   const [dataIsReady, setDataIsReady] = useState(false);
   const [bca, setBca] = useState(true);
   const [bcaBoolean, setBcaBoolean] = useState(true);
   const [bcaVa, setBcaVa] = useState([]);
-  console.log(bca);
-  console.log(bcaVa);
 
   const toast = useToast();
   const router = useRouter();
@@ -89,7 +80,13 @@ const checkout = () => {
       });
       router.push("/transaction/menunggu-konfirmasi");
     } catch (err) {
-      console.log(err);
+      toast({
+        status: "error",
+        duration: 3000,
+        description: err?.response?.data?.message || err?.message,
+        isClosable: true,
+        title: "error network"
+      })
     }
   };
 
@@ -121,9 +118,9 @@ const checkout = () => {
   };
 
   useEffect(() => {
-    // if (!authSelector.id || authSelector.role === "admin") {
-    //     window.history.back()
-    // }
+    if (!authSelector.id || authSelector.role === "admin") {
+      window.history.back()
+    }
 
     fetchAddress();
 
@@ -131,21 +128,21 @@ const checkout = () => {
     if (dataIsReady === true) {
       mainAddress();
     }
-  }, [authSelector, dataIsReady]);
+  }, [dataIsReady]);
 
-  // if (!authSelector.id || authSelector.role === "admin") {
-  //     return <Spinner thickness='4px'
-  //         speed='0.65s'
-  //         emptyColor='gray.200'
-  //         color='blue.500'
-  //         size='xl'
-  //         display="flex"
-  //         mt="10px"
-  //         mb="auto"
-  //         ml="auto"
-  //         mr="auto"
-  //     />
-  // }
+  if (!authSelector.id || authSelector.role === "admin") {
+    return <Spinner thickness='4px'
+      speed='0.65s'
+      emptyColor='gray.200'
+      color='blue.500'
+      size='xl'
+      display="flex"
+      mt="10px"
+      mb="auto"
+      ml="auto"
+      mr="auto"
+    />
+  }
   return (
     <Grid templateColumns="repeat(6, 1fr)" gap={8} paddingX={[2, 6]}>
       <GridItem colSpan={[6, 4, 4]}>
@@ -230,7 +227,7 @@ const checkout = () => {
                             </Text>
                           </Box>
                           {val === selectedAddress ? (
-                            <Icon as={TbTruckDelivery} boxSize={8} />
+                            <Icon as={TbTruckDelivery} boxSize={8} mx={2} />
                           ) : (
                             ""
                           )}
@@ -270,26 +267,44 @@ const checkout = () => {
           </Box>
           <Divider />
           <Box
-            display="flex"
+            display={["block", "flex"]}
             alignItems="center"
-            justifyContent={["center", "left", "left"]}
+            justifyContent={["center", "space-between"]}
             mt={2}
+            width="100%"
           >
-            <IconButton
-              size={["xs", "sm", "sm"]}
-              mr={3}
-              color="teal"
-              boxShadow="2xl"
-              borderRadius="50%"
-              onClick={() => router.push("/address-form")}
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
             >
-              <Icon as={BsPlusLg} />
-            </IconButton>
-            <Text variant="subtitle">Tambahkan Alamat Baru</Text>
+              <IconButton
+                size={["xs", "sm", "sm"]}
+                mr={3}
+                color="teal"
+                boxShadow="2xl"
+                borderRadius="50%"
+                onClick={() => router.push("/address-form")}
+              >
+                <Icon as={BsPlusLg} />
+              </IconButton>
+              <Text variant="subtitle">Tambahkan Alamat Baru</Text>
+            </Box>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              mt={[2, 0]}
+            >
+              {
+                selectedAddress && <Pengirimanbarang destinationCode={selectedAddress.city_id || 457} key={selectedAddress.city_id} setOngkir={setOngkir} />
+              }
+            </Box>
           </Box>
         </Box>
         {/* end of address section */}
 
+        {/* ringkasan order section */}
         <Box
           padding={[2, 5]}
           width="100%"
@@ -338,6 +353,9 @@ const checkout = () => {
           </Grid>
         </Box>
       </GridItem>
+      {/* end of ringkasan order section */}
+
+
       <GridItem rowSpan={1} colSpan={[6, 2, 2]}>
         <Box
           padding={[2, 5]}
@@ -372,7 +390,8 @@ const checkout = () => {
             alignItems="center"
           >
             <Text variant="caption-bold">Pengiriman</Text>
-            <Text variant="caption-bold">Rp. 9.000</Text>
+            {ongkir && <Text variant="caption-bold">Rp.{ongkir.toLocaleString()}</Text>}
+            {!ongkir && <Text variant="caption-bold">Silahkan Pilih Kurir</Text>}
           </Box>
           <Divider />
           <Box
@@ -384,7 +403,7 @@ const checkout = () => {
             <Text variant="title">Total</Text>
             <Text variant="title">Rp. 22.000</Text>
           </Box>
-          <Divider />
+          <Divider mb={[10, 0]} />
           <Box
             justifyContent="space-between"
             display="blok"

@@ -36,15 +36,17 @@ const ProductList = () => {
   const [dir, setDir] = useState();
   const router = useRouter();
   const toast = useToast()
+  const { searchProduct, selectedProduct, _sortBy, _sortDir } = router.query
+
   const fetchProducts = async (
     queryParams = {
       params: {
-        categoryId: filterByCategory,
-        med_name: filterProducts,
-        _sortBy: selectedValue,
-        _sortDir: dir,
+        selectedProduct,
+        _sortBy,
+        _sortDir,
         _limit: 24,
         _page: page,
+        searchProduct
       },
     }
   ) => {
@@ -98,10 +100,12 @@ const ProductList = () => {
         setSelectedValue("selling_price");
         setDir("ASC");
         setPage(1);
+        router.push({ pathname: "/product-list", query: { ...router.query, _sortDir: "ASC" } })
       } else if (selectValue === "selling_price") {
         setSelectedValue("selling_price");
         setDir("DESC");
         setPage(1);
+        router.push({ pathname: "/product-list", query: { ...router.query, _sortDir: "DESC" } })
       } else if (selectValue === "az") {
         setSelectedValue("med_name");
         setDir("ASC");
@@ -113,9 +117,13 @@ const ProductList = () => {
       }
     }
   };
+  console.log("1", products)
   useEffect(() => {
-    fetchProducts();
-  }, [page, filterByCategory, filterProducts, dir, selectedValue]);
+    if (router.isReady) {
+      fetchProducts();
+      console.log(products)
+    }
+  }, [page, filterByCategory, filterProducts, dir, selectedValue, router.query]);
   return (
     <Grid
       templateColumns={[
@@ -196,7 +204,7 @@ const ProductList = () => {
             </Stack>
           </Stack>
         </Box>
-        <Box display={["grid", "grid", "grid", "none"]}>
+        <Box display={["grid", "none"]}>
           <Tabs colorScheme="#000000" maxW="100vw">
             <TabList overflowX="scroll">
               <Tab _focus={{ outline: 0 }}>Obat-Obatan</Tab>
