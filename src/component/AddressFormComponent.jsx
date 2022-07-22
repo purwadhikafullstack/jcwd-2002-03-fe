@@ -19,10 +19,13 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import api from "../lib/api"
 
 const AddressFormComponent = () => {
+  const [dataProvinsi, setDataProvinsi] = useState([])
+  const [dataKota, setDataKota] = useState([])
+  const [selectedProvinsi, setSelectedProvinsi] = useState()
   const toast = useToast()
 
   const formik = useFormik({
@@ -84,7 +87,56 @@ const AddressFormComponent = () => {
     formik.setFieldValue("main_address", event.target.checked)
   }
 
-  useEffect(() => { }, [])
+
+  const provinsi = async () => {
+    try {
+      const res = await api.get("/api/provinsi")
+      const data = res?.data?.rajaongkir.results
+      setDataProvinsi(data)
+
+    } catch (err) {
+      toast({
+        status: "error",
+        title: "error",
+        description: err?.response?.data?.message || err?.message,
+        duration: 5000,
+        isClosable: true
+      })
+
+    }
+  }
+
+  const kota = async (provinsiId) => {
+    try {
+      const res = await api.get(`/api/kota/${provinsiId}`)
+      setDataKota(res.data.rajaongkir.results)
+    } catch (err) {
+      toast({
+        status: "error",
+        title: "error",
+        description: err?.response?.data?.message || err?.message,
+        duration: 5000,
+        isClosable: true
+      })
+    }
+  }
+
+  const provinsiHandler = async (e) => {
+    e.preventDefault()
+    formik.setFieldValue("provinsi", e.target.value)
+    const filterProvince = dataProvinsi.filter((val) => val.province === e.target.value)
+    if (filterProvince.length !== 0) {
+      setSelectedProvinsi(filterProvince[0].province_id)
+    }
+  }
+
+
+
+
+  useEffect(() => {
+    provinsi()
+
+  }, [])
 
   return (
     <Box
@@ -174,14 +226,17 @@ const AddressFormComponent = () => {
               </Text>
             </FormLabel>
             <InputGroup>
-              <Input
-                onChange={(event) =>
-                  formik.setFieldValue("provinsi", event.target.value)
-                }
+              <Input type="text" list="provinsi"
+                onChange={provinsiHandler}
               />
-              <InputRightAddon bg="white">
-                <Icon as={IoIosArrowDown} />
-              </InputRightAddon>
+              <datalist id="provinsi" >
+                {dataProvinsi.length !== 0 && dataProvinsi.map((val) => {
+                  return (
+                    <option key={val.province_id} value={val.province}>{val.province}</option>
+                  )
+                })
+                }
+              </datalist>
             </InputGroup>
             <FormHelperText>{formik.errors.provinsi}</FormHelperText>
           </FormControl>
@@ -194,14 +249,17 @@ const AddressFormComponent = () => {
               </Text>
             </FormLabel>
             <InputGroup>
-              <Input
+              <Input type="text" list="kota"
                 onChange={(event) =>
                   formik.setFieldValue("kotaKabupaten", event.target.value)
                 }
               />
-              <InputRightAddon bg="white">
-                <Icon as={IoIosArrowDown} />
-              </InputRightAddon>
+              <datalist id="kota">
+                {selectedProvinsi && kota(selectedProvinsi) && dataKota && dataKota.map((val) => {
+                  return (<option key={val.city_id} value={val.city}>{val.city_name}</option>)
+                })
+                }
+              </datalist>
             </InputGroup>
             <FormHelperText>{formik.errors.kotaKabupaten}</FormHelperText>
           </FormControl>

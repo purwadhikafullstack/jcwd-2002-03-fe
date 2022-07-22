@@ -94,16 +94,16 @@ const AdminSideBar = () => {
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
-                onClick={() => router.push("/admin/transaction")}
+                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isPaid: false } }) }}
               >
-                <Text onClick={() => { router.push({ pathname: "/admin/transaction", query: { isPaid: false } }) }}>
+                <Text >
                   Pesanan Baru
                 </Text>
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
-                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isPacking: true } }) }}
+                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isPacking: true, isSend: false } }) }}
               >
                 Siap Kirim
               </AccordionPanel>
@@ -163,7 +163,7 @@ const AdminSideBar = () => {
           </Accordion>
         </Box>
       </Box>
-    </SimpleGrid>
+    </SimpleGrid >
 
   );
 };

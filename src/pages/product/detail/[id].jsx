@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Badge,
   Box,
@@ -39,7 +39,6 @@ import * as Yup from "yup";
 import { useRouter } from "next/router";
 import { selectAuth } from "redux/reducer/authSlice";
 import { selectCart } from "redux/reducer/cartSlice";
-import { useEffect } from "react";
 import api from "../../../lib/api";
 
 const detail = ({ productDetail }) => {
@@ -55,10 +54,14 @@ const detail = ({ productDetail }) => {
       const res = await axios.get(
         `http://localhost:2003/cart?UserId=${2}&ProductId=${productDetail.id}`
       );
-      console.log(res.data.result);
       setQuantity(res.data.result.quantity);
     } catch (err) {
-      console.log(err);
+      toast({
+        title: "error",
+        duration: 2000,
+        status: "error",
+        description: "error network"
+      })
     }
   };
   useEffect(() => {
@@ -221,13 +224,11 @@ const detail = ({ productDetail }) => {
   const addToCartBtnHandler = async () => {
     try {
       const res = await api.post("/cart", {
-        // UserId: authSelector.id,
         UserId: 2,
         ProductId: productDetail.id,
         price: productDetail.selling_price,
         quantity: quantity + formik.values.quantity,
       });
-      console.log(res.data.result);
       setQuantity(res.data.result.quantity);
 
       toast({
@@ -236,7 +237,12 @@ const detail = ({ productDetail }) => {
         status: "success",
       });
     } catch (err) {
-      console.log(err);
+      toast({
+        title: "error",
+        duration: 2000,
+        status: "error",
+        description: "error network"
+      })
     }
   };
   const qtyBtnHandler = (dir) => {
@@ -487,6 +493,7 @@ const detail = ({ productDetail }) => {
   );
 };
 export const getServerSideProps = async (context) => {
+  const toast = useToast()
   try {
     const productId = context.query.id;
     const res = await axios.get(`http://localhost:2003/product/${productId}`);
@@ -497,6 +504,12 @@ export const getServerSideProps = async (context) => {
       },
     };
   } catch (err) {
+    toast({
+      status: "error",
+      title: "error",
+      description: "network error"
+    })
+
   }
 };
 
