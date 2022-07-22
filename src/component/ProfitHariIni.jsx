@@ -10,18 +10,18 @@ import {
 } from "@chakra-ui/react";
 import { BiTrendingUp } from "react-icons/bi";
 
-const ProfitHariIni = () => {
+const ProfitHariIni = ({ title, amount, value, percentage, notation }) => {
   return (
-    <Flex pos="absolute">
+    <Flex>
       <Stack
         justify="space-between"
         direction="row"
         borderRadius="lg"
-        ml="80"
-        mt="52"
-        bg="gray.100"
+        bg="white"
         w="353px"
         h="122px"
+        boxShadow="md"
+        mr="15px"
       >
         <Box>
           <Text
@@ -31,7 +31,7 @@ const ProfitHariIni = () => {
             pt="16px"
             pl="16px"
           >
-            Profit Hari Ini
+            {title}
           </Text>
           <Text
             fontWeight="bold"
@@ -40,12 +40,16 @@ const ProfitHariIni = () => {
             pl="16px"
             fontSize="24px"
           >
-            Rp 10.213.500
+            {amount}
           </Text>
           <Stack pt="12px" pl="16px" direction="row">
-            <Icon color="#21CDC0" as={BiTrendingUp} />
-            <Text fontWeight="bold" color="#21CDC0" fontSize="10px">
-              +5.700.000
+            <Text
+              pl="4"
+              fontWeight="bold"
+              fontSize="10px"
+              color={notation === "+" ? "#21CDC0" : "#FF6B6B"}
+            >
+              {notation} {value.toLocaleString()}
             </Text>
           </Stack>
         </Box>
@@ -53,11 +57,12 @@ const ProfitHariIni = () => {
           <CircularProgress
             thickness="8px"
             size="70px"
-            value={40}
-            color="#21CDC0"
+            value={percentage}
+            color={notation === "+" ? "#21CDC0" : "#FF6B6B"}
           >
             <CircularProgressLabel fontWeight="bold" fontSize="14px">
-              +40%
+              {notation}
+              {percentage}%
             </CircularProgressLabel>
           </CircularProgress>
         </HStack>

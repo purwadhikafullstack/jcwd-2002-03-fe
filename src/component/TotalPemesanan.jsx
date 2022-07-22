@@ -10,18 +10,18 @@ import {
 } from "@chakra-ui/react";
 import { BiTrendingDown } from "react-icons/bi";
 
-const TotalPemesanan = () => {
+const TotalPemesanan = ({ title, amount, value, percentage, notation }) => {
   return (
-    <Flex pos="absolute">
+    <Flex>
       <Stack
         justify="space-between"
         direction="row"
         borderRadius="lg"
-        ml="692px"
-        mt="52"
-        bg="gray.100"
+        bg="white"
         w="353px"
         h="122px"
+        boxShadow="md"
+        mr="15px"
       >
         <Box>
           <Text
@@ -31,7 +31,7 @@ const TotalPemesanan = () => {
             pt="16px"
             pl="16px"
           >
-            Total Pemesanan Hari Ini
+            {title}
           </Text>
           <Text
             fontWeight="bold"
@@ -40,12 +40,16 @@ const TotalPemesanan = () => {
             pl="16px"
             fontSize="24px"
           >
-            110
+            {amount}
           </Text>
           <Stack pt="12px" pl="16px" direction="row">
-            <Icon color="#FF6B6B" as={BiTrendingDown} />
-            <Text fontWeight="bold" color="#FF6B6B" fontSize="10px">
-              -60
+            <Text
+              fontWeight="bold"
+              color={notation === "+" ? "#21CDC0" : "#FF6B6B"}
+              fontSize="10px"
+              pl="2"
+            >
+              {notation} {value.toLocaleString()}
             </Text>
           </Stack>
         </Box>
@@ -53,11 +57,12 @@ const TotalPemesanan = () => {
           <CircularProgress
             thickness="8px"
             size="70px"
-            value={62}
-            color="#FF6B6B"
+            value={percentage}
+            color={notation === "+" ? "#21CDC0" : "#FF6B6B"}
           >
             <CircularProgressLabel fontWeight="bold" fontSize="14px">
-              -62%
+              {notation}
+              {percentage}%
             </CircularProgressLabel>
           </CircularProgress>
         </HStack>

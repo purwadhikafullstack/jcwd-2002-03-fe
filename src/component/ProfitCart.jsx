@@ -40,7 +40,7 @@ const ProfitCart = () => {
         ticks: {
           beginAtZero: true,
         },
-        max: 12
+        max: 12,
       },
       x: {
         display: true,
@@ -54,16 +54,9 @@ const ProfitCart = () => {
   };
 
   return (
-    <Flex pos="absolute" zIndex="docked">
-      <Stack
-        borderRadius="lg"
-        ml="80"
-        mt="705px"
-        bg="gray.100"
-        w="537px"
-        h="380px"
-      >
-        <Flex direction="row" pos="absolute">
+    <Flex>
+      <Stack borderRadius="lg" bg="white" w="537px" h="380px" boxShadow="md">
+        <Flex direction="row">
           <Flex direction="column">
             <Text fontWeight="700" fontSize="20px" pt="32px" pl="16px">
               Profit
@@ -82,7 +75,7 @@ const ProfitCart = () => {
             </Select>
           </Box>
         </Flex>
-        <Box pl="8" pt="28" boxSize="lg">
+        <Box pl="8" pt="28px" boxSize="lg">
           <Bar data={data} width={400} height={200} options={options} />
         </Box>
       </Stack>

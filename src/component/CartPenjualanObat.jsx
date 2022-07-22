@@ -24,25 +24,64 @@ ChartJS.register(
 
 const CartPenjualanObat = () => {
   const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Ags", "Sep", "Okt", "Nov", "Des"],
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mei",
+      "Jun",
+      "Jul",
+      "Ags",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des",
+    ],
     datasets: [
       {
         label: "Obat Bebas",
-        data: ["900", "800", "400", "250", "300", "400", "500", "600", "400", "500", "300", "150"],
+        data: [
+          "900",
+          "800",
+          "400",
+          "250",
+          "300",
+          "400",
+          "500",
+          "600",
+          "400",
+          "500",
+          "300",
+          "150",
+        ],
         backgroundColor: "rgba(33, 205, 200, 10)",
         maxBarThickness: "10",
         borderRadius: "30",
         borderColor: "#21CDC0",
-        tension: 0.4
+        tension: 0.4,
       },
       {
         label: "Obat Racikan",
-        data: ["750", "800", "350", "250", "500", "400", "350", "300", "250", "330", "200", "150"],
+        data: [
+          "750",
+          "800",
+          "350",
+          "250",
+          "500",
+          "400",
+          "350",
+          "300",
+          "250",
+          "330",
+          "200",
+          "150",
+        ],
         backgroundColor: "#3353CC",
         maxBarThickness: "10",
         borderRadius: "30",
         borderColor: "#3353CC",
-        tension: 0.4
+        tension: 0.4,
       },
     ],
   };
@@ -53,7 +92,7 @@ const CartPenjualanObat = () => {
         ticks: {
           beginAtZero: true,
         },
-        max: 1250
+        max: 1250,
       },
       x: {
         display: true,
@@ -63,24 +102,17 @@ const CartPenjualanObat = () => {
       legend: {
         position: "top",
         labels: {
-            boxWidth: 7,
-            usePointStyle: true,
-            pointStyle: "circle"
-        }
+          boxWidth: 7,
+          usePointStyle: true,
+          pointStyle: "circle",
+        },
       },
     },
   };
 
   return (
-    <Flex pos="absolute">
-      <Stack
-        borderRadius="lg"
-        ml="890px"
-        mt="705px"
-        bg="gray.100"
-        w="537px"
-        h="380px"
-      >
+    <Flex>
+      <Stack borderRadius="lg" bg="white" w="537px" h="380px" boxShadow="md">
         <Flex direction="row" pos="absolute">
           <Flex direction="column">
             <Text fontWeight="700" fontSize="20px" pt="32px" pl="16px">
