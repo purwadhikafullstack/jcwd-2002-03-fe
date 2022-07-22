@@ -35,9 +35,7 @@ const ProductList = () => {
   const [selectedValue, setSelectedValue] = useState();
   const [dir, setDir] = useState();
   const router = useRouter();
-  const { filter } = router.query;
   const toast = useToast()
-  // console.log(typeof filter);
   const fetchProducts = async (
     queryParams = {
       params: {

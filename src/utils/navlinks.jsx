@@ -1,7 +1,6 @@
 
 import { FaShoppingCart } from "react-icons/fa"
 import { HiDotsVertical, HiHome } from "react-icons/hi"
-import CartBotomNavbar from "../component/bottomNavBar/CartBotomNavbar"
 import HomeBottomNavBar from "../component/bottomNavBar/HomeBottomNavBar"
 import ProductDetailBottomNavbar from "../component/bottomNavBar/ProductDetailBottomNavbar"
 import AboutCompany from "../component/aboutCompany/AboutCompany"
@@ -44,7 +43,7 @@ const navLinks = [
         title: "Keranjang Saya",
         base: <MobileNavbar key="keranjang Saya" title="keranjang Saya" />,
         md: <DesktopNavBar />,
-        bottomNav: <CartBotomNavbar />,
+        bottomNav: undefined,
         displayAboutCompany: <AboutCompany />
 
     },

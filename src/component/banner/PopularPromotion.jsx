@@ -4,7 +4,7 @@ import { Box, HStack, Text, useToast } from "@chakra-ui/react"
 import ProductCard from "../ProductCard"
 import api from "../../lib/api"
 
-const DiscountCarousel = () => {
+const PopularPromotion = () => {
     const [dataProduct, setDataProduct] = useState([])
     const toast = useToast()
     const router = useRouter()
@@ -13,8 +13,8 @@ const DiscountCarousel = () => {
     const fetchProduct = async (
         queryParams = {
             params: {
-                _sortBy: "discount",
-                _sortDir: "DESC",
+                _sortBy: "selling_price",
+                _sortDir: "ASC",
                 _limit: 10,
                 _page: 1,
             },
@@ -41,7 +41,7 @@ const DiscountCarousel = () => {
     return (
         <>
             <Box width="95%" display="flex" alignItems="center" justifyContent="space-between">
-                <Text paddingX="20px" variant="title">Kejar Diskon Hari ini</Text>
+                <Text paddingX="20px" variant="title">Produk Populer</Text>
                 <Text variant="subtitle" color="teal" fontWeight={600} onClick={() => router.push("/product-list")} _focus={{ outline: 0 }} justifyContent="center">lihat semua</Text>
             </Box>
             <Box
@@ -49,9 +49,10 @@ const DiscountCarousel = () => {
                 paddingX="30px"
                 py="10px"
                 overflowX="scroll"
-                background="linear-gradient(150.85deg, #B0E7E8 -3.37%, #7FB4C4 103.24%)"
+                background="radial-gradient(50% 50% at 50% 50%, rgba(0, 155, 144, 0.1) 0%, rgba(33, 205, 192, 0) 100%);"
                 mb={["10px", "20px"]}
                 scrollBehavior="smooth"
+
                 css={{
                     "&::-webkit-scrollbar": {
                         display: "none"
@@ -60,16 +61,6 @@ const DiscountCarousel = () => {
             >
 
                 <HStack spacing={["20px", "30px"]}>
-                    < Box
-                        backgroundRepeat="no-repeat"
-                        backgroundSize="contain"
-                        backgroundPosition="center"
-                        backgroundImage="/yuk-buruan.svg"
-                        w={["150px", "230px", "230px"]}
-                        h={["100%", "360px", "360px"]}
-                        mx="-40px"
-                        py="-20px"
-                    />
                     {dataProduct && dataProduct.map((val) => {
                         return (
                             <ProductCard
@@ -92,4 +83,4 @@ const DiscountCarousel = () => {
     )
 }
 
-export default DiscountCarousel
+export default PopularPromotion
