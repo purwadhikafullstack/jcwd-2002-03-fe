@@ -1,85 +1,82 @@
-import { Flex, Stack, Text, HStack, Box, Select } from "@chakra-ui/react";
-import React from "react";
-import { Bar } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+  Box,
+  Text,
+  Grid,
+  Select,
+  FormControl,
+  HStack,
+  VStack,
+  Stack,
+} from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const ProfitCart = () => {
-  const data = {
-    labels: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
-    datasets: [
-      {
-        label: "Jumlah dalam jutaan rupiah",
-        data: ["3", "6", "4", "8", "5", "3", "5"],
-        backgroundColor: "rgba(33, 205, 200, 10)",
-        maxBarThickness: "10",
-        borderRadius: "30",
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      yAxis: {
-        ticks: {
-          beginAtZero: true,
-        },
-        max: 12,
-      },
-      x: {
-        display: true,
-      },
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-  };
-
+const ProfitCart = ({
+  column,
+  cardTitle,
+  cardCaption,
+  selectHandle,
+  selectValue,
+  chartSort = [],
+  chartOption,
+  chartSeries,
+  chartHeight,
+  chartType,
+  showSelectOption = true,
+}) => {
   return (
-    <Flex>
-      <Stack borderRadius="lg" bg="white" w="537px" h="380px" boxShadow="md">
-        <Flex direction="row">
-          <Flex direction="column">
-            <Text fontWeight="700" fontSize="20px" pt="32px" pl="16px">
-              Profit
-            </Text>
-            <HStack>
-              <Text color="#737A8D" pt="2px" pl="16px">
-                Data dinyatakan dalam jutaan rupiah
+    <Grid borderRadius="lg" bg="white" w="537px" h="380px">
+      <Box
+        paddingX="16px"
+        pt="32px"
+        backgroundColor="white"
+        borderRadius="lg"
+        height="100%"
+        boxShadow="md"
+      >
+        <Box>
+          <HStack justify="space-between">
+            <Box>
+              <Text fontWeight="700" fontSize="20px">
+                {cardTitle}
               </Text>
-            </HStack>
-          </Flex>
-          <Box pt="32px" pl="122px">
-            <Select fontSize="12px" w="124px" h="24px" bg="white" border="2px">
-              <option value="option1">Mingguan</option>
-              <option value="option2">Bulanan</option>
-              <option value="option3">Tahunan</option>
-            </Select>
-          </Box>
-        </Flex>
-        <Box pl="8" pt="28px" boxSize="lg">
-          <Bar data={data} width={400} height={200} options={options} />
+
+              <Text color="#737A8D" fontSize="12px" fontWeight="medium">
+                {cardCaption}
+              </Text>
+            </Box>
+            <Stack>
+              {showSelectOption ? (
+                <FormControl>
+                  <Select
+                    fontSize="12px"
+                    width="141px"
+                    height="24px"
+                    onChange={selectHandle}
+                    value={selectValue}
+                  >
+                    {chartSort.map((val) => {
+                      return (
+                        <option value={val.sortValue}>{val.sortTitle}</option>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              ) : undefined}
+            </Stack>
+          </HStack>
         </Box>
-      </Stack>
-    </Flex>
+        <Box pt="14">
+        <Chart
+          height={chartHeight}
+          options={chartOption}
+          series={chartSeries}
+          type={chartType}
+        />
+        </Box>
+      </Box>
+    </Grid>
   );
 };
 

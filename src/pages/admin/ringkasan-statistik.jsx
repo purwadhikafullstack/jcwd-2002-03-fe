@@ -1,6 +1,17 @@
-import { Box, HStack, Stack, Text, Flex, Select } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Stack,
+  Text,
+  Flex,
+  Select,
+  VStack,
+} from "@chakra-ui/react";
 import AdminSideBar from "component/AdminSideBar";
 import { Line, Bar } from "react-chartjs-2";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+import api from "../../lib/api";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,7 +23,8 @@ import {
   Legend,
   BarElement,
 } from "chart.js";
-import moment from "moment"
+import moment from "moment";
+import ProfitCart from "component/ProfitCart";
 
 ChartJS.register(
   CategoryScale,
@@ -25,160 +37,15 @@ ChartJS.register(
   Legend
 );
 
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+
 const RingkasanStatistik = () => {
-  const data = {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mei",
-      "Jun",
-      "Jul",
-      "Ags",
-      "Sep",
-      "Okt",
-      "Nov",
-      "Des",
-    ],
-    datasets: [
-      {
-        label: "Obat Bebas",
-        data: [
-          "900",
-          "800",
-          "400",
-          "250",
-          "300",
-          "400",
-          "500",
-          "600",
-          "400",
-          "500",
-          "300",
-          "150",
-        ],
-        backgroundColor: "rgba(33, 205, 200, 10)",
-        maxBarThickness: "10",
-        borderRadius: "30",
-        borderColor: "#21CDC0",
-        tension: 0.4,
-      },
-      {
-        label: "Obat Resep",
-        data: [
-          "750",
-          "800",
-          "350",
-          "250",
-          "500",
-          "400",
-          "350",
-          "300",
-          "250",
-          "330",
-          "200",
-          "150",
-        ],
-        backgroundColor: "#3353CC",
-        maxBarThickness: "10",
-        borderRadius: "30",
-        borderColor: "#3353CC",
-        tension: 0.4,
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      yAxis: {
-        ticks: {
-          beginAtZero: true,
-        },
-        max: 1200,
-      },
-      x: {
-        display: true,
-      },
-    },
-    plugins: {
-      legend: {
-        position: "top",
-        labels: {
-          boxWidth: 7,
-          usePointStyle: true,
-          pointStyle: "circle",
-        },
-      },
-    },
-  };
-
-  const data2 = {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mei",
-      "Jun",
-      "Jul",
-      "Ags",
-      "Sep",
-      "Okt",
-      "Nov",
-      "Des",
-    ],
-    datasets: [
-      {
-        label: "Tren pendapatan",
-        data: [
-          "900",
-          "800",
-          "400",
-          "250",
-          "300",
-          "400",
-          "500",
-          "600",
-          "400",
-          "500",
-          "300",
-          "150",
-        ],
-        backgroundColor: "rgba(33, 205, 200, 10)",
-        maxBarThickness: "10",
-        borderRadius: "30",
-        borderColor: "#21CDC0",
-        tension: 0.4,
-      },
-    ],
-  };
-
-  const options2 = {
-    scales: {
-      yAxis: {
-        ticks: {
-          beginAtZero: true,
-        },
-        max: 1200,
-      },
-      x: {
-        display: true,
-      },
-    },
-    plugins: {
-      legend: {
-        display: false
-      },
-    },
-  };
-
   const data3 = {
-    labels: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
+    labels: ["Dibatalkan Otomatis", "Ditolak Apotik", "Permintaan Pembeli"],
     datasets: [
       {
         label: "Jumlah dalam jutaan rupiah",
-        data: ["3", "6", "4", "8", "5", "3", "5"],
+        data: ["0", "0", "0"],
         backgroundColor: "rgba(33, 205, 200, 10)",
         maxBarThickness: "10",
         borderRadius: "30",
@@ -192,7 +59,7 @@ const RingkasanStatistik = () => {
         ticks: {
           beginAtZero: true,
         },
-        max: 12
+        max: 12,
       },
       x: {
         display: true,
@@ -205,6 +72,273 @@ const RingkasanStatistik = () => {
     },
   };
 
+  const [ringkasanSort, setRingkasanSort] = useState(undefined);
+  const [sort, setSort] = useState("");
+  const [sortPendapatan, setSortPendapatan] = useState("");
+  const [sortPembatalan, setSortPembatalan] = useState("");
+  const [pemesanan, setPemesanan] = useState([]);
+  const [lastUpdated, setLastUpdated] = useState(moment());
+  const [penjualan, setPenjualan] = useState([]);
+  const [categoryPenjualan, setCategoryPenjualan] = useState([]);
+  const [dataPenjualan, setDataPenjualan] = useState([]);
+  const [earningData, setEarningData] = useState({});
+  const [earningCategory, setEarningCategory] = useState([]);
+  const [earning, setEarnings] = useState([]);
+  const [cancelationData, setCancelationData] = useState([]);
+  const [cancelationCategory, setCancelationCategory] = useState([]);
+  const [cancelation, setCancelation] = useState([]);
+
+  const penjualanObatOption = {
+    stroke: { width: 2, curve: "smooth" },
+    xaxis: {
+      categories: categoryPenjualan,
+    },
+    chart: { type: "line", height: "200px" },
+  };
+
+  const penjualanObatSeries = dataPenjualan;
+
+  const Month = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const convertDataPenjualan = () => {
+    if (sort === "Bulanan" || !sort) {
+      return;
+    }
+    const category = [];
+    const data = [];
+    penjualan.forEach((val) => {
+      if (val.week) {
+        category.push(moment(val.week).format("DD MMM"));
+        data.push(val.sum);
+      }
+      if (val.year) {
+        category.push(moment(val.year).format("YYYY"));
+        data.push(val.sum);
+      }
+    });
+
+    const arrayOfData = [
+      {
+        name: "Obat Bebas",
+        data,
+      },
+    ];
+
+    setCategoryPenjualan(category);
+    setDataPenjualan(arrayOfData);
+  };
+
+  const covertDataPenjualanByMonth = () => {
+    if (sort === "Bulanan" || sort === "") {
+      const arr = new Array(parseInt(moment().format("MM"))).fill(0);
+      penjualan.forEach((val) => {
+        arr[parseInt(moment(val.month).format("MM")) - 1] = val.sum;
+      });
+
+      const arrayOfData = [
+        {
+          name: "Obat Bebas",
+          data: arr,
+        },
+      ];
+
+      setCategoryPenjualan(Month);
+      setDataPenjualan(arrayOfData);
+    }
+  };
+
+  const pendapatanOption = {
+    stroke: { width: 2, curve: "smooth" },
+    xaxis: {
+      categories: earningCategory,
+    },
+    chart: { type: "area", height: "200px" },
+    fill: {
+      type: "gradient",
+    },
+  };
+
+  const pendapatanSeries = earning;
+
+  const converProfitDataByMonth = () => {
+    const { revenue } = earningData;
+    const dataArr = new Array(parseInt(moment().format("MM"))).fill(0);
+    revenue?.forEach((val) => {
+      dataArr[parseInt(moment(val.month).format("MM")) - 1] = val.sum;
+    });
+
+    const data = [
+      {
+        name: "profit",
+        data: dataArr,
+      },
+    ];
+
+    setEarningCategory(Month);
+    setEarnings(data);
+  };
+
+  const pembatalanOption = {
+    stroke: { width: 2, curve: "stepline" },
+    xaxis: {
+      categories: cancelationCategory,
+    },
+    chart: { type: "line" },
+  };
+
+  const pembatalanSeries = cancelation;
+
+  const convertDataPembatalan = () => {
+    if (sortPembatalan === "Bulanan" || !sortPembatalan) {
+      return;
+    }
+    const category = [];
+    const data = [];
+    cancelationData.forEach((val) => {
+      if (val.week) {
+        category.push(moment(val.week).format("DD MMM"));
+        data.push(val.count);
+      }
+      if (val.year) {
+        category.push(moment(val.year).format("YYYY"));
+        data.push(val.count);
+      }
+    });
+
+    const arrayOfData = [
+      {
+        name: "Obat Bebas",
+        data,
+      },
+    ];
+
+    setCancelationCategory(category);
+    setCancelation(arrayOfData);
+  };
+
+  const covertDataPembatalanByMonth = () => {
+    if (sortPembatalan === "Bulanan" || sortPembatalan === "") {
+      const arr = new Array(parseInt(moment().format("MM"))).fill(0);
+      cancelationData.forEach((val) => {
+        arr[parseInt(moment(val.month).format("MM")) - 1] = val.count;
+      });
+
+      const arrayOfData = [
+        {
+          name: "Obat Bebas",
+          data: arr,
+        },
+      ];
+
+      setCancelationCategory(Month);
+      setCancelation(arrayOfData);
+    }
+  };
+
+  const handleChange = (event) => {
+    setRingkasanSort(event.target.value);
+  };
+
+  const sortHandle = (event) => {
+    setSort(event.target.value);
+  };
+
+  const pendapatanHandle = (event) => {
+    setSortPendapatan(event.target.value);
+  };
+
+  const pembatalanHandle = (event) => {
+    setSortPembatalan(event.target.value);
+  };
+
+  const fetchPemesananDataCount = async () => {
+    try {
+      const res = await api.get("/report/get-transaction-count", {
+        stateOfDate: ringkasanSort,
+      });
+      setPemesanan(res.data.result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchPenjualan = async () => {
+    try {
+      const res = await api.post("/report/get-sales", {
+        stateOfDate: sort || "Bulanan",
+      });
+      setPenjualan(res.data.result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchEarnings = async () => {
+    try {
+      const res = await api.post("/report/get-profit");
+      setEarningData(res.data.result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchCancelation = async () => {
+    try {
+      const res = await api.post("/report/get-pembatalan", {
+        stateOfDate: sortPembatalan || "Bulanan",
+      });
+      setCancelationData(res.data.result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchPemesananDataCount();
+    setLastUpdated(moment());
+  }, [ringkasanSort]);
+
+  useEffect(() => {
+    fetchPenjualan();
+    setLastUpdated(moment());
+  }, [sort]);
+
+  useEffect(() => {
+    if (penjualan) {
+      convertDataPenjualan();
+      covertDataPenjualanByMonth();
+    }
+  }, [penjualan]);
+
+  useEffect(() => {
+    fetchEarnings();
+    setLastUpdated(moment());
+  }, []);
+
+  useEffect(() => {
+    fetchCancelation();
+    setLastUpdated(moment());
+  }, [sortPembatalan]);
+
+  useEffect(() => {
+    if (Object.keys(earningData).length) {
+      converProfitDataByMonth();
+    }
+  }, [earningData]);
+
   return (
     <>
       <AdminSideBar />
@@ -213,22 +347,40 @@ const RingkasanStatistik = () => {
         color="black"
         ml="64"
         pb="32px"
-        minH="5xl"
+        minH="6xl"
       >
-        <Text
-          color="#213360"
-          fontWeight="bold"
-          fontSize="20px"
-          pl="48px"
-          pt="32px"
-        >
-          Ringkasan Statistik
-        </Text>
-        <HStack color="gray" pl="48px">
-          <Text fontSize="14px">Update terakhir: </Text>
-          <Text fontWeight="bold" fontSize="14px">
-            {moment().format("DD MMMM YYYY, h:mm A")}
-          </Text>
+        <HStack justify="space-between">
+          <Box>
+            <Text
+              color="#213360"
+              fontWeight="bold"
+              fontSize="20px"
+              pl="48px"
+              pt="32px"
+            >
+              Ringkasan Statistik
+            </Text>
+            <HStack color="gray" pl="48px">
+              <Text fontSize="14px">Update terakhir: </Text>
+              <Text fontWeight="bold" fontSize="14px">
+                {moment().format("DD MMMM YYYY, h:mm A")}
+              </Text>
+            </HStack>
+          </Box>
+          <Box pr="48px">
+            <Select
+              bgColor="white"
+              fontSize="12px"
+              width="161px"
+              height="24px"
+              onChange={handleChange}
+              value={ringkasanSort}
+            >
+              <option value="Harian">1 Hari Terakhir</option>
+              <option value="Mingguan">1 Minggu Terakhir</option>
+              <option value="Bulanan">1 Bulan Terakhir</option>
+            </Select>
+          </Box>
         </HStack>
 
         {/* Chart aktivitas */}
@@ -238,7 +390,7 @@ const RingkasanStatistik = () => {
               Pesanan Baru
             </Text>
             <Text pl="16px" color="#213360" fontSize="28px" fontWeight="bold">
-              7
+              {pemesanan.findIsPaid}
             </Text>
           </Stack>
 
@@ -247,7 +399,7 @@ const RingkasanStatistik = () => {
               Siap Dikirim
             </Text>
             <Text pl="16px" color="#213360" fontSize="28px" fontWeight="bold">
-              7
+              {pemesanan.findIsPacking}
             </Text>
           </Stack>
 
@@ -256,7 +408,7 @@ const RingkasanStatistik = () => {
               Sedang Dikirim
             </Text>
             <Text pl="16px" color="#213360" fontSize="28px" fontWeight="bold">
-              7
+              {pemesanan.findIsSend}
             </Text>
           </Stack>
 
@@ -265,7 +417,7 @@ const RingkasanStatistik = () => {
               Selesai
             </Text>
             <Text pl="16px" color="#213360" fontSize="28px" fontWeight="bold">
-              7
+              {pemesanan.findIsDone}
             </Text>
           </Stack>
 
@@ -274,7 +426,7 @@ const RingkasanStatistik = () => {
               Dibatalkan
             </Text>
             <Text pl="16px" color="#213360" fontSize="28px" fontWeight="bold">
-              7
+              0
             </Text>
           </Stack>
 
@@ -283,7 +435,7 @@ const RingkasanStatistik = () => {
               Chat Baru
             </Text>
             <Text pl="16px" color="#213360" fontSize="28px" fontWeight="bold">
-              7
+              0
             </Text>
           </Stack>
         </HStack>
@@ -310,85 +462,54 @@ const RingkasanStatistik = () => {
                   h="24px"
                   bg="white"
                   border="2px"
+                  onChange={sortHandle}
+                  value={sort}
                 >
-                  <option value="option2">Bulanan</option>
-                  <option value="option3">Tahunan</option>
-                  <option value="option1">Mingguan</option>
+                  <option value="Bulana">Bulanan</option>
+                  <option value="Tahunan">Tahunan</option>
+                  <option value="Mingguan">Mingguan</option>
                 </Select>
               </Box>
             </HStack>
-            <HStack pl="8" pt="42px" boxSize="3xl">
-              <Line data={data} width={600} height={200} options={options} />
-
-              <Box pl="6">
-                <Stack
-                  w="253px"
-                  h="93px"
-                  bg="white"
-                  borderRadius="lg"
-                  boxShadow="md"
-                >
-                  <Text color="#737A8D" pt="16px" pl="16px" fontWeight="700">
-                    Rata-Rata Penjualan Perbulan
-                  </Text>
-                  <Text
-                    pl="16px"
-                    color="#213360"
-                    fontSize="28px"
-                    fontWeight="bold"
-                  >
-                    589
-                  </Text>
-                </Stack>
-              </Box>
-            </HStack>
+            <Box p="6">
+              <Chart
+                height="218px"
+                options={penjualanObatOption}
+                series={penjualanObatSeries}
+              />
+            </Box>
           </Stack>
         </Flex>
 
         {/* Chart tren */}
         <Flex>
-      <Stack
-        borderRadius="lg"
-        bg="white"
-        w="537px"
-        h="360px"
-        ml="48px"
-        mt="38px"
-        boxShadow="md"
-      >
-        <HStack justify="space-between">
-              <Text fontWeight="700" fontSize="20px" pt="32px" pl="16px">
-                Tren Pendapatan
-              </Text>
-              <Box pt="32px" pr="16px">
-                <Select
-                  fontSize="12px"
-                  w="124px"
-                  h="24px"
-                  bg="white"
-                  border="2px"
-                >
-                  <option value="option2">Bulanan</option>
-                  <option value="option3">Tahunan</option>
-                  <option value="option1">Mingguan</option>
-                </Select>
-              </Box>
-            </HStack>
-        <Box pt="8" pl="8" boxSize="lg">
-          <Line data={data2} width={400} height={200} options={options2} />
-        </Box>
-      </Stack>
+          <Box ml="48px" mt="32px">
+            <ProfitCart
+              cardTitle="Tren Pendapatan"
+              column={6}
+              chartOption={pendapatanOption}
+              chartSeries={pendapatanSeries}
+              selectHandle={pendapatanHandle}
+              selectValue={sortPendapatan}
+              chartSort={[
+                { sortValue: "Mingguan", sortTitle: "Mingguan" },
+                { sortValue: "Bulanan", sortTitle: "Bulanan" },
+                { sortValue: "Tahunan", sortTitle: "Tahunan" },
+              ]}
+              showSelectOption={false}
+            />
+          </Box>
 
-      <Stack
-        borderRadius="lg"
-        bg="white"
-        w="537px"
-        h="360px"
-        ml="38px"
-        mt="38px"
-        boxShadow="md"
-      >
-        <HStack justify="space-between">
+          <Stack
+            borderRadius="lg"
+            bg="white"
+            w="537px"
+            h="441px"
+            ml="38px"
+            mt="38px"
+            boxShadow="md"
+          >
+            <HStack justify="space-between">
               <Text fontWeight="700" fontSize="20px" pt="32px" pl="16px">
                 Tren Pembatalan
               </Text>
@@ -406,12 +527,11 @@ const RingkasanStatistik = () => {
                 </Select>
               </Box>
             </HStack>
-        <Box pl="8" pt="8" boxSize="lg">
-          <Bar data={data3} width={400} height={200} options={options3} />
-        </Box>
-      </Stack>
-    </Flex>
-
+            <Box pl="8" pt="20" boxSize="lg">
+              <Bar data={data3} width={400} height={200} options={options3} />
+            </Box>
+          </Stack>
+        </Flex>
       </Box>
     </>
   );

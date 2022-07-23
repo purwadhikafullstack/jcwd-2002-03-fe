@@ -152,9 +152,9 @@ const AdminDashboard = () => {
 
   const fetchPemesananDataCount = async () => {
     try {
-      const res = await api.post("/report/get-transaction-count");
+      const res = await api.get("/report/get-transaction-count");
       setPemesanan(res.data.result);
-      console.log(res.data.result)
+      console.log(res.data.result);
     } catch (err) {
       console.log(err);
     }
@@ -403,16 +403,96 @@ const AdminDashboard = () => {
           </Box>
         </HStack>
 
-        <HStack spacing="50px" ml="48px">
+        <HStack mt="16px" spacing="50px" ml="48px">
           <VStack>
-            <CartPentingHariIni />
+            <CartPentingHariIni value={pemesanan}/>
           </VStack>
-          <CartKadaluwarsaObat />
+
+          {/* Chart kadaluwarsa */}
+          <Stack
+            w="353px"
+            h="197px"
+            bg="white"
+            borderRadius="lg"
+            boxShadow="md"
+          >
+            <Stack direction="row" justify="space-between">
+              <Text pt="40px" pl="16px" fontSize="16px" fontWeight="700">
+                Telah Kadaluwarsa
+              </Text>
+              <Text
+                pt="34px"
+                pr="16px"
+                fontSize="24px"
+                fontWeight="700"
+                color="#FF6B6B"
+              >
+                {expStok?.expStok?.sum || "-"}
+              </Text>
+            </Stack>
+
+            <Stack direction="row" justify="space-between">
+              <Text pt="11px" pl="16px" fontSize="16px" fontWeight="700">
+                Kadaluwarsa Bulan Ini
+              </Text>
+              <Text
+                pt="5px"
+                pr="16px"
+                fontSize="24px"
+                fontWeight="700"
+                color="#FFDE6B"
+              >
+                {expStok?.expSoon?.sum || "-"}
+              </Text>
+            </Stack>
+
+            <HStack direction="row" justify="space-between">
+              <Text pt="11px" pl="16px" fontSize="16px" fontWeight="700">
+                Kadaluwarsa 3 Bulan Kedepan
+              </Text>
+              <Text
+                pt="5px"
+                pr="16px"
+                fontSize="24px"
+                fontWeight="700"
+                color="#21CDC0"
+              >
+                {expStok?.expIn3Months?.sum || "-"}
+              </Text>
+            </HStack>
+          </Stack>
         </HStack>
 
         <HStack spacing="50px" ml="48px" mt="32px">
-          <ProfitCart />
-          <CartPenjualanObat />
+          <ProfitCart
+            cardTitle="Profit"
+            column={6}
+            chartOption={profitOption}
+            chartSeries={profitSeries}
+            selectHandle={handleChangeProfit}
+            selectValue={sortProfit}
+            chartSort={[
+              { sortValue: "Mingguan", sortTitle: "Mingguan" },
+              { sortValue: "Bulanan", sortTitle: "Bulanan" },
+              { sortValue: "Tahunan", sortTitle: "Tahunan" },
+            ]}
+            chartType="bar"
+            showSelectOption={false}
+          />
+          <CartPenjualanObat
+            cardTitle="Penjualan Obat"
+            column={6}
+            chartOption={penjualanObatOption}
+            chartSeries={penjualanObatSeries}
+            selectHandle={handleChangePenjualan}
+            selectValue={sortPenjualan}
+            chartSort={[
+              { sortValue: "Bulanan", sortTitle: "Bulanan" },
+              { sortValue: "Mingguan", sortTitle: "Mingguan" },
+              { sortValue: "Tahunan", sortTitle: "Tahunan" },
+            ]}
+            chartType="line"
+          />
         </HStack>
       </Box>
     </>

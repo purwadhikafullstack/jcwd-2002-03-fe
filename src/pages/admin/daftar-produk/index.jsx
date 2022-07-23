@@ -291,10 +291,6 @@ const AdminDaftarProduk = () => {
       Header: "Action",
       Cell: actionButton
     },
-    {
-      Header: "Action",
-      Cell: actionButton,
-    },
   ];
 
   const columns = React.useMemo(coloumFunction, []);
