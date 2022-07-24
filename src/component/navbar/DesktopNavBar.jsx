@@ -79,7 +79,7 @@ const DesktopNavBar = ({ icon1 = FaBell, icon2 = FaShoppingCart, link1 = "/dafta
             maxWidth="100%"
         >
             <GridItem justifyContent="center" display="flex" colSpan={[5, 1, 1]}  >
-                <Img src="/logo.svg" />
+                <Img onClick={() => router.push("/")} src="/logo.svg" cursor="pointer" />
             </GridItem>
             <GridItem colSpan={[4, 3, 3]}>
                 <InputGroup>

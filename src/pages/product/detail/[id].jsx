@@ -224,9 +224,8 @@ const detail = ({ productDetail }) => {
   const addToCartBtnHandler = async () => {
     try {
       const res = await api.post("/cart", {
-        UserId: 2,
         ProductId: productDetail.id,
-        price: productDetail.selling_price,
+        price: productDetail.selling_price - (productDetail.selling_price * productDetail.discount),
         quantity: quantity + formik.values.quantity,
       });
       setQuantity(res.data.result.quantity);

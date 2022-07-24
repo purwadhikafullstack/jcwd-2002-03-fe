@@ -14,7 +14,7 @@ const AddressForm = () => {
     }
   }, [])
 
-  if (!authSelector.id || authSelector.role === "admin") {
+  if (!authSelector.id || authSelector.role !== "user") {
     return <Spinner thickness='4px'
       speed='0.65s'
       emptyColor='gray.200'

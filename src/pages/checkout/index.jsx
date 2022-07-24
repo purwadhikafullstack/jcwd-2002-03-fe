@@ -32,28 +32,11 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { TbTruckDelivery } from "react-icons/tb";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-import { selectAuth } from "../redux/reducer/authSlice";
-import Pengirimanbarang from "../component/ongkir/Pengirimanbarang";
-import api from "../lib/api";
+import { selectAuth } from "../../redux/reducer/authSlice";
+import Pengirimanbarang from "../../component/ongkir/Pengirimanbarang";
+import api from "../../lib/api";
 
 const checkout = () => {
-  // import Image from "next/image";
-
-  // const myLoader = ({ src, width, quality }) => {
-  //   return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
-  // };
-
-  // const MyImage = (props) => {
-  //   return (
-  //     <Image
-  //       loader={myLoader}
-  //       src="me.png"
-  //       alt="Picture of the author"
-  //       width={500}
-  //       height={500}
-  //     />
-  //   );
-  // };
 
   const { onOpen, onClose, isOpen } = useDisclosure();
   const {
@@ -64,19 +47,21 @@ const checkout = () => {
 
   const authSelector = useSelector(selectAuth);
   const [selectedAddress, setSelectedAddress] = useState();
-  const [ongkir, setOngkir] = useState()
+  const [ongkir, setOngkir] = useState(0)
   const [dataAddress, setDataAddres] = useState();
-  const [dataIsReady, setDataIsReady] = useState(false);
+  const [dataItems, setDataItems] = useState([])
   const [bca, setBca] = useState(true);
   const [bcaBoolean, setBcaBoolean] = useState(true);
   const [bcaVa, setBcaVa] = useState([]);
-
   const toast = useToast();
   const router = useRouter();
+
+  const { id } = router.query
+
   const konfirmasiPembayaran = async () => {
     try {
       await api.post("/transaction/create-transaction", {
-        method: bcaVa,
+        method: "BCA VA",
       });
       router.push("/transaction/menunggu-konfirmasi");
     } catch (err) {
@@ -90,22 +75,26 @@ const checkout = () => {
     }
   };
 
-  const fetchAddress = async () => {
+  const fetchTransaction = async (
+    queryParams = { params: { id } }
+  ) => {
     try {
-      const res = await api.get("/profile/address-user");
-      const data = res?.data?.result;
-      setDataAddres(data);
-      setDataIsReady(true);
+      const res = await api.get("transaction/items", queryParams)
+      setDataItems(res.data.result)
+
     } catch (err) {
       toast({
-        title: "error",
-        description: err?.response?.data?.message || err.message,
+        title: "error network",
         status: "error",
-        duration: 2000,
         isClosable: true,
-      });
+        duration: 5000,
+        description: err?.response?.data?.message || err?.message,
+      })
+
     }
-  };
+  }
+
+
 
   // for render main address for the firsttime with parameter main_addres === true
   const mainAddress = () => {
@@ -117,18 +106,36 @@ const checkout = () => {
     });
   };
 
+  const fetchAddress = async () => {
+    try {
+      const res = await api.get("/profile/address-user");
+      const data = res?.data?.result;
+      setDataAddres(data);
+      mainAddress()
+      fetchTransaction()
+    } catch (err) {
+      toast({
+        title: "error",
+        description: err?.response?.data?.message || err.message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+  if (!authSelector.id || authSelector.role === "admin") {
+    window.history.back()
+  }
   useEffect(() => {
-    if (!authSelector.id || authSelector.role === "admin") {
-      window.history.back()
-    }
 
-    fetchAddress();
 
-    // function rendering when state is ready with data
-    if (dataIsReady === true) {
-      mainAddress();
-    }
-  }, [dataIsReady]);
+    fetchAddress()
+    mainAddress()
+    // if (router.isReady) {
+    fetchTransaction()
+    // }
+
+  }, [router.isReady]);
 
   if (!authSelector.id || authSelector.role === "admin") {
     return <Spinner thickness='4px'
@@ -355,7 +362,7 @@ const checkout = () => {
       </GridItem>
       {/* end of ringkasan order section */}
 
-
+      {/* total payment section */}
       <GridItem rowSpan={1} colSpan={[6, 2, 2]}>
         <Box
           padding={[2, 5]}
@@ -381,7 +388,7 @@ const checkout = () => {
             alignItems="center"
           >
             <Text variant="caption-bold">Sub Total</Text>
-            <Text variant="caption-bold">Rp. 13.000</Text>
+            <Text variant="caption-bold">Rp. {dataItems && dataItems.total_price}</Text>
           </Box>
           <Box
             my={2}
@@ -401,7 +408,7 @@ const checkout = () => {
             alignItems="center"
           >
             <Text variant="title">Total</Text>
-            <Text variant="title">Rp. 22.000</Text>
+            <Text variant="title">Rp. {dataItems && (dataItems.total_price + ongkir)}</Text>
           </Box>
           <Divider mb={[10, 0]} />
           <Box
@@ -471,6 +478,9 @@ const checkout = () => {
                 Konfirmasi Pembayaran
               </Button>
             </Box>
+
+            {/* end of total payment section */}
+
             <Modal
               isOpen={pilihPembayaranIsOpen}
               onClose={pilihPembayaranOnClose}
