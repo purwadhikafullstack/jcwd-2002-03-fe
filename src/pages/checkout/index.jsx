@@ -184,10 +184,6 @@ const checkout = () => {
 
     mainAddress()
 
-    // if (router.isReady) {
-    // fetchTransaction()
-    // }
-
   }, [router.isReady, dataAddress.length]);
 
   if (!authSelector.id || authSelector.role === "admin") {

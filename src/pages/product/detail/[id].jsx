@@ -240,9 +240,7 @@ const detail = ({ productDetail }) => {
       }
       const res = await api.post("/cart", {
         ProductId: productDetail.id,
-        price:
-          productDetail.selling_price -
-          productDetail.selling_price * productDetail.discount,
+        price: productDetail.selling_price - (productDetail.selling_price * productDetail.discount),
         quantity: quantity + formik.values.quantity,
         subtotal: subTotal + formik.values.quantity * subTotal,
       });
