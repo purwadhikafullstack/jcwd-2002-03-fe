@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-const UpLeftCategory = ({ setPage, filterByCategory, setFilterByCategory }) => {
+const UpLeftCategory = ({ setPage, setFilterByCategory }) => {
   const { isOpen: kategoriIsOpen, onToggle: kategoriOnToggle } =
     useDisclosure();
   const [kategoriArrow, setKategoriArrow] = useState(false);
@@ -45,13 +45,14 @@ const UpLeftCategory = ({ setPage, filterByCategory, setFilterByCategory }) => {
         <Collapse in={kategoriIsOpen} animateOpacity>
           <Text
             variant="mini-title"
-            onClick={() => [
-              setFilterByCategory(1),
-              setPage(1),
+            _hover={{ cursor: "pointer" }}
+            onClick={() => {
+              setFilterByCategory(1);
+              setPage(1);
               router.push({
                 query: { ...router.query, selectedProduct: 1 },
-              }),
-            ]}
+              });
+            }}
           >
             Obat-Obatan
           </Text>
@@ -62,7 +63,10 @@ const UpLeftCategory = ({ setPage, filterByCategory, setFilterByCategory }) => {
               router.push({
                 query: { ...router.query, selectedProduct: 2 },
               }),
-            ]} >Nutrisi</Text>
+            ]}
+          >
+            Nutrisi
+          </Text>
           <Text variant="caption">Herbal</Text>
           <Text variant="caption">Vitamin &amp; Suplemen</Text>
           <Text variant="caption">Alat Kesehatan</Text>
@@ -70,7 +74,7 @@ const UpLeftCategory = ({ setPage, filterByCategory, setFilterByCategory }) => {
           <Text variant="caption">Ibu &amp; Anak</Text>
         </Collapse>
       </Stack>
-    </Box >
+    </Box>
   );
 };
 export default UpLeftCategory;

@@ -2,8 +2,27 @@ import { Box, Button, Stack } from "@chakra-ui/react";
 import MenungguPembayaranComWT from "component/transaction/menungguKonfirmasiComWT";
 import MenungguPembayaranComRinOr from "component/transaction/menungguPembayaranComRinOr";
 import MenungguPembayaranComMetPeb from "component/transaction/menungguPembayaranMetPeb";
+import { useEffect, useState } from "react";
+import api from "../../lib/api";
 
 const MenungguPembayaran = () => {
+  const [transaction, setTransaction] = useState([]);
+  const fetchTransaction = async (
+    queryParams = {
+      params: { isPaid: 0 },
+    }
+  ) => {
+    try {
+      const res = await api.get("/transaction/user-transaction", queryParams);
+      console.log(res.data.result.rows);
+      setTransaction(res.data.result.rows);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchTransaction();
+  }, []);
   return (
     <Box
       display={["block", "block", "block"]}
@@ -15,7 +34,7 @@ const MenungguPembayaran = () => {
     >
       <MenungguPembayaranComWT />
       <MenungguPembayaranComRinOr />
-      <MenungguPembayaranComMetPeb />
+      <MenungguPembayaranComMetPeb transaction={transaction} />
       <Stack
         mt="56px"
         w="826px"

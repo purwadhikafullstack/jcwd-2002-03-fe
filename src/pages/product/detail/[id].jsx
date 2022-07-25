@@ -49,19 +49,28 @@ const detail = ({ productDetail }) => {
   const authSelector = useSelector(selectAuth);
   const [slider, setSlider] = useState(null);
   const [quantity, setQuantity] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
+  const [UserNotLogin, setUserNotLogin] = useState(true);
   const fetchCartData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2003/cart?UserId=${2}&ProductId=${productDetail.id}`
+        `http://localhost:2003/cart/detail?UserId=${1}&ProductId=${
+          productDetail.id
+        }`
       );
       setQuantity(res.data.result.quantity);
+      setSubTotal(res.data.result.sub_total);
     } catch (err) {
+      console.log(err.response.data.message);
+      if (err.response.data.message) {
+        setUserNotLogin(true);
+      }
       toast({
         title: "error",
         duration: 2000,
         status: "error",
-        description: "error network"
-      })
+        description: "error network",
+      });
     }
   };
   useEffect(() => {
@@ -223,12 +232,25 @@ const detail = ({ productDetail }) => {
   });
   const addToCartBtnHandler = async () => {
     try {
+      if (UserNotLogin) {
+        return toast({
+          title: "error",
+          duration: 2000,
+          status: "error",
+          description: "You have to login first, to add product to cart",
+        });
+      }
       const res = await api.post("/cart", {
         ProductId: productDetail.id,
-        price: productDetail.selling_price - (productDetail.selling_price * productDetail.discount),
+        price:
+          productDetail.selling_price -
+          productDetail.selling_price * productDetail.discount,
         quantity: quantity + formik.values.quantity,
+        subtotal: subTotal + formik.values.quantity * subTotal,
       });
       setQuantity(res.data.result.quantity);
+      setSubTotal(res.data.result.sub_total);
+      formik.setFieldValue("quantity", 1);
 
       toast({
         title: "Item added to cart",
@@ -240,23 +262,22 @@ const detail = ({ productDetail }) => {
         title: "error",
         duration: 2000,
         status: "error",
-        description: "error network"
-      })
+        description: "error network",
+      });
     }
   };
   const qtyBtnHandler = (dir) => {
+    if (UserNotLogin) {
+      return toast({
+        title: "error",
+        duration: 2000,
+        status: "error",
+        description: "You have to login first, to add quantity",
+      });
+    }
     if (dir === "inc") {
-      if (formik.values.quantity === "") {
-        formik.setFieldValue("quantity", 1);
-        return;
-      }
-
-      if (formik.values.quantity >= quantity) return;
-
-      formik.setFieldValue("quantity", parseInt(formik.values.quantity) + 1);
+      formik.setFieldValue("quantity", formik.values.quantity + 1);
     } else if (dir === "dec") {
-      if (formik.values.quantity < 1) return;
-
       formik.setFieldValue("quantity", formik.values.quantity - 1);
     }
   };
@@ -268,7 +289,7 @@ const detail = ({ productDetail }) => {
       w={["100%", "90", "90%"]}
       marginLeft="auto"
       marginRight="auto"
-    // mb={[10, 8, 8]}
+      // mb={[10, 8, 8]}
     >
       <GridItem
         colSpan={[1, 2, 2]}
@@ -422,14 +443,17 @@ const detail = ({ productDetail }) => {
               </Box>
               <IconButton
                 onClick={() => qtyBtnHandler("inc")}
-                isDisabled={formik.values.quantity >= 10}
+                isDisabled={
+                  formik.values.quantity >=
+                  productDetail?.Stock_opnames[0]?.amount
+                }
               >
                 <Icon as={HiPlus} />
               </IconButton>
             </Box>
             <Text variant="caption-bold" ml={5}>
               {" "}
-              sisa stock
+              Sisa Stock: {productDetail?.Stock_opnames[0]?.amount}
             </Text>
           </Box>
           {/* <Box marginTop={5}> */}
@@ -502,7 +526,12 @@ export const getServerSideProps = async (context) => {
       },
     };
   } catch (err) {
-
+    console.log(err);
+    // toast({
+    //   status: "error",
+    //   title: "error",
+    //   description: "network error"
+    // })
   }
 };
 
