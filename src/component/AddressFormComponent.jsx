@@ -15,6 +15,7 @@ import {
   FormLabel,
   FormHelperText,
   useToast,
+  Select,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -26,6 +27,7 @@ const AddressFormComponent = () => {
   const [dataProvinsi, setDataProvinsi] = useState([])
   const [dataKota, setDataKota] = useState([])
   const [selectedProvinsi, setSelectedProvinsi] = useState()
+  const [kodepos, setKodePos] = useState()
   const toast = useToast()
 
   const formik = useFormik({
@@ -40,6 +42,8 @@ const AddressFormComponent = () => {
       alamat: "",
       kodePos: "",
       nama: "",
+      province_id: 0,
+      city_id: 0,
       main_address: false
     },
 
@@ -52,7 +56,6 @@ const AddressFormComponent = () => {
       kotaKabupaten: Yup.string().required("This field is required"),
       kecamatan: Yup.string().required("This field is required"),
       alamat: Yup.string().required("This field is required"),
-      kodePos: Yup.string().required("This field is required"),
     }),
     validateOnChange: false,
     onSubmit: async (values) => {
@@ -109,7 +112,8 @@ const AddressFormComponent = () => {
   const kota = async (provinsiId) => {
     try {
       const res = await api.get(`/api/kota/${provinsiId}`)
-      setDataKota(res.data.rajaongkir.results)
+      const data = res.data.rajaongkir.results
+      setDataKota(data)
     } catch (err) {
       toast({
         status: "error",
@@ -122,17 +126,18 @@ const AddressFormComponent = () => {
   }
 
   const provinsiHandler = async (e) => {
-    e.preventDefault()
-    formik.setFieldValue("provinsi", e.target.value)
-    const filterProvince = dataProvinsi.filter((val) => val.province === e.target.value)
-    if (filterProvince.length !== 0) {
-      setSelectedProvinsi(filterProvince[0].province_id)
-    }
+    const parsedValue = JSON.parse(e.target.value)
+    formik.setFieldValue("provinsi", parsedValue.province)
+    formik.setFieldValue("province_id", parsedValue.province_id)
+    setSelectedProvinsi(parsedValue.province_id)
+    kota(parsedValue.province_id)
   }
-
-
-
-
+  const kotaHandler = async (e) => {
+    const parsedValue = JSON.parse(e.target.value)
+    formik.setFieldValue("kotaKabupaten", parsedValue.city_name)
+    formik.setFieldValue("city_id", parsedValue.city_id)
+    setKodePos(parsedValue.postal_code)
+  }
   useEffect(() => {
     provinsi()
 
@@ -142,7 +147,7 @@ const AddressFormComponent = () => {
     <Box
       display={["block", "block", "block"]}
       mx="auto"
-      w={["90%", "60%", "40%"]}
+      w={["90%", "60%"]}
       mb={["50px", "50px", "100px"]}
       justifyContent="center"
     >
@@ -226,17 +231,15 @@ const AddressFormComponent = () => {
               </Text>
             </FormLabel>
             <InputGroup>
-              <Input type="text" list="provinsi"
-                onChange={provinsiHandler}
-              />
-              <datalist id="provinsi" >
+              <Select onChange={provinsiHandler}>
+                <option>silahkan pilih provinsi</option>
                 {dataProvinsi.length !== 0 && dataProvinsi.map((val) => {
                   return (
-                    <option key={val.province_id} value={val.province}>{val.province}</option>
+                    <option key={val.province_id} value={JSON.stringify(val)}>{val.province}</option>
                   )
                 })
                 }
-              </datalist>
+              </Select>
             </InputGroup>
             <FormHelperText>{formik.errors.provinsi}</FormHelperText>
           </FormControl>
@@ -249,17 +252,14 @@ const AddressFormComponent = () => {
               </Text>
             </FormLabel>
             <InputGroup>
-              <Input type="text" list="kota"
-                onChange={(event) =>
-                  formik.setFieldValue("kotaKabupaten", event.target.value)
-                }
-              />
-              <datalist id="kota">
-                {selectedProvinsi && kota(selectedProvinsi) && dataKota && dataKota.map((val) => {
-                  return (<option key={val.city_id} value={val.city}>{val.city_name}</option>)
+              <Select type="text" onChange={kotaHandler} >
+                {selectedProvinsi && dataKota && dataKota.map((val) => {
+                  return (
+                    <option key={val.city_id} value={JSON.stringify(val)}>{val.city_name}</option>
+                  )
                 })
                 }
-              </datalist>
+              </Select>
             </InputGroup>
             <FormHelperText>{formik.errors.kotaKabupaten}</FormHelperText>
           </FormControl>
@@ -278,9 +278,6 @@ const AddressFormComponent = () => {
               formik.setFieldValue("kecamatan", event.target.value)
             }
           />
-          <InputRightAddon bg="white">
-            <Icon as={IoIosArrowDown} />
-          </InputRightAddon>
         </InputGroup>
         <FormHelperText>{formik.errors.kecamatan}</FormHelperText>
       </FormControl>
@@ -307,9 +304,11 @@ const AddressFormComponent = () => {
         <InputGroup w="245.59px">
           <Input
             mb="36px"
-            onChange={(event) =>
-              formik.setFieldValue("kodePos", event.target.value)
+            onChange={() =>
+              formik.setFieldValue("kodePos", kodepos)
             }
+            defaultValue={kodepos}
+            disabled
           />
           <InputRightAddon bg="white">
             <Icon as={IoIosArrowDown} />
@@ -333,7 +332,6 @@ const AddressFormComponent = () => {
               !(
                 formik.values.alamat &&
                 formik.values.kecamatan &&
-                formik.values.kodePos &&
                 formik.values.kotaKabupaten &&
                 formik.values.labelAlamat &&
                 formik.values.namaBelakang &&
@@ -354,7 +352,7 @@ const AddressFormComponent = () => {
           </Button>
         </Stack>
       </Stack>
-    </Box>
+    </Box >
   );
 };
 export default AddressFormComponent;

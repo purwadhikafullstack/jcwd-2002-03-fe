@@ -48,14 +48,21 @@ const UpLeftCategory = ({ setPage, filterByCategory, setFilterByCategory }) => {
             onClick={() => [
               setFilterByCategory(1),
               setPage(1),
-              // router.push({
-              //   query: { FilterByCategory: { filterByCategory } },
-              // }),
+              router.push({
+                query: { ...router.query, selectedProduct: 1 },
+              }),
             ]}
           >
             Obat-Obatan
           </Text>
-          <Text variant="caption">Nutrisi</Text>
+          <Text
+            onClick={() => [
+              setFilterByCategory(1),
+              setPage(1),
+              router.push({
+                query: { ...router.query, selectedProduct: 2 },
+              }),
+            ]} >Nutrisi</Text>
           <Text variant="caption">Herbal</Text>
           <Text variant="caption">Vitamin &amp; Suplemen</Text>
           <Text variant="caption">Alat Kesehatan</Text>
@@ -63,7 +70,7 @@ const UpLeftCategory = ({ setPage, filterByCategory, setFilterByCategory }) => {
           <Text variant="caption">Ibu &amp; Anak</Text>
         </Collapse>
       </Stack>
-    </Box>
+    </Box >
   );
 };
 export default UpLeftCategory;

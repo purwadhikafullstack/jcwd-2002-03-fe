@@ -224,9 +224,8 @@ const detail = ({ productDetail }) => {
   const addToCartBtnHandler = async () => {
     try {
       const res = await api.post("/cart", {
-        UserId: 2,
         ProductId: productDetail.id,
-        price: productDetail.selling_price,
+        price: productDetail.selling_price - (productDetail.selling_price * productDetail.discount),
         quantity: quantity + formik.values.quantity,
       });
       setQuantity(res.data.result.quantity);
@@ -493,7 +492,6 @@ const detail = ({ productDetail }) => {
   );
 };
 export const getServerSideProps = async (context) => {
-  const toast = useToast()
   try {
     const productId = context.query.id;
     const res = await axios.get(`http://localhost:2003/product/${productId}`);
@@ -504,11 +502,6 @@ export const getServerSideProps = async (context) => {
       },
     };
   } catch (err) {
-    toast({
-      status: "error",
-      title: "error",
-      description: "network error"
-    })
 
   }
 };
