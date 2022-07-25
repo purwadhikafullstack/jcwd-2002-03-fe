@@ -522,7 +522,6 @@ export const getServerSideProps = async (context) => {
       },
     };
   } catch (err) {
-    console.log(err);
 
   }
 };
