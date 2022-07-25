@@ -1,15 +1,15 @@
-import { Flex, Stack, Text } from "@chakra-ui/react";
+import { Flex, HStack, Stack, Text } from "@chakra-ui/react";
 
 const CartKadaluwarsaObat = () => {
   return (
-    <Flex pos="absolute">
+    <Flex>
       <Stack
         w="353px"
-        h="202px"
-        bg="gray.100"
-        ml="890px"
-        mt="450px"
+        h="197px"
+        bg="white"
         borderRadius="lg"
+        boxShadow="md"
+        mt="16px"
       >
         <Stack direction="row" justify="space-between">
           <Text pt="40px" pl="16px" fontSize="16px" fontWeight="700">
@@ -41,7 +41,7 @@ const CartKadaluwarsaObat = () => {
           </Text>
         </Stack>
 
-        <Stack direction="row" justify="space-between">
+        <HStack direction="row" justify="space-between">
           <Text pt="11px" pl="16px" fontSize="16px" fontWeight="700">
             Kadaluwarsa 3 Bulan Kedepan
           </Text>
@@ -54,7 +54,7 @@ const CartKadaluwarsaObat = () => {
           >
             3
           </Text>
-        </Stack>
+        </HStack>
       </Stack>
     </Flex>
   );

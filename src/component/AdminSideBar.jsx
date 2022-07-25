@@ -143,7 +143,9 @@ const AdminSideBar = () => {
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
               >
+                <Link href="/admin/ringkasan-statistik">
                 Ringkasan Statistik
+                </Link>
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
@@ -157,7 +159,9 @@ const AdminSideBar = () => {
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
               >
-                Laba Rugi
+                <Link href="/admin/laba-&-rugi">
+                Laba & Rugi
+                </Link>
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
