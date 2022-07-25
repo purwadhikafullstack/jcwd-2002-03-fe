@@ -17,20 +17,10 @@ import {
   Select,
   Spinner,
   useToast,
-  FormControl,
-  InputGroup,
-  InputLeftElement,
-  Input,
-  FormHelperText,
-  InputRightElement,
-  Icon,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { BsSearch } from "react-icons/bs";
 import LeftCategory from "../component/LeftCategory";
 import UpLeftCategory from "../component/UpLeftCategory";
 import api from "../lib/api";
@@ -41,8 +31,8 @@ const ProductList = () => {
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [filterByCategory, setFilterByCategory] = useState();
+  const [filterProducts, setFilterProducts] = useState();
   const [selectedValue, setSelectedValue] = useState();
-  const [searchValue, setSearchValue] = useState();
   const [dir, setDir] = useState();
   const router = useRouter();
   const toast = useToast();
@@ -62,7 +52,6 @@ const ProductList = () => {
   ) => {
     try {
       const res = await api.get("/product/", queryParams);
-      console.log(res.data.result.result.rows);
       if (page === 1) {
         setProducts(res.data.result.result.rows);
       } else {
@@ -193,9 +182,13 @@ const ProductList = () => {
           setPage={setPage}
           setFilterByCategory={setFilterByCategory}
           filterByCategory={filterByCategory}
-          // category={products.}
         />
-        <LeftCategory fetchProducts={fetchProducts} setPage={setPage} />
+        <LeftCategory
+          fetchProducts={fetchProducts}
+          setPage={setPage}
+          setFilterProducts={setFilterProducts}
+          filterProducts={filterProducts}
+        />
       </GridItem>
       <GridItem mt={[0, 10, 10]} colSpan={4}>
         <Box mt="49px" display={["none", "none", "none", "grid"]}>
@@ -219,37 +212,17 @@ const ProductList = () => {
               </Select>
             </Stack>
           </Stack>
-          <FormControl isInvalid={formik.errors.hargaMinimum}>
-            <InputGroup>
-              <Input
-                _focus={{ outline: 0 }}
-                type="text"
-                placeholder="Search Product"
-                onChange={(event) =>
-                  formik.setFieldValue("searchProduct", event.target.value)
-                }
-              />
-              <InputRightElement>
-                <Icon
-                  as={BsSearch}
-                  color="#FFFFF"
-                  _hover={{ cursor: "pointer" }}
-                  onClick={() => [
-                    setSearchValue(formik.values.searchProduct),
-                    setPage(1),
-                    router.push({
-                      query: { SearchProducts: formik.values.searchProduct },
-                    }),
-                  ]}
-                />
-              </InputRightElement>
-            </InputGroup>
-            <FormHelperText>{formik.errors.hargaMinimum}</FormHelperText>
-          </FormControl>
         </Box>
         <Box display={["grid", "none"]}>
           <Tabs colorScheme="#000000" maxW="100vw">
-            <TabList overflowX="scroll">
+            <TabList
+              overflowX="scroll"
+              css={{
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
+              }}
+            >
               <Tab _focus={{ outline: 0 }}>Obat-Obatan</Tab>
               <Tab _focus={{ outline: 0 }}>Nutrisi</Tab>
               <Tab _focus={{ outline: 0 }}>Herbal</Tab>
@@ -482,6 +455,7 @@ const ProductList = () => {
             columns={[2, 3, 3, 3, 4]}
             mt={5}
             spacing={3}
+            w="69.2vw"
           >
             {renderProducts()}
           </SimpleGrid>
