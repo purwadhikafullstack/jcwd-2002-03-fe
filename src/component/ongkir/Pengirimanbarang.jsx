@@ -4,7 +4,7 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { ArrowRightIcon } from "@chakra-ui/icons";
 import api from "../../lib/api"
 
-const Pengirimanbarang = ({ destinationCode, setOngkir }) => {
+const Pengirimanbarang = ({ destinationCode, setOngkir, setKurir }) => {
     const [service, setService] = useState([])
     const { isOpen, onOpen, onClose } = useDisclosure()
     const toast = useToast()
@@ -14,6 +14,7 @@ const Pengirimanbarang = ({ destinationCode, setOngkir }) => {
             const res = await api.get(`/api/ongkos/457/${destinationCode}/1000/${kurir}`)
             const data = res.data.rajaongkir.results
             setService(data[0].costs)
+            setKurir(kurir)
         } catch (err) {
             toast({
                 title: "error",

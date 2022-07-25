@@ -55,7 +55,7 @@ const ApproveTransaction = ({ transactionDetail, username, dateOrder, nomerPesan
                                 <Text variant="subtitle" fontSize="16px">Bukti Pembayaran</Text>
                                 <Box h="300px" width="250px" overflow="scroll" border="1px solid teal" mb={2}>
                                     <Box
-                                        backgroundImage={payment[0].image_url}
+                                        backgroundImage={payment[0]?.image_url}
                                         backgroundRepeat="no-repeat"
                                         backgroundSize="contain"
                                         backgroundPosition="center"
@@ -84,7 +84,7 @@ const ApproveTransaction = ({ transactionDetail, username, dateOrder, nomerPesan
                         <Button colorScheme="teal" variant="outline" mr={3} onClick={onClose}>
                             Kembali
                         </Button>
-                        <Button colorScheme="teal" onClick={() => updateStatusPayment({ isPaid: true, isPacking: true })}>Approve</Button>
+                        <Button colorScheme="teal" disabled={payment[0]?.image_url === null} onClick={() => updateStatusPayment({ isPaid: true, isPacking: true })}>Approve</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
