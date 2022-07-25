@@ -35,8 +35,8 @@ const ProductList = () => {
   const [selectedValue, setSelectedValue] = useState();
   const [dir, setDir] = useState();
   const router = useRouter();
-  const toast = useToast();
-  const { searchProduct, selectedProduct, _sortBy, _sortDir } = router.query;
+  const toast = useToast()
+  const { searchProduct, selectedProduct, _sortBy, _sortDir } = router.query
 
   const fetchProducts = async (
     queryParams = {
@@ -46,7 +46,7 @@ const ProductList = () => {
         _sortDir,
         _limit: 24,
         _page: page,
-        searchProduct,
+        searchProduct
       },
     }
   ) => {
@@ -103,18 +103,12 @@ const ProductList = () => {
         setSelectedValue("selling_price");
         setDir("ASC");
         setPage(1);
-        router.push({
-          pathname: "/product-list",
-          query: { ...router.query, _sortDir: "ASC" },
-        });
+        router.push({ pathname: "/product-list", query: { ...router.query, _sortDir: "ASC" } })
       } else if (selectValue === "selling_price") {
         setSelectedValue("selling_price");
         setDir("DESC");
         setPage(1);
-        router.push({
-          pathname: "/product-list",
-          query: { ...router.query, _sortDir: "DESC" },
-        });
+        router.push({ pathname: "/product-list", query: { ...router.query, _sortDir: "DESC" } })
       } else if (selectValue === "az") {
         setSelectedValue("med_name");
         setDir("ASC");
@@ -126,13 +120,11 @@ const ProductList = () => {
       }
     }
   };
-  console.log("1", products);
   useEffect(() => {
     if (router.isReady) {
       fetchProducts();
-      console.log(products);
     }
-  }, [page, filterByCategory, dir, selectedValue, router.query]);
+  }, [page, filterByCategory, filterProducts, dir, selectedValue, router.query]);
   return (
     <Grid
       templateColumns={[

@@ -14,7 +14,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -55,37 +54,10 @@ const ProductCart = ({
       let totalQuantity;
       if (type === "inc") {
         totalQuantity = formik.values.quantity + 1;
-        selectedItem.forEach((val, idx) => {
-          if (val.id === props.id) {
-            const replaceQuantity = selectedItem;
-            // replaceQuantity.splice(idx, 1, props);
-            replaceQuantity[idx] = {
-              ...props,
-              quantity: formik.values.quantity + 1,
-              sub_total: (formik.values.quantity + 1) * selling_price,
-            };
-            console.log("sel", selectedItem);
-            setSelectedItem(replaceQuantity);
-          }
-        });
       } else {
         totalQuantity = formik.values.quantity - 1;
-        selectedItem.forEach((val, idx) => {
-          if (val.id === props.id) {
-            const replaceQuantity = selectedItem;
-            // replaceQuantity.splice(idx, 1, props);
-            replaceQuantity[idx] = {
-              ...props,
-              quantity: formik.values.quantity - 1,
-              sub_total: (formik.values.quantity - 1) * selling_price,
-            };
-            setSelectedItem(replaceQuantity);
-          }
-        });
       }
       await api.post("/cart", {
-        // UserId: authSelector.id,
-        UserId: 1,
         id,
         quantity: totalQuantity,
         price: props.price,

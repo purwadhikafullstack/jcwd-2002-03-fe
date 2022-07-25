@@ -12,21 +12,13 @@ import { useState } from "react";
 import { BsSuitHeartFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { selectAuth } from "../redux/reducer/authSlice";
-import api from "../lib/api";
+import api from "../lib/api"
 
-const ProductCard = ({
-  medName,
-  discount,
-  sellingPrice,
-  productImage,
-  id,
-  kemasan,
-  discountPrice,
-}) => {
-  const authSelector = useSelector(selectAuth);
-  const router = useRouter();
-  const [love, setLove] = useState(false);
-  const toast = useToast({});
+const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasan, discountPrice }) => {
+  const authSelector = useSelector(selectAuth)
+  const router = useRouter()
+  const [love, setLove] = useState(false)
+  const toast = useToast({})
 
   const addToCartBtnHandler = async () => {
     try {
@@ -39,23 +31,24 @@ const ProductCard = ({
         title: "Item added to cart",
         duration: 2000,
         status: "success",
-        description: res.data.message,
+        description: res.data.message
       });
     } catch (err) {
       toast({
         title: "error",
         duration: 2000,
         status: "error",
-        description: "error network",
-      });
+        description: "error network"
+      })
     }
   };
+
 
   return (
     <Box
       w={["150px", "230px", "230px"]}
-      // w="213px"
       h={["290px", "360px", "360px"]}
+
       background="white"
       borderRadius="xl"
       overflow="hidden"
@@ -77,25 +70,8 @@ const ProductCard = ({
           justifyContent="end"
           boxShadow="1px 2px 3px 4px rgba(237,248,248)"
         >
-          <Box
-            mt={1}
-            mx={1}
-            onClick={() => setLove(!love)}
-            backgroundColor="gray.200"
-            opacity={0.6}
-            display="flex"
-            borderRadius="50%"
-            w="40px"
-            h="40px"
-            justifyContent="center"
-          >
-            <Icon
-              as={BsSuitHeartFill}
-              color={!love ? "gray.400" : "red.600"}
-              boxSize="30px"
-              mx="auto"
-              my="auto"
-            />
+          <Box mt={1} mx={1} onClick={() => setLove(!love)} backgroundColor="gray.200" opacity={0.6} display="flex" borderRadius="50%" w="40px" h="40px" justifyContent="center">
+            <Icon as={BsSuitHeartFill} color={!love ? "gray.400" : "red.600"} boxSize="30px" mx="auto" my="auto" />
           </Box>
         </Box>
 
