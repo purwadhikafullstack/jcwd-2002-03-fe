@@ -124,6 +124,7 @@ const AdminSideBar = () => {
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
+                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isValid: false } }) }}
               >
                 Dibatalkan
               </AccordionPanel>

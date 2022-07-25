@@ -28,7 +28,30 @@ const TransactionCard = ({ props, fetchTransaction }) => {
             toast({
                 status: "error",
                 title: "error",
-                description: "erorr update Payment status",
+                description: err?.response?.data?.message || err?.message,
+                duration: 5000,
+                isClosable: true
+            })
+        }
+    }
+
+    const cancelHandler = async () => {
+        try {
+
+            const res = await api.post("/transaction/cancel", props)
+            toast({
+                title: "success",
+                status: "success",
+                description: res?.data?.message || "transaction canceled successfuly",
+                duration: 5000,
+                isClosable: true
+            })
+            fetchTransaction()
+        } catch (err) {
+            toast({
+                status: "error",
+                title: "error",
+                description: err?.response?.data?.message || err?.message,
                 duration: 5000,
                 isClosable: true
             })
@@ -46,13 +69,16 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                         {props.isDone === true &&
                             <Checkbox>Pesanan Selesai</Checkbox>
                         }
-                        {props.isPaid === false &&
+                        {props.isPaid === false && props.isValid === true &&
                             <Checkbox>Pesanan Baru</Checkbox>
                         }
                         {props.isPacking === true && props.isSend === false &&
                             <Checkbox>Pesanan Siap dikirim</Checkbox>
                         }
-                        <Text>{props.nomer_pesanan}</Text>
+                        {props.isValid === false &&
+                            <Checkbox>Pesanan Dibatalkan</Checkbox>
+                        }
+                        <Text>{props?.nomer_pesanan}</Text>
                         <Text alignItems="center">{moment(props.createdAt).format("LLL")}</Text>
                     </HStack>
                 </Box>
@@ -72,7 +98,7 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                             <Box
                                 width="100px"
                                 height="100px"
-                                backgroundImage={props.Prescription_images[0].image_url}
+                                backgroundImage={props?.Prescription_images[0]?.image_url}
                                 backgroundRepeat="no-repeat"
                                 backgroundSize="cover"
                                 backgroundPosition="center"
@@ -80,7 +106,7 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                             />
                             <Box>
                                 <Text mb={2}>Resep Dokter</Text>
-                                <PrescriptionsHandler key={props.id} image={props.Prescription_images} orderDate={props.createdAt} transactionId={props.id} fetchTransaction={fetchTransaction} />
+                                <PrescriptionsHandler key={props?.id} image={props?.Prescription_images} orderDate={props?.createdAt} transactionId={props?.id} fetchTransaction={fetchTransaction} />
                             </Box>
                         </>
                     }
@@ -115,23 +141,23 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                 </Box>
                 <Box>
                     <Text><b>Alamat</b></Text>
-                    <Text>{props.Address.alamat}</Text>
-                    <Text>{props.Address.kecamatan}, {props.Address.kotaKabupaten}</Text>
-                    <Text>{props.Address.provinsi} - {props.Address.kodePos}</Text>
+                    <Text>{props?.Address?.alamat}</Text>
+                    <Text>{props?.Address?.kecamatan}, {props?.Address?.kotaKabupaten}</Text>
+                    <Text>{props?.Address?.provinsi} - {props?.Address?.kodePos}</Text>
                 </Box>
                 <Box>
                     <Text><b>Kurir</b></Text>
-                    <Text>Name Kurir</Text>
+                    <Text>{props?.kurir?.toUpperCase()}</Text>
                 </Box>
                 <Box />
             </Box>
             <Box height="40px" alignItems="center" background="#F6FAFB" borderRadius="4px" display="flex" justifyContent="space-between" padding={3}>
-                {props.Transaction_items.length !== 0 &&
+                {props?.Transaction_items.length !== 0 &&
                     <>
                         <Box>
                             <Text><b>Total Harga</b> ({props.Transaction_items.length} obat)</Text>
                         </Box>
-                        <Box><b>Rp.{props.total_price.toLocaleString()}</b></Box>
+                        <Box><b>Rp.{props?.total_price.toLocaleString()}</b></Box>
                     </>
                 }
             </Box>
@@ -152,8 +178,10 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                 </HStack>
                 <Box display="flex" justifyContent="space-between" alignItems="center">
                     <HStack spacing={5}>
-                        <Button variant="ghost" colorScheme="teal">Tolak Pesanan</Button>
-                        {props.isPaid === false &&
+                        {props.isValid === true &&
+                            <Button variant="ghost" colorScheme="teal" onClick={() => cancelHandler()}>Tolak Pesanan</Button>
+                        }
+                        {props.isPaid === false && props.isValid === true &&
                             <ApproveTransaction
                                 key={props.id}
                                 transactionDetail={props.Transaction_items}

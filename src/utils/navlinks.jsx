@@ -5,7 +5,6 @@ import HomeBottomNavBar from "../component/bottomNavBar/HomeBottomNavBar"
 import ProductDetailBottomNavbar from "../component/bottomNavBar/ProductDetailBottomNavbar"
 import AboutCompany from "../component/aboutCompany/AboutCompany"
 import DesktopNavBar from "../component/navbar/DesktopNavBar"
-import Checkout from "../component/bottomNavBar/Checkout"
 import MobileNavbar from "../component/navbar/MobileNavbar"
 
 const navLinks = [
@@ -23,7 +22,7 @@ const navLinks = [
         title: "Rincian",
         base: <MobileNavbar key="Rincian" title="Rincian" />,
         md: <DesktopNavBar />,
-        bottomNav: <Checkout />,
+        bottomNav: undefined,
         displayAboutCompany: <AboutCompany />
 
     },

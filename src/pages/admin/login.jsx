@@ -106,7 +106,7 @@ const login = () => {
                 <Box width={["90%", "80%"]} margin="auto">
                     <Stack spacing={["12px", "16px"]} mb="30px">
                         < Box >
-                            <Text variant="title" display={["none", "block", "block"]}>Masuk</Text>
+                            <Text variant="title" display="block">Masuk</Text>
                         </Box>
                         <FormControl isInvalid={formik.errors.email}>
                             <FormLabel htmlFor='email'>Email Address</FormLabel>
