@@ -71,7 +71,7 @@ const PopularPromotion = () => {
                                 discountPrice={val.selling_price - (val.discount * val.selling_price)}
                                 sellingPrice={val.selling_price}
                                 id={val.id}
-                                productImage={val.Product_images[0].image_url}
+                                productImage={val.Product_images[0]?.image_url}
                             />
 
                         )

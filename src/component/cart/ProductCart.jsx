@@ -6,20 +6,20 @@ import {
   Checkbox,
   Grid,
   GridItem,
+  HStack,
   Icon,
   IconButton,
   Img,
-  Stack,
   Text,
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { selectAuth } from "redux/reducer/authSlice";
 import api from "../../lib/api";
+
+// need to add max quantity product, so user can't buy morethan stok available
 
 const ProductCart = ({
   id,
@@ -28,8 +28,7 @@ const ProductCart = ({
   discount,
   selling_price,
   productDescription,
-  kemasan,
-  quantity1,
+  quantity,
   passingFetchProduct,
   ProductId,
   subTotal,
@@ -38,21 +37,18 @@ const ProductCart = ({
   selectedItem,
 }) => {
   const [toggleSelected, setToggleSelected] = useState(false);
-  const authSelector = useSelector(selectAuth)
+
   const toast = useToast()
 
   const formik = useFormik({
     initialValues: {
-      quantity: quantity1,
+      quantity,
     },
     validationSchema: Yup.object().shape({
-      quantity: Yup.number().required().min(1).max(quantity1),
+      quantity: Yup.number().required().min(1).max(quantity),
     }),
   });
-  const finalPrice = () => {
-    const result = selling_price - (selling_price * discount);
-    return result.toLocaleString();
-  };
+
   const editCartBtnHandler = async (type) => {
     try {
       let totalQuantity;
@@ -62,10 +58,9 @@ const ProductCart = ({
         totalQuantity = formik.values.quantity - 1;
       }
       await api.post("/cart", {
-        UserId: authSelector.id,
         id,
         quantity: totalQuantity,
-        price: selling_price,
+        price: props.price,
         ProductId,
       });
       passingFetchProduct();
@@ -85,9 +80,20 @@ const ProductCart = ({
     if (dir === "inc") {
       formik.setFieldValue("quantity", formik.values.quantity + 1);
       editCartBtnHandler("inc");
+      if (toggleSelected)
+        setSelectedItem(current =>
+          current.map(obj =>
+            obj.id === id ? { ...obj, quantity: formik.values.quantity + 1, sub_total: (props.price * (formik.values.quantity + 1)) } : obj))
+
+      // setSelectedItems(selectedItem.filter((val)=>))
     } else if (dir === "dec") {
       formik.setFieldValue("quantity", formik.values.quantity - 1);
       editCartBtnHandler("dec");
+      if (toggleSelected) {
+        setSelectedItem(current =>
+          current.map(obj =>
+            obj.id === id ? { ...obj, quantity: formik.values.quantity - 1, sub_total: (props.price * (formik.values.quantity - 1)) } : obj))
+      }
     }
   };
   const selectedProduct = () => {
@@ -99,10 +105,11 @@ const ProductCart = ({
       setToggleSelected(false);
     }
   };
+
   return (
     <>
-      <GridItem colSpan={5} padding={2}>
-        <Stack direction="row" width="100%" justifyContent="space-between">
+      <GridItem colSpan={5} >
+        <Box width="100%" justifyContent="space-between">
           <Box display="flex" justifyContent="left">
             <Checkbox value={props} mr={2} onChange={() => selectedProduct()} />
             <Img
@@ -111,66 +118,38 @@ const ProductCart = ({
               mr={3}
               src={image_url}
             />
-            <Box>
-              <Stack direction="row" alignItems="center">
-                <Text variant="caption-bold">
-                  {med_name} {productDescription}
-                </Text>
-                <Box
-                  w="23px"
-                  h="19px"
-                  bgColor="#fff5d3"
-                  border="1px"
-                  borderRadius="2px"
-                  borderColor="#FFDE6B"
-                  pl={0.5}
-                >
-                  <Text
-                    textAlign="center"
-                    fontSize="12px"
-                    fontWeight="400"
-                    color="#cbaf4e"
-                  >
-                    X {quantity1}
-                  </Text>
+            <Box width="100%" justifyContent="space-between" >
+              <Box justifyContent="space-between" width="100%"  >
+                <Box display="flex" justifyContent="space-between" width="100%"  >
+                  <Box>
+                    <Text variant="caption-bold">
+                      {med_name} {productDescription}
+                    </Text>
+                  </Box>
+                  <Box display={["block", "flex"]} alignItems="center" justifyContent="space-between">
+                    <Text
+                      as="del"
+                      color="#B4B9C7"
+                      fontSize={["12px"]}
+                      fontWeight={[400, 600]}
+                      mr={[0, 2]}
+                      hidden={!discount}
+                    >
+                      Rp. {selling_price.toLocaleString()}
+                    </Text>
+                    <Box textAlign={["right", "center"]}>
+                      <Text variant="subtitle-bold">Rp. {props.price.toLocaleString()}</Text>
+                    </Box>
+                  </Box>
                 </Box>
-              </Stack>
-              <Text variant="caption">{kemasan}</Text>
-              <Stack
-                mt={4}
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-              // spacing={5}
-              >
-                <Text variant="caption-bold">Sub Total</Text>
-              </Stack>
+                <Box display="flex" alignItems="center" justifyContent="space-between" mt={2}>
+                  <Text variant="caption">{props.Product.kemasan}</Text>
+                  <Text variant="subtitle-bold">sub total   Rp. {subTotal}</Text>
+                </Box>
+              </Box>
             </Box>
           </Box>
-          <Box
-            widht="30%"
-            display={["block", "flex", "flex"]}
-            justifyContent="space-between"
-          >
-            <Box hidden={!discount} textAlign={["right", "center"]}>
-              <Text
-                as="del"
-                color="#B4B9C7"
-                fontSize={["12px"]}
-                fontWeight={[400, 600]}
-                mr={[0, 2]}
-              >
-                Rp. {selling_price.toLocaleString()}
-              </Text>
-            </Box>
-            <Box textAlign={["right", "center"]}>
-              <Text variant="subtitle-bold">Rp. {finalPrice()}</Text>
-            </Box>
-          </Box>
-        </Stack>
-        <Stack alignItems="end" mt={-7} mb={7}>
-          <Text variant="subtitle-bold">Rp. {subTotal}</Text>
-        </Stack>
+        </Box>
       </GridItem>
       <GridItem colSpan={5} padding={[0, 4]} alignItems="center">
         <Grid templateColumns="repeat(5,1fr)">
@@ -179,45 +158,47 @@ const ProductCart = ({
             <Box
               display="flex"
               alignItems="center"
-              justifyContent="space-between"
+              justifyContent="end"
             >
-              <Box textAlign={["left", "center"]}>
-                <Text color="teal" mr={2} variant="caption">
-                  Pindahkan ke Wishlist
-                </Text>
-              </Box>
-              <Box
-                borderLeft="1px solid teal"
-                onClick={() => deleteCartHandler()}
-              >
-                <Icon ml={3} color="teal" as={RiDeleteBin6Line} />
-              </Box>
-              <Box
-                display="flex"
-                alignItems="center"
-                height="30px"
-                background="#F6FAFB"
-                borderRadius="8px"
-              >
-                <IconButton
-                  onClick={() => qtyBtnHandler("dec")}
-                  borderLeftRadius="8px"
-                  isDisabled={formik.values.quantity <= 1}
-                  background="#F6FAFB"
-                  boxSize="30px"
+              <HStack spacing={4}>
+                <Box textAlign={["left", "center"]}>
+                  <Text color="teal" mr={2} variant="caption">
+                    Pindahkan ke Wishlist
+                  </Text>
+                </Box>
+                <Box
+                  borderLeft="1px solid teal"
+                  onClick={() => deleteCartHandler()}
                 >
-                  <Icon color="teal" as={MinusIcon} />
-                </IconButton>
-                <Text mx={6}>{formik.values.quantity}</Text>
-                <IconButton
-                  onClick={() => qtyBtnHandler("inc")}
-                  borderRightRadius="8px"
+                  <Icon ml={3} color="teal" as={RiDeleteBin6Line} />
+                </Box>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  height="30px"
                   background="#F6FAFB"
-                  boxSize="30px"
+                  borderRadius="8px"
                 >
-                  <Icon color="teal" as={AddIcon} />
-                </IconButton>
-              </Box>
+                  <IconButton
+                    onClick={() => qtyBtnHandler("dec")}
+                    borderLeftRadius="8px"
+                    isDisabled={formik.values.quantity <= 1}
+                    background="#F6FAFB"
+                    boxSize="30px"
+                  >
+                    <Icon color="teal" as={MinusIcon} />
+                  </IconButton>
+                  <Text mx={6}>{formik.values.quantity}</Text>
+                  <IconButton
+                    onClick={() => qtyBtnHandler("inc")}
+                    borderRightRadius="8px"
+                    background="#F6FAFB"
+                    boxSize="30px"
+                  >
+                    <Icon color="teal" as={AddIcon} />
+                  </IconButton>
+                </Box>
+              </HStack>
             </Box>
           </GridItem>
         </Grid>

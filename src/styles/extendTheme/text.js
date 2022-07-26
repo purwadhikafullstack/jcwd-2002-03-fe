@@ -41,7 +41,7 @@ const Text = {
             fontWeight: 600,
             color: "#213360",
             fontSize: {
-                base: "14px",
+                base: "12px",
                 md: "18px",
                 lg: "18px"
             }

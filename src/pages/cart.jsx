@@ -29,6 +29,7 @@ const Cart = () => {
     try {
       const res = await api.get("/cart");
       setProductData(res.data.result.rows);
+
     } catch (err) {
       toast({
         title: "error",
@@ -48,8 +49,8 @@ const Cart = () => {
           med_name={val?.Product?.med_name}
           image_url={val?.Product?.Product_images[0]?.image_url}
           discount={val?.Product?.discount}
-          selling_price={val?.price}
-          quantity1={val?.quantity}
+          selling_price={val?.Product?.selling_price}
+          quantity={val?.quantity}
           ProductId={val?.ProductId}
           subTotal={val?.sub_total.toLocaleString()}
           passingFetchProduct={() => fetchProduct()}
@@ -61,7 +62,7 @@ const Cart = () => {
     });
   };
   const grandTotal = () => {
-    return productData?.reduce((sum, object) => {
+    return selectedItem?.reduce((sum, object) => {
       return sum + object.sub_total;
     }, 0);
   };
@@ -97,7 +98,9 @@ const Cart = () => {
         description: res?.data?.message,
         isClosable: true
       })
-      router.push("/checkout")
+      router.push({ pathname: "/checkout", query: { id: `${res.data.result}` } })
+      setSelectedItem([])
+      fetchProduct()
 
     } catch (err) {
       toast({
@@ -109,7 +112,7 @@ const Cart = () => {
 
   return (
     <>
-      <Grid templateColumns="repeat(6,1fr)" paddingX={[0, 6, 6]} gap={4}>
+      <Grid mb="40px" templateColumns="repeat(6,1fr)" paddingX={[0, 6, 6]} gap={4}>
         <GridItem colSpan={[0, 6, 6]} padding={2}>
           <Text variant="title" display={["none", "flex"]}>
             Keranjang Saya
@@ -159,7 +162,7 @@ const Cart = () => {
                     Grand total
                   </Text>
                   <Text variant="subtitle-bold" color="#737A8D">
-                    {grandTotal()}
+                    Rp. {grandTotal().toLocaleString()}
                   </Text>
                 </Box>
                 <Divider />
@@ -169,9 +172,9 @@ const Cart = () => {
                   alignItems="center"
                 >
                   <Text variant="subtitle-bold">Total</Text>
-                  <Text variant="subtitle-bold">{grandTotal()}</Text>
+                  <Text variant="subtitle-bold">Rp. {grandTotal().toLocaleString()}</Text>
                 </Box>
-                <Button variant="main" mt={3} onClick={() => buyItems()}>
+                <Button variant="main" mt={3} onClick={() => buyItems()} disabled={selectedItem.length === 0}>
                   Bayar
                 </Button>
               </Stack>
@@ -179,7 +182,17 @@ const Cart = () => {
           </Box>
         </GridItem>
       </Grid>
-      <Box background="#F6FAFB" width="100%" display={["flex", "none"]} paddingY={2} paddingX={2} bottom={0} mb="5px" alignItems="center" justifyContent="space-between">
+      <Grid
+        background="#F6FAFB"
+        width="100%"
+        display={["flex", "none"]}
+        paddingY={2}
+        paddingX={2}
+        bottom={0}
+        position="fixed"
+        alignItems="center"
+        justifyContent="space-between"
+      >
         <Box pl="10px">
           <Text variant="subtitle-bold">Total</Text>
           <Text variant="subtitle-bold">Rp. {grandTotal().toLocaleString()}</Text>
@@ -187,7 +200,7 @@ const Cart = () => {
         <Button width="60%" variant="main" onClick={() => buyItems()}>
           Bayar
         </Button>
-      </Box>
+      </Grid>
     </>
   );
 };

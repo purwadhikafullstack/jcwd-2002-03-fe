@@ -17,7 +17,7 @@ const transaction = () => {
   const toast = useToast()
   const router = useRouter()
 
-  const { isPaid, isDone, isPacking, isSend, searchName } = router.query
+  const { isPaid, isDone, isPacking, isSend, isValid, searchName } = router.query
 
   const fetchTransaction = async (
     queryParams = {
@@ -30,7 +30,8 @@ const transaction = () => {
         isPaid,
         isPacking,
         isSend,
-        isDone
+        isDone,
+        isValid
       },
     }
   ) => {
