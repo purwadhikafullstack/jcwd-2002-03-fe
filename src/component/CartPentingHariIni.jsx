@@ -48,7 +48,7 @@ const CartPentingHariIni = ({value}) => {
             Dibatalkan
           </Text>
           <Text pl="16px" color="#213360" fontSize="28px" fontWeight="bold">
-            0
+            {value.findCancelOrder}
           </Text>
         </Stack>
 

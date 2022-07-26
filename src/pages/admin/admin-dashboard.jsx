@@ -84,7 +84,7 @@ const AdminDashboard = () => {
 
     const arrayOfData = [
       {
-        name: "Obat Bebas",
+        name: "Obat",
         data,
       },
     ];
@@ -102,7 +102,7 @@ const AdminDashboard = () => {
 
       const arrayOfData = [
         {
-          name: "Obat Bebas",
+          name: "Obat",
           data: arr,
         },
       ];
@@ -152,7 +152,7 @@ const AdminDashboard = () => {
 
   const fetchPemesananDataCount = async () => {
     try {
-      const res = await api.get("/report/get-transaction-count");
+      const res = await api.post("/report/get-transaction-count");
       setPemesanan(res.data.result);
       console.log(res.data.result);
     } catch (err) {
@@ -234,7 +234,7 @@ const AdminDashboard = () => {
   }, [sortPenjualan]);
 
   useEffect(() => {
-    if (penjualan) {
+    if (penjualan?.length) {
       convertDataPenjualan();
       covertDataPenjualanByMonth();
     }
@@ -405,7 +405,7 @@ const AdminDashboard = () => {
 
         <HStack mt="16px" spacing="50px" ml="48px">
           <VStack>
-            <CartPentingHariIni value={pemesanan}/>
+            <CartPentingHariIni value={pemesanan} />
           </VStack>
 
           {/* Chart kadaluwarsa */}
