@@ -2,9 +2,11 @@ import {
   Box,
   Button,
   Center,
+  Divider,
   Flex,
   HStack,
   Icon,
+  Select,
   Text,
 } from "@chakra-ui/react";
 import api from "../../../lib/api";
@@ -17,17 +19,61 @@ import { useRouter } from "next/router";
 
 const ProductStockDetails = (props) => {
   const [inventories, setInventories] = useState([]);
+  const [rowPerPage, setRowPerPage] = useState(10);
+  const [pageCount, setPageCount] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+  const [jumlahProduk, setJumlahProduk] = useState(null);
+  const [year, setYear] = useState("");
+  const [activity, setActivity] = useState("");
+  const [month, setMonth] = useState("");
 
   const router = useRouter();
 
   const fetchInventories = async () => {
     try {
-      const res = await api.get(`/product/${props?.product?.id}`);
+      const res = await api.get(
+        `/report/get-product-stock-history/${props?.product?.id}`,
+        {
+          params: {
+            _limit: rowPerPage,
+            _page: pageCount,
+            filterByMonth: month || undefined,
+            filterByYear: year || undefined,
+            filterByActivity: activity || undefined,
+          },
+        }
+      );
 
-      setInventories(() => [...res?.data?.result?.inventories]);
+      setInventories(res?.data?.result?.findProduct.inventories);
+      setJumlahProduk(res.data.result.count.count);
+      setMaxPage(Math.ceil(res.data.result.count.count / rowPerPage));
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const fetchNextPage = () => {
+    if (pageCount >= maxPage) {
+      return;
+    }
+    setPageCount(pageCount + 1);
+  };
+
+  const fetchPrevPage = () => {
+    if (pageCount === 1) {
+      return;
+    }
+    setPageCount(pageCount - 1);
+  };
+
+  const fetchFirstPage = () => {
+    setPageCount((pageCount = 1));
+    return;
+  };
+
+  const fetchLastPage = () => {
+    setPageCount((pageCount = maxPage));
+    return;
   };
 
   const data = React.useMemo(() => [...inventories], [inventories]);
@@ -38,7 +84,6 @@ const ProductStockDetails = (props) => {
   }
 
   const idxCell = (props) => {
-    console.log(props);
     return <Text>{props.row.index + 1}</Text>;
   };
 
@@ -99,8 +144,10 @@ const ProductStockDetails = (props) => {
   const columns = React.useMemo(coloumFunction, []);
 
   useEffect(() => {
-    fetchInventories();
-  }, []);
+    if (router.query.id) {
+      fetchInventories();
+    }
+  }, [router.query.id, rowPerPage, pageCount, year, month, activity]);
 
   return (
     <Flex direction="column">
@@ -122,13 +169,104 @@ const ProductStockDetails = (props) => {
         minH="670px"
         bg="linear-gradient(155.7deg, #D6F5F3 -45.88%, #F7FCFC 45.77%, #F1F5FC 117.72%)"
       >
-        <Box pt="32px" pb="87px" px="87px" bg="white" mt="60px">
-          <Text mb="32px" fontWeight="bold" fontSize="20px">
-            Produk Histori
-          </Text>
-          <Box borderRadius="17px" overflow="auto" maxH="572px">
-            <DaftarProdukTable columns={columns} data={data} />
+        <Box mb="10" pt="32px" pb="10px" px="87px" bg="white" mt="60px">
+          <Box mb="50px">
+            <Text mb="32px" fontWeight="bold" fontSize="20px">
+              Produk Histori
+            </Text>
+            <HStack>
+              <Box mr="24px">
+                <Text mb="2">Bulan</Text>
+                <Select
+                  textAlign="center"
+                  borderRadius="lg"
+                  w="141px"
+                  h="31px"
+                  fontSize="12px"
+                  size="small"
+                  displayEmpty
+                  value={month}
+                  onChange={(e) => {
+                    setMonth(e.target.value);
+                    setPageCount(1);
+                  }}
+                >
+                  <option value="">Semua</option>
+                  <option value={1}>January</option>
+                  <option value={2}>February</option>
+                  <option value={3}>March</option>
+                  <option value={4}>April</option>
+                  <option value={5}>May</option>
+                  <option value={6}>June</option>
+                  <option value={7}>July</option>
+                  <option value={8}>August</option>
+                  <option value={9}>September</option>
+                  <option value={10}>October</option>
+                  <option value={11}>November</option>
+                  <option value={12}>Desember</option>
+                </Select>
+              </Box>
+              <Box>
+                <Text mb="2">Aktifitas</Text>
+                <Select
+                  textAlign="center"
+                  borderRadius="lg"
+                  w="141px"
+                  h="31px"
+                  fontSize="12px"
+                  size="small"
+                  displayEmpty
+                  value={activity}
+                  onChange={(e) => {
+                    setActivity(e.target.value);
+                    setPageCount(1);
+                  }}
+                >
+                  <option value="">Semua</option>
+                  <option value="Barang masuk">Barang Masuk</option>
+                  <option value="Paid">Paid</option>
+                </Select>
+              </Box>
+            </HStack>
+
+            <Divider p="4" />
           </Box>
+          <Center flexDirection="column">
+            <DaftarProdukTable
+              columns={columns}
+              data={data}
+              next={fetchNextPage}
+            />
+            <HStack my="4">
+              <Button
+                borderRadius="lg"
+                colorScheme="teal"
+                onClick={fetchFirstPage}
+              >{`First Page`}</Button>
+              <Button
+                borderRadius="lg"
+                fontWeight="bold"
+                colorScheme="teal"
+                onClick={fetchPrevPage}
+              >{`<`}</Button>
+              <Text color="black">{`Halaman ${pageCount} dari ${maxPage}`}</Text>
+              <Button
+                borderRadius="lg"
+                fontWeight="bold"
+                colorScheme="teal"
+                onClick={fetchNextPage}
+              >{`>`}</Button>
+              <Button
+                borderRadius="lg"
+                colorScheme="teal"
+                onClick={fetchLastPage}
+              >{`Last Page`}</Button>
+            </HStack>
+            <Text
+              mb="4"
+              color="black"
+            >{`Menampilkan ${jumlahProduk} produk histori`}</Text>
+          </Center>
         </Box>
       </Center>
     </Flex>
