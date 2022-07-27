@@ -67,7 +67,6 @@ const login = () => {
       setTimeout(async () => {
         try {
           const res = await api.post("/auth/signin", values);
-
           const userResponse = res.data.result;
 
           const userResponseAdded = { ...userResponse.user, role: "user" };
@@ -90,6 +89,7 @@ const login = () => {
       }, 3000);
     },
   });
+
 
   useEffect(() => {
     if (authSelector.id) {

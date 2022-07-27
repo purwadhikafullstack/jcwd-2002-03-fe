@@ -10,6 +10,9 @@ import api from "../../lib/api"
 const uploadResep = () => {
     const [hideUploadForm, setHideUploadForm] = useState(false)
     const [uploading, setUploading] = useState(false)
+    const [transactionId, setTransactionId] = useState()
+    const authSelector = useSelector(selectAuth)
+
 
     // state for upload data product
     const [selectedFileArray, setSelectedFileArray] = useState([])
@@ -35,7 +38,6 @@ const uploadResep = () => {
         setSelectedFileArray(Array.from(e.target.files))
     }
 
-
     const uploadHandler = () => {
         setTimeout(async () => {
             try {
@@ -46,11 +48,13 @@ const uploadResep = () => {
                 Object.values(selectedFileArray).forEach(async (val,) => {
                     formData.append("prescriptions", val)
                 })
-                await api.post("/transaction/prescription", formData, {
+                const res = await api.post("/transaction/prescription", formData, {
                     headers: {
                         "Content-Type": "multipart/form-data"
                     }
                 })
+
+                setTransactionId(res.data.result.id)
                 setUploading(false)
             } catch (err) {
                 toast({
@@ -68,7 +72,12 @@ const uploadResep = () => {
         setSelectedFileArray([])
     }
 
-    const authSelector = useSelector(selectAuth)
+    const lihatPemesananHandler = () => {
+        if (authSelector.Addresses.length === 0) {
+            return router.push({ pathname: "/address-form", query: { id: transactionId } })
+        }
+        return router.push({ pathname: "/checkout", query: { id: transactionId } })
+    }
 
     if (!authSelector.id || authSelector.role !== "user") {
         router.push("/auth/login")
@@ -85,6 +94,8 @@ const uploadResep = () => {
             mr="auto"
         />
     }
+
+
     return (
         <Container
             width={["100%", "90%", "90%"]}
@@ -175,7 +186,7 @@ const uploadResep = () => {
                                 </Box>
                             </Box>
                             <Input type="file" id="input-file-upload" multiple ref={inputRef} display="none" onChange={handleChange} />
-                            <Box h={["md", "sm"]} alignItems="center" justifyContent="center" display="flex">
+                            <Box alignItems="center" justifyContent="center" display="flex">
                                 <Button
                                     colorScheme="teal"
                                     type="button"
@@ -247,7 +258,7 @@ const uploadResep = () => {
                             <Text textAlign="center" variant="caption">Kamu akan mendapatkan notifikasi apabila resep doktermu</Text>
                             <Text textAlign="center" variant="caption">dikonfirmasi oleh admin</Text>
                         </Box>
-                        <Button variant="main" onClick={() => router.push("/daftar-pemesanan")}>Lihat Proses Pemesanan</Button>
+                        <Button variant="main" onClick={() => lihatPemesananHandler()}>Lihat Proses Pemesanan</Button>
                     </Stack>
                 </Box>
             }

@@ -9,6 +9,7 @@ const initialState = {
   is_verified: "",
   phone: "",
   role: "",
+  Addresses: [],
 };
 
 const authSlice = createSlice({
@@ -22,6 +23,7 @@ const authSlice = createSlice({
       state.image_url = action.payload.image_url
       state.is_verified = action.payload.is_verified
       state.phone = action.payload.phone
+      state.Addresses = action.payload.Addresses
       state.role = action.payload.role
     },
     logout: (state) => {
@@ -33,9 +35,12 @@ const authSlice = createSlice({
       state.phone = initialState.phone
       state.role = initialState.role
     },
+    updateAddress: (state, action) => {
+      state.Addresses = [...state.Addresses, action.payload]
+    }
   },
 });
 
-export const { signin, logout } = authSlice.actions;
+export const { signin, logout, updateAddress } = authSlice.actions;
 export const selectAuth = (state) => state.auth;
 export default authSlice.reducer;

@@ -21,6 +21,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { updateAddress } from "../redux/reducer/authSlice";
 import api from "../lib/api"
 
 const AddressFormComponent = () => {
@@ -28,7 +31,12 @@ const AddressFormComponent = () => {
   const [dataKota, setDataKota] = useState([])
   const [selectedProvinsi, setSelectedProvinsi] = useState()
   const [kodepos, setKodePos] = useState()
+  const [checkoutId, setChekoutId] = useState()
+  const router = useRouter()
   const toast = useToast()
+  const { id } = router.query
+  const dispatch = useDispatch()
+
 
   const formik = useFormik({
     initialValues: {
@@ -61,6 +69,8 @@ const AddressFormComponent = () => {
     onSubmit: async (values) => {
       try {
         const res = await api.post("/profile/tambahAl", values)
+        dispatch(updateAddress(res.data.result))
+
         if (res.data.message !== undefined) {
           toast({
             status: "success",
@@ -71,8 +81,10 @@ const AddressFormComponent = () => {
             position: "top-right"
           })
         }
-        window.history.back();
-
+        if (!checkoutId) {
+          window.history.back()
+        }
+        router.push({ pathname: "/checkout", query: { id: checkoutId } })
       } catch (err) {
         toast({
           status: "error",
@@ -136,10 +148,12 @@ const AddressFormComponent = () => {
     const parsedValue = JSON.parse(e.target.value)
     formik.setFieldValue("kotaKabupaten", parsedValue.city_name)
     formik.setFieldValue("city_id", parsedValue.city_id)
+    formik.setFieldValue("kodePos", parsedValue.postal_code)
     setKodePos(parsedValue.postal_code)
   }
   useEffect(() => {
     provinsi()
+    setChekoutId(id)
 
   }, [])
 
@@ -252,7 +266,7 @@ const AddressFormComponent = () => {
               </Text>
             </FormLabel>
             <InputGroup>
-              <Select type="text" onChange={kotaHandler} >
+              <Select type="text" onChange={kotaHandler} placeholder="silahkan pilih Kota/Kabupaten" >
                 {selectedProvinsi && dataKota && dataKota.map((val) => {
                   return (
                     <option key={val.city_id} value={JSON.stringify(val)}>{val.city_name}</option>
@@ -304,10 +318,8 @@ const AddressFormComponent = () => {
         <InputGroup w="245.59px">
           <Input
             mb="36px"
-            onChange={() =>
-              formik.setFieldValue("kodePos", kodepos)
-            }
             defaultValue={kodepos}
+            value={kodepos}
             disabled
           />
           <InputRightAddon bg="white">
