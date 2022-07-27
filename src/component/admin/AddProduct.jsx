@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useRef, useState } from "react"
 import { Button, Modal, ModalFooter, useDisclosure, ModalOverlay, ModalContent, ModalHeader, ModalBody, Input, Text, Select, useToast, Tabs, TabList, Tab, TabPanels, TabPanel, Box, Grid, GridItem, Img, AspectRatio, } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup"
@@ -200,27 +200,6 @@ const AddProduct = ({ fetchData }) => {
     }
 
 
-    // const noMed = () => {
-    //     if (formik.values.categoryData) {
-    //         const medcode = "F-"
-    //         const nameCode = formik.values.med_name.slice(1, 4)
-    //         const bpomCode = formik.values.no_bpom.slice(-3)
-    //         const result = `${medcode}+${nameCode}+${bpomCode}`
-    //         return result
-    //     }
-    //     const medcode = "R-"
-    //     const nameCode = formik.values.name_med.slice(1, 4)
-    //     const bpomCode = formik.values.no_bpom.slice(-3)
-    //     const result = `${medcode}+${nameCode}+${bpomCode}`
-    //     return result
-    // }
-
-
-
-    useEffect(() => {
-        // fetchCategory()
-    }, [])
-
     return (
         <>
             <Button
@@ -230,7 +209,7 @@ const AddProduct = ({ fetchData }) => {
                 leftIcon={<FiDownload size="20" />}
                 variant="main"
                 width="xs"
-                colorScheme="teal"          
+                colorScheme="teal"
             >
                 Tambah Produk
             </Button>
@@ -239,7 +218,6 @@ const AddProduct = ({ fetchData }) => {
                 onClose={onClose}
                 isCentered
                 size="2xl"
-                height="50%"
                 closeOnOverlayClick={false}
                 scrollBehavior="inside"
             >
@@ -259,7 +237,7 @@ const AddProduct = ({ fetchData }) => {
                         <ModalBody>
                             <TabPanels>
                                 <TabPanel height="lg">
-                                    <Box width="lg" height="md" px={2}>
+                                    <Box width="lg" px={2}>
                                         <Grid templateColumns="repeat(3,1fr)" alignItems="center" gap={2}>
                                             <GridItem colSpan={1}>
                                                 <Text variant="caption-bold">Nama Obat</Text>
@@ -311,7 +289,7 @@ const AddProduct = ({ fetchData }) => {
                                             </GridItem>
                                             <GridItem colSpan={2}>
                                                 <Input
-                                                    placeholder="Masukkan nilai jual"
+                                                    placeholder="e.g 0,01 = 1%, 0,5= 50%"
                                                     onChange={inputHandler}
                                                     name="discount"
                                                     defaultValue={0.00}
@@ -382,7 +360,7 @@ const AddProduct = ({ fetchData }) => {
                                             </GridItem>
                                         </Grid>
                                     </Box>
-                                    <ModalFooter>
+                                    <ModalFooter mt={2}>
                                         <Button colorScheme="yellow" mr={3} onClick={() => cancelInput()}
                                             w="15%"
                                         >
@@ -421,7 +399,7 @@ const AddProduct = ({ fetchData }) => {
                                             borderRadius="8px"
                                             border="2px teal dashed"
                                             my={2}
-                                            height="sm"
+                                            height="xs"
                                             overflowY="auto"
                                         >
                                             <Grid templateColumns="repeat(4, 1fr)" gap={2} alignItems="center"
@@ -450,7 +428,7 @@ const AddProduct = ({ fetchData }) => {
                                             </Grid>
                                         </Box>
                                     </Box>
-                                    <ModalFooter mt={1}>
+                                    <ModalFooter mt={2}>
                                         <Button
                                             colorScheme="yellow"
                                             mr={3}

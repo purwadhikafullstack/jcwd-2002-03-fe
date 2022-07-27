@@ -175,7 +175,6 @@ const checkout = () => {
     }
   }
 
-
   useEffect(() => {
     if (router.isReady) {
       fetchAddress()
@@ -345,7 +344,7 @@ const checkout = () => {
                 color="teal"
                 boxShadow="2xl"
                 borderRadius="50%"
-                onClick={() => router.push("/address-form")}
+                onClick={() => router.push({ pathname: "/address-form", query: { id } })}
               >
                 <Icon as={BsPlusLg} />
               </IconButton>
@@ -366,26 +365,37 @@ const checkout = () => {
         {/* end of address section */}
 
         {/* ringkasan order section */}
-        {dataItems && dataItems.Transaction_items.map((val) => {
-          return (
 
-            <Box
-              key={val.id}
-              padding={[2, 5]}
-              width="100%"
-              boxShadow={[
-                "none",
-                "0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08);",
-              ]}
-              marginX={[0, 4]}
-              borderRadius="8px"
-              justifyContent="space-between"
-            >
-              <Box>
-                <Text variant="title">Ringkasan Order</Text>
+
+        <Box
+          padding={[2, 5]}
+          width="100%"
+          boxShadow={[
+            "none",
+            "0px 2px 3px 2px rgba(33, 51, 96, 0.02), 0px 4px 12px 4px rgba(0, 155, 144, 0.08);",
+          ]}
+          marginX={[0, 4]}
+          borderRadius="8px"
+          justifyContent="space-between"
+        >
+          <Box>
+            <Text variant="title">Ringkasan Order</Text>
+          </Box>
+          <Divider mb={2} />
+          {dataItems && dataItems.Prescription_images !== 0 && dataItems.Prescription_images.map((val) => {
+            return (
+              <Box key={val.id}>
+                <Text variant="subtitle">Resep Terlampir</Text>
+                <Box><Img height="150px" width="150px" src={val.image_url} /></Box>
               </Box>
-              <Divider />
+            )
+          })
+
+          }
+          {dataItems && dataItems.Transaction_items.map((val) => {
+            return (
               <Grid
+                key={val.id}
                 templateColumns="repeat(5, 1fr)"
                 gap={2}
                 templateRows="repeat(2, 1fr)"
@@ -415,10 +425,11 @@ const checkout = () => {
                 <GridItem colSpan={1} rowSpan={1} padding={2}>
                   <Text variant="caption-bold">Rp.{val.sub_total.toLocaleString()}</Text>
                 </GridItem>
+                <Divider />
               </Grid>
-            </Box>
-          )
-        })}
+            )
+          })}
+        </Box>
       </GridItem>
       {/* end of ringkasan order section */}
 
@@ -469,7 +480,7 @@ const checkout = () => {
             alignItems="center"
           >
             <Text variant="title">Total</Text>
-            <Text variant="title">Rp. {dataItems && (dataItems.total_price + ongkir)}</Text>
+            <Text variant="title">Rp. {dataItems && (dataItems.total_price + ongkir).toLocaleString()}</Text>
           </Box>
           <Divider mb={[10, 0]} />
           <Box
@@ -606,14 +617,13 @@ const checkout = () => {
                   </Box>
                   <Divider mt={10} hidden={!bca} />
                   <Stack
-                    mt={10}
                     direction="row"
                     alignItems="center"
                     justifyContent="space-between"
                     px={10}
                     hidden={!bca}
                   >
-                    <Stack alignItems="center" direction="row" spacing={8}>
+                    <Stack alignItems="center" direction="row" spacing={8} onClick={() => setBca(false)}>
                       <Image
                         src="/bca.png"
                         h="60px"
@@ -626,17 +636,15 @@ const checkout = () => {
                     </Stack>
                     <Icon
                       as={IoIosArrowForward}
-                      onClick={() => setBca(false)}
                     />
                   </Stack>
-                  <Box hidden={!bca} mt={7} px={10}>
+                  <Box hidden={!bca} mt={2} px={10}>
                     <Divider />
                   </Box>
-                  <Box hidden={bca} h="330px" px={10} py={5}>
+                  <Box hidden={bca} h="330px" px={10} py={2}>
                     <Stack
                       direction="row"
                       alignItems="center"
-                      mb={10}
                       justifyContent="space-between"
                     >
                       <Text variant="subtitle-bold" fontWeight={700}>
@@ -674,7 +682,7 @@ const checkout = () => {
                       </UnorderedList>
                     </List>
                   </Box>
-                  <Stack px={10} alignItems="center" mt={7}>
+                  <Stack px={10} alignItems="center" >
                     <Button
                       w="full"
                       hidden={bca}
@@ -791,7 +799,7 @@ const checkout = () => {
           </Box>
         </Box>
       </GridItem>
-    </Grid>
+    </Grid >
   );
 };
 
