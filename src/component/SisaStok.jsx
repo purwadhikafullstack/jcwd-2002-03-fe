@@ -54,7 +54,7 @@ const SisaStok = ({ title, amount, value, percentage, notation }) => {
             value={percentage}
             color={notation === "+" ? "#21CDC0" : "#FF6B6B"}
           >
-            <CircularProgressLabel fontWeight="bold" fontSize="14px">
+            <CircularProgressLabel fontWeight="bold" fontSize="12px">
               {notation}
               {percentage}%
             </CircularProgressLabel>
