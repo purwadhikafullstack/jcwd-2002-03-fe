@@ -132,7 +132,7 @@ const RingkasanStatistik = () => {
 
     const arrayOfData = [
       {
-        name: "Obat Bebas",
+        name: "Obat",
         data,
       },
     ];
@@ -150,7 +150,7 @@ const RingkasanStatistik = () => {
 
       const arrayOfData = [
         {
-          name: "Obat Bebas",
+          name: "Obat",
           data: arr,
         },
       ];
@@ -220,7 +220,7 @@ const RingkasanStatistik = () => {
 
     const arrayOfData = [
       {
-        name: "Obat Bebas",
+        name: "Obat",
         data,
       },
     ];
@@ -238,7 +238,7 @@ const RingkasanStatistik = () => {
 
       const arrayOfData = [
         {
-          name: "Obat Bebas",
+          name: "Obat",
           data: arr,
         },
       ];
@@ -266,7 +266,7 @@ const RingkasanStatistik = () => {
 
   const fetchPemesananDataCount = async () => {
     try {
-      const res = await api.get("/report/get-transaction-count", {
+      const res = await api.post("/report/get-transaction-count", {
         stateOfDate: ringkasanSort,
       });
       setPemesanan(res.data.result);
@@ -297,7 +297,7 @@ const RingkasanStatistik = () => {
 
   const fetchCancelation = async () => {
     try {
-      const res = await api.post("/report/get-pembatalan", {
+      const res = await api.post("/report/get-cancel-order", {
         stateOfDate: sortPembatalan || "Bulanan",
       });
       setCancelationData(res.data.result);
@@ -317,7 +317,7 @@ const RingkasanStatistik = () => {
   }, [sort]);
 
   useEffect(() => {
-    if (penjualan) {
+    if (penjualan?.length) {
       convertDataPenjualan();
       covertDataPenjualanByMonth();
     }
@@ -338,6 +338,13 @@ const RingkasanStatistik = () => {
       converProfitDataByMonth();
     }
   }, [earningData]);
+
+  useEffect(() => {
+    if (cancelationData?.length) {
+      convertDataPembatalan();
+      covertDataPembatalanByMonth();
+    }
+  }, [cancelationData]);
 
   return (
     <>
@@ -426,7 +433,7 @@ const RingkasanStatistik = () => {
               Dibatalkan
             </Text>
             <Text pl="16px" color="#213360" fontSize="28px" fontWeight="bold">
-              0
+              {pemesanan.findCancelOrder}
             </Text>
           </Stack>
 
@@ -465,7 +472,7 @@ const RingkasanStatistik = () => {
                   onChange={sortHandle}
                   value={sort}
                 >
-                  <option value="Bulana">Bulanan</option>
+                  <option value="Bulanan">Bulanan</option>
                   <option value="Tahunan">Tahunan</option>
                   <option value="Mingguan">Mingguan</option>
                 </Select>
@@ -500,37 +507,21 @@ const RingkasanStatistik = () => {
             />
           </Box>
 
-          <Stack
-            borderRadius="lg"
-            bg="white"
-            w="537px"
-            h="441px"
-            ml="38px"
-            mt="38px"
-            boxShadow="md"
-          >
-            <HStack justify="space-between">
-              <Text fontWeight="700" fontSize="20px" pt="32px" pl="16px">
-                Tren Pembatalan
-              </Text>
-              <Box pt="32px" pr="16px">
-                <Select
-                  fontSize="12px"
-                  w="124px"
-                  h="24px"
-                  bg="white"
-                  border="2px"
-                >
-                  <option value="option2">Bulanan</option>
-                  <option value="option3">Tahunan</option>
-                  <option value="option1">Mingguan</option>
-                </Select>
-              </Box>
-            </HStack>
-            <Box pl="8" pt="20" boxSize="lg">
-              <Bar data={data3} width={400} height={200} options={options3} />
-            </Box>
-          </Stack>
+          <Box ml="48px" mt="32px">
+            <ProfitCart
+              cardTitle="Tren Pembatalan"
+              column={6}
+              chartOption={pembatalanOption}
+              chartSeries={pembatalanSeries}
+              selectHandle={pembatalanHandle}
+              selectValue={sortPembatalan}
+              chartSort={[
+                { sortValue: "Bulanan", sortTitle: "Bulanan" },
+                { sortValue: "Mingguan", sortTitle: "Mingguan" },
+                { sortValue: "Tahunan", sortTitle: "Tahunan" },
+              ]}
+            />
+          </Box>
         </Flex>
       </Box>
     </>

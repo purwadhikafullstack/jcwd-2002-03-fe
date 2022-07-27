@@ -1,7 +1,6 @@
 import { Flex, HStack, Stack, Text, VStack } from "@chakra-ui/react";
 
 const CartPentingHariIni = ({value}) => {
-  console.log(value)
   return (
     <>
       <HStack spacing="16px">
@@ -48,7 +47,7 @@ const CartPentingHariIni = ({value}) => {
             Dibatalkan
           </Text>
           <Text pl="16px" color="#213360" fontSize="28px" fontWeight="bold">
-            0
+            {value.findCancelOrder}
           </Text>
         </Stack>
 

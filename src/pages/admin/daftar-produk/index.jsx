@@ -15,6 +15,7 @@ import {
   Spinner,
   RadioGroup,
   Radio,
+  VStack,
 } from "@chakra-ui/react";
 import AdminSideBar from "component/AdminSideBar";
 import { FiSearch } from "react-icons/fi";
@@ -31,7 +32,7 @@ import DaftarProdukTable from "component/DaftarProdukTable";
 import api from "../../../lib/api";
 import { search } from "../../../redux/reducer/search";
 import { CloseIcon } from "@chakra-ui/icons";
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 
 const AdminDaftarProduk = () => {
@@ -201,58 +202,55 @@ const AdminDaftarProduk = () => {
   const actionButton = (props) => {
     return (
       <Box justifyContent="space-around">
-        <DeleteProduct
-          key={props.row.original.id}
-          id={props.row.original.id}
-          fetchHandler={fecthApi}
-        />
+        <VStack>
+          <Button
+            onClick={() =>
+              router.push(`/admin/daftar-produk/${props.row.original.id}`)
+            }
+            colorScheme="teal"
+            fontSize="12px"
+            size="sm"
+          >
+            Lihat Detail
+          </Button>
 
-        <EditProduct
-          id={props.row.original.id}
-          medName={props.row.original.med_name}
-          property={props.row}
-          nomerMed={props.row.original.nomer_med}
-          nomerBpom={props.row.original.nomer_bpom}
-          sellingPrice={props.row.original.selling_price}
-          discount={props.row.original.discount}
-          indikasi={props.row.original.indikasi}
-          kandungan={props.row.original.kandungan}
-          kemasan={props.row.original.kemasan}
-          categoryId={props.row.original.categoryId}
-          categoryName={props.row.original.category.category_name}
-          fetchHandler={fecthApi}
-          arrayOfImagesProduct={props.row.original.Product_images}
-        />
+          <HStack>
+            <DeleteProduct
+              key={props.row.original.id}
+              id={props.row.original.id}
+              fetchHandler={fecthApi}
+            />
+
+            <EditProduct
+              id={props.row.original.id}
+              medName={props.row.original.med_name}
+              property={props.row}
+              nomerMed={props.row.original.nomer_med}
+              nomerBpom={props.row.original.nomer_bpom}
+              sellingPrice={props.row.original.selling_price}
+              discount={props.row.original.discount}
+              indikasi={props.row.original.indikasi}
+              kandungan={props.row.original.kandungan}
+              kemasan={props.row.original.kemasan}
+              categoryId={props.row.original.categoryId}
+              categoryName={props.row.original.category.category_name}
+              fetchHandler={fecthApi}
+              arrayOfImagesProduct={props.row.original.Product_images}
+            />
+          </HStack>
+        </VStack>
       </Box>
     );
   };
 
   const idxCell = (props) => {
-    return (
-      <Text>{props.row.index + 1}</Text>
-    )
-  }
-
-  const cellFunction = (props) => {
-    return (
-      <Button
-        onClick={() =>
-          router.push(`/admin/daftar-produk/${props.row.original.id}`)
-        }
-        colorScheme="teal"
-        fontSize="12px"
-        size="sm"
-      >
-        Lihat Detail
-      </Button>
-    );
+    return <Text>{props.row.index + 1}</Text>;
   };
-
 
   const coloumFunction = () => [
     {
       Header: "No",
-      Cell: idxCell
+      Cell: idxCell,
     },
     {
       Header: "Nama Obat",
@@ -284,12 +282,8 @@ const AdminDaftarProduk = () => {
       Cell: (props) => <div>Rp. {toCurrency(props.value)} </div>,
     },
     {
-      Header: "Lihat Detail",
-      Cell: cellFunction
-    },
-    {
       Header: "Action",
-      Cell: actionButton
+      Cell: actionButton,
     },
   ];
 
@@ -325,7 +319,6 @@ const AdminDaftarProduk = () => {
     if (!authSelector.role) {
       router.push("/admin/login");
     }
-
   }, [authSelector]);
 
   if (!authSelector.role) {
