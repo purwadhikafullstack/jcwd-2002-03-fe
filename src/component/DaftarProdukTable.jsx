@@ -33,9 +33,8 @@ const DaftarProdukTable = ({ columns, data, isLoading }) => {
         <>
           <TableContainer border="2px" borderRadius="2xl">
             <Table
-              size="md"
+              size="sm"
               bgColor="blackAlpha.100"
-              fontSize="14px"
               variant="striped"
               colorScheme="blue"
               color="black"
@@ -47,6 +46,8 @@ const DaftarProdukTable = ({ columns, data, isLoading }) => {
                   <Tr {...headerGroup.getHeaderGroupProps()}>
                     {headerGroup.headers.map((column) => (
                       <Th
+                        py="4"
+                        fontSize="small"
                         textAlign="center"
                         {...column.getHeaderProps()}
                         isNumeric={column.isNumeric}
@@ -64,7 +65,13 @@ const DaftarProdukTable = ({ columns, data, isLoading }) => {
                     <Tr {...row.getRowProps()}>
                       {row.cells.map((cell) => {
                         return (
-                          <Td textAlign="center" {...cell.getCellProps()}>
+                          <Td
+                            py="4"
+                            fontWeight="medium"
+                            fontSize="13px"
+                            textAlign="center"
+                            {...cell.getCellProps()}
+                          >
                             {cell.render("Cell")}
                           </Td>
                         );

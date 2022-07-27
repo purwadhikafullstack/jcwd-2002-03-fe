@@ -1,7 +1,6 @@
 import { Flex, HStack, Stack, Text, VStack } from "@chakra-ui/react";
 
 const CartPentingHariIni = ({value}) => {
-  console.log(value)
   return (
     <>
       <HStack spacing="16px">

@@ -154,7 +154,6 @@ const AdminDashboard = () => {
     try {
       const res = await api.post("/report/get-transaction-count");
       setPemesanan(res.data.result);
-      console.log(res.data.result);
     } catch (err) {
       console.log(err);
     }
