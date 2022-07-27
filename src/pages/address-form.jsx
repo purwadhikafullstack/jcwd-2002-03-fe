@@ -7,14 +7,10 @@ import { selectAuth } from "../redux/reducer/authSlice";
 const AddressForm = () => {
   const authSelector = useSelector(selectAuth);
 
-  // useEffect(() => {
-  //   if (!authSelector.id || authSelector.role === "admin") {
-  //     window.history.back()
-  //   }
-  // }, [])
+  console.log(authSelector)
 
   useEffect(() => {
-    if (!authSelector.id || authSelector.role === "admin") {
+    if (!authSelector.id || authSelector.role !== "user") {
       window.history.back()
     }
   }, [])

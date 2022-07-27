@@ -37,7 +37,7 @@ const AdminSideBar = () => {
         boxShadow="md"
       >
         <Flex h="20" align="center" mx="8" justifyContent="space-between">
-          <Img src="/Logo.svg" />
+          <Img src="/logo.svg" />
           <CloseButton display={{ base: "flex", md: "none" }} />
         </Flex>
         <Box mt="8">
@@ -145,7 +145,7 @@ const AdminSideBar = () => {
                 pl="14"
               >
                 <Link href="/admin/ringkasan-statistik">
-                Ringkasan Statistik
+                  Ringkasan Statistik
                 </Link>
               </AccordionPanel>
               <AccordionPanel
@@ -161,7 +161,7 @@ const AdminSideBar = () => {
                 pl="14"
               >
                 <Link href="/admin/laba-&-rugi">
-                Laba & Rugi
+                  Laba & Rugi
                 </Link>
               </AccordionPanel>
             </AccordionItem>

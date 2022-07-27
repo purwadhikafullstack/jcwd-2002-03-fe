@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { selectAuth } from "../redux/reducer/authSlice";
 import api from "../lib/api"
 
-const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasan, discountPrice }) => {
+const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasan, discountPrice = 0 }) => {
   const authSelector = useSelector(selectAuth)
   const router = useRouter()
   const [love, setLove] = useState(false)
@@ -123,7 +123,7 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasa
               lg: "14px",
             }}
           >
-            Rp. {sellingPrice}
+            Rp. {sellingPrice.toLocaleString()}
           </Text>
         </Box>
         <HStack paddingBottom="10px">
@@ -136,7 +136,7 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasa
               lg: "14px",
             }}
           >
-            Rp. {discountPrice}
+            Rp. {discountPrice.toLocaleString()}
           </Text>
           <Text
             variant="caption"
