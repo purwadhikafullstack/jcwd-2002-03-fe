@@ -54,7 +54,6 @@ const NavBarItem = () => {
               <Avatar size="xs" />
             </MenuButton>
             <MenuList>
-              <MenuItem>Profile</MenuItem>
               <MenuItem onClick={() => logoutButtonHandler()}>Log Out</MenuItem>
             </MenuList>
           </Menu>

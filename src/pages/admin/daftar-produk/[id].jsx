@@ -224,7 +224,7 @@ const ProductStockDetails = (props) => {
                 >
                   <option value="">Semua</option>
                   <option value="Barang masuk">Barang Masuk</option>
-                  <option value="Paid">Paid</option>
+                  <option value="keluar">Keluar</option>
                 </Select>
               </Box>
             </HStack>
