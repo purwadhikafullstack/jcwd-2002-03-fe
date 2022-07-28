@@ -54,21 +54,22 @@ const detail = ({ productDetail }) => {
   const fetchCartData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2003/cart/detail?UserId=${1}&ProductId=${productDetail.id
+        `http://localhost:2003/cart/detail?UserId=${1}&ProductId=${
+          productDetail.id
         }`
       );
       setQuantity(res.data.result.quantity);
       setSubTotal(res.data.result.sub_total);
     } catch (err) {
-      if (err.response.data.message) {
+      if (err.response.data.message === "jwt must be provided") {
         setUserNotLogin(true);
       }
-      toast({
-        title: "error",
-        duration: 2000,
-        status: "error",
-        description: "error network",
-      });
+      // toast({
+      //   title: "error",
+      //   duration: 2000,
+      //   status: "error",
+      //   description: "error network",
+      // });
     }
   };
   useEffect(() => {
@@ -240,7 +241,9 @@ const detail = ({ productDetail }) => {
       }
       const res = await api.post("/cart", {
         ProductId: productDetail.id,
-        price: productDetail.selling_price - (productDetail.selling_price * productDetail.discount),
+        price:
+          productDetail.selling_price -
+          productDetail.selling_price * productDetail.discount,
         quantity: quantity + formik.values.quantity,
         subtotal: subTotal + formik.values.quantity * subTotal,
       });
@@ -254,12 +257,13 @@ const detail = ({ productDetail }) => {
         status: "success",
       });
     } catch (err) {
-      toast({
-        title: "error",
-        duration: 2000,
-        status: "error",
-        description: "error network",
-      });
+      console.log(err);
+      // toast({
+      //   title: "error",
+      //   duration: 2000,
+      //   status: "error",
+      //   description: "error network",
+      // });
     }
   };
   const qtyBtnHandler = (dir) => {
@@ -285,7 +289,7 @@ const detail = ({ productDetail }) => {
       w={["100%", "90", "90%"]}
       marginLeft="auto"
       marginRight="auto"
-    // mb={[10, 8, 8]}
+      // mb={[10, 8, 8]}
     >
       <GridItem
         colSpan={[1, 2, 2]}
@@ -521,9 +525,7 @@ export const getServerSideProps = async (context) => {
         productDetail: res.data.result,
       },
     };
-  } catch (err) {
-
-  }
+  } catch (err) {}
 };
 
 export default detail;

@@ -20,7 +20,12 @@ import * as Yup from "yup";
 // import api from "../lib/api";
 import { useRouter } from "next/router";
 
-const LeftCategory = ({ setPage, setFilterProducts, filterProducts }) => {
+const LeftCategory = ({
+  setPage,
+  setFilterProducts,
+  filterProducts,
+  fetchProducts,
+}) => {
   // terpopuler
   // termurah
   // termahal
@@ -52,6 +57,7 @@ const LeftCategory = ({ setPage, setFilterProducts, filterProducts }) => {
         <Button
           onClick={() => {
             router.replace("/product-list", undefined, { shallow: true });
+            fetchProducts();
           }}
           variant="main-outline"
           w="211px"
