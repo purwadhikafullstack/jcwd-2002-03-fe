@@ -132,7 +132,14 @@ const ProductList = () => {
       fetchProducts();
       console.log(products);
     }
-  }, [page, filterByCategory, dir, selectedValue, router.query]);
+  }, [
+    page,
+    filterByCategory,
+    dir,
+    selectedValue,
+    router.query,
+    router.isReady,
+  ]);
   return (
     <Grid
       templateColumns={[
@@ -241,15 +248,26 @@ const ProductList = () => {
                   // count total dibagi page
                   hasMore={page !== maxPage}
                   loader={
-                    <Box
-                      textAlign="center"
-                      mt="5"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
-                      <Spinner />
-                      <h4>Loading...</h4>
-                    </Box>
+                    page !== maxPage ? (
+                      <Box
+                        textAlign="center"
+                        mt="5"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <h4>No More Products</h4>
+                      </Box>
+                    ) : (
+                      <Box
+                        textAlign="center"
+                        mt="5"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <Spinner />
+                        <h4>Loading...</h4>
+                      </Box>
+                    )
                   }
                 >
                   <SimpleGrid
@@ -269,15 +287,26 @@ const ProductList = () => {
                   // count total dibagi page
                   hasMore={page !== maxPage}
                   loader={
-                    <Box
-                      textAlign="center"
-                      mt="5"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
-                      <Spinner />
-                      <h4>Loading...</h4>
-                    </Box>
+                    page !== maxPage ? (
+                      <Box
+                        textAlign="center"
+                        mt="5"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <h4>No More Products</h4>
+                      </Box>
+                    ) : (
+                      <Box
+                        textAlign="center"
+                        mt="5"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <Spinner />
+                        <h4>Loading...</h4>
+                      </Box>
+                    )
                   }
                 >
                   <SimpleGrid
@@ -439,15 +468,26 @@ const ProductList = () => {
           // count total dibagi page
           hasMore={page !== maxPage}
           loader={
-            <Box
-              textAlign="center"
-              mt="5"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Spinner />
-              <h4>Loading...</h4>
-            </Box>
+            page !== maxPage ? (
+              <Box
+                textAlign="center"
+                mt="5"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <h4>No More Products</h4>
+              </Box>
+            ) : (
+              <Box
+                textAlign="center"
+                mt="5"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Spinner />
+                <h4>Loading...</h4>
+              </Box>
+            )
           }
         >
           <SimpleGrid

@@ -61,16 +61,15 @@ const detail = ({ productDetail }) => {
       setQuantity(res.data.result.quantity);
       setSubTotal(res.data.result.sub_total);
     } catch (err) {
-      console.log(err.response.data.message);
-      if (err.response.data.message) {
+      if (err.response.data.message === "jwt must be provided") {
         setUserNotLogin(true);
       }
-      toast({
-        title: "error",
-        duration: 2000,
-        status: "error",
-        description: "error network",
-      });
+      // toast({
+      //   title: "error",
+      //   duration: 2000,
+      //   status: "error",
+      //   description: "error network",
+      // });
     }
   };
   useEffect(() => {
@@ -258,12 +257,13 @@ const detail = ({ productDetail }) => {
         status: "success",
       });
     } catch (err) {
-      toast({
-        title: "error",
-        duration: 2000,
-        status: "error",
-        description: "error network",
-      });
+      console.log(err);
+      // toast({
+      //   title: "error",
+      //   duration: 2000,
+      //   status: "error",
+      //   description: "error network",
+      // });
     }
   };
   const qtyBtnHandler = (dir) => {

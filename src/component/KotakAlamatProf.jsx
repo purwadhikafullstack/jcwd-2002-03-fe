@@ -10,6 +10,7 @@ const KotakAlamatProf = ({
   kecamatan,
   alamat,
   kodePos,
+  mainAddress,
 }) => {
   return (
     <Box
@@ -35,11 +36,13 @@ const KotakAlamatProf = ({
         <Stack pr={5} spacing={0.5}>
           <Stack direction="row" alignitems="center">
             <Text variant="mini-title">{labelAlamat}</Text>
-            <Box pt={0.5} pl="10px" bgColor="#f3f4f5" w="48px" h="20px">
-              <Text fontSize="10px" color="#213360" fontWeight={700}>
-                Utama
-              </Text>
-            </Box>
+            {mainAddress ? (
+              <Box pt={0.5} pl="10px" bgColor="#f3f4f5" w="48px" h="20px">
+                <Text fontSize="10px" color="#213360" fontWeight={700}>
+                  Utama
+                </Text>
+              </Box>
+            ) : null}
           </Stack>
           <Text variant="subtitle-bold">{nama}</Text>
           <Text variant="caption">{nomorHp}</Text>
