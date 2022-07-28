@@ -48,6 +48,5 @@ jobs:
           script: |
             cd /root/group_3/fe/jcwd-2002-03-fe
             git pull origin main
-            git status
             npm install
             pm2 restart group-03-fe
