@@ -21,9 +21,8 @@ import { BsSearch } from "react-icons/bs";
 import { FaShoppingCart, FaBell } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
-import { selectAuth } from "../../redux/reducer/authSlice";
 import jsCookie from "js-cookie";
-import { logout } from "../../redux/reducer/authSlice";
+import { selectAuth, logout } from "../../redux/reducer/authSlice";
 
 const DesktopNavBar = ({
   icon1 = FaBell,
@@ -59,6 +58,13 @@ const DesktopNavBar = ({
     );
   };
 
+  const logoutButtonHandler = () => {
+    jsCookie.remove("user_token");
+    localStorage.removeItem("user");
+    dipatch(logout());
+    return router.push("/auth/login");
+  };
+
   const logedinUser = () => {
     if (authSelector.role === "user") {
       return (
@@ -77,6 +83,9 @@ const DesktopNavBar = ({
                 {authSelector.name}
               </Text>
               <MenuList>
+                <MenuItem variant onClick={() => router.push("/my-profile")}>
+                  My-Profile
+                </MenuItem>
                 <MenuItem onClick={() => logoutButtonHandler()}>
                   Log Out
                 </MenuItem>
@@ -122,12 +131,6 @@ const DesktopNavBar = ({
     });
   };
 
-  const logoutButtonHandler = () => {
-    jsCookie.remove("user_token");
-    localStorage.removeItem("user");
-    dipatch(logout());
-    return router.push("/auth/login");
-  };
 
   return (
     <Grid

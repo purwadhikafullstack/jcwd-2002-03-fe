@@ -142,7 +142,7 @@ const checkout = () => {
         duration: 2000,
         isClosable: true,
       });
-
+      router.push("/daftar-pemesanan")
     } catch (err) {
       toast({
         title: "error",

@@ -32,7 +32,7 @@ const navLinks = [
         title: "Unggah File",
         base: <MobileNavbar key="Unggah File" title="Unggah File" />,
         md: <DesktopNavBar />,
-        bottomNav: undefined,
+        bottomNav: <HomeBottomNavBar />,
         displayAboutCompany: <AboutCompany />
 
     },

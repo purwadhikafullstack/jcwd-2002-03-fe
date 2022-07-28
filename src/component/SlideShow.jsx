@@ -10,9 +10,9 @@ const SlideShow = () => {
 
     // These are the images used in the slide
     const cards = [
-        "https://images.unsplash.com/photo-1612852098516-55d01c75769a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
-        "https://images.unsplash.com/photo-1627875764093-315831ac12f7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
-        "https://images.unsplash.com/photo-1571432248690-7fd6980a1ae2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
+        "https://img.goapotik.com/banner-image-promo%20mylanta-61.jpeg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-TxFtdCvO1Xnz9LduQaNmQAt4fNXeiDpgTQ&usqp=CAU",
+        "https://katalogpromosi.com/wp-content/uploads/2021/08/promo17agustus-banner.jpg"
     ];
 
     // Settings for the slider

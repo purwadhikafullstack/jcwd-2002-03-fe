@@ -111,7 +111,7 @@ const DaftarPemesanan = () => {
           boxShadow=" 1px 2px 3px 4px rgba(237,248,248)"
           display={["none", "grid", "grid"]}
         >
-          <Text pl="40px" pt="28px" variant="subtitle">
+          <Text pl="40px" pt="28px" variant="subtitle" >
             Daftar Pemesanan
           </Text>
           <Tabs colorScheme="#000000" px="40px">
@@ -555,6 +555,7 @@ const DaftarPemesanan = () => {
           pl="25px"
           pt="51px"
           mb="10px"
+          display={["none", "block"]}
         >
           Daftar Pemesanan
         </Text>

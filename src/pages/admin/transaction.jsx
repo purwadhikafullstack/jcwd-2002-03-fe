@@ -9,6 +9,7 @@ import api from "../../lib/api"
 
 const transaction = () => {
   const [dataTrasactions, setDataTransaction] = useState([])
+  const [titlePage, setTitlePage] = useState("Semua Pesanan")
   const [pageNumber, setPageNumber] = useState(1)
   const [limitNumber, setLimitNumber] = useState(5)
   const [dirValue, setDirValue] = useState("DESC")
@@ -80,9 +81,10 @@ const transaction = () => {
 
   }, [pageNumber, limitNumber, dirValue, router.query])
 
+
   return (
     <>
-      <AdminSideBar />
+      <AdminSideBar setTitlePage={setTitlePage} />
       <Box
         bg="linear-gradient(155.7deg, #D6F5F3 -45.88%, #F7FCFC 45.77%, #F1F5FC 117.72%)"
         ml="64"
@@ -91,7 +93,9 @@ const transaction = () => {
       >
         <Box padding={8}>
           <Box mb={20}>
-            <Text variant="title">Pesanan Baru</Text>
+
+            <Text variant="title">{titlePage}</Text>
+
           </Box>
           <Box mb={10}>
             <HStack spacing={10}>
