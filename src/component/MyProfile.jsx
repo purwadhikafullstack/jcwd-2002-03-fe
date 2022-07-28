@@ -40,9 +40,9 @@ import {
   editPicture,
   editNama,
 } from "redux/reducer/profileSlice";
+import { useState, useEffect, useRef } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 // import { useRouter } from "next/router";
-import { useState, useEffect, useRef } from "react";
 import api from "../lib/api";
 import KotakAlamatProf from "./KotakAlamatProf";
 // import { IoMailOutline } from "react-icons/io5";
@@ -126,6 +126,7 @@ const MyProfileCom = () => {
       }
     },
   });
+
   const jkFormik = useFormik({
     initialValues: {
       pria: "",

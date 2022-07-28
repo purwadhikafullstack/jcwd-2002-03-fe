@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react"
-import { Button, Modal, ModalFooter, useDisclosure, ModalOverlay, ModalContent, ModalHeader, ModalBody, Input, Text, Select, useToast, Tabs, TabList, Tab, TabPanels, TabPanel, Box, Grid, GridItem, Img, AspectRatio, } from "@chakra-ui/react";
+import { Button, Modal, ModalFooter, useDisclosure, Divider, ModalOverlay, ModalContent, ModalHeader, ModalBody, Input, Text, Select, useToast, Tabs, TabList, Tab, TabPanels, TabPanel, Box, Grid, GridItem, Img, AspectRatio, } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FiDownload } from "react-icons/fi";

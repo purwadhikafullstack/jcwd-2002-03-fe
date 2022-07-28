@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
     Modal,
     ModalOverlay,
@@ -20,7 +20,11 @@ import {
 
 const ApproveTransaction = ({ transactionDetail, username, dateOrder, nomerPesanan, totalPrice, itemsLength, payment, updateStatusPayment }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [paymentData, setPaymentData] = useState([])
 
+    useEffect(() => {
+        setPaymentData(payment)
+    }, [])
     return (
         <>
             <Button onClick={onOpen} colorScheme="teal">Terima Pesanan</Button>
@@ -84,7 +88,7 @@ const ApproveTransaction = ({ transactionDetail, username, dateOrder, nomerPesan
                         <Button colorScheme="teal" variant="outline" mr={3} onClick={onClose}>
                             Kembali
                         </Button>
-                        <Button colorScheme="teal" disabled={payment[0]?.image_url === null} onClick={() => updateStatusPayment({ isPaid: true, isPacking: true })}>Approve</Button>
+                        <Button colorScheme="teal" disabled={paymentData.length === 0} onClick={() => updateStatusPayment({ isPaid: true, isPacking: true }) && onClose()}>Approve</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

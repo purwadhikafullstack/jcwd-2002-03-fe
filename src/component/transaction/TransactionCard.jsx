@@ -24,6 +24,7 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                 duration: 5000,
                 isClosable: true
             })
+            fetchTransaction()
         } catch (err) {
             toast({
                 status: "error",
@@ -178,7 +179,7 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                 </HStack>
                 <Box display="flex" justifyContent="space-between" alignItems="center">
                     <HStack spacing={5}>
-                        {props.isValid === true &&
+                        {props.isValid === true && props.isSend === false && props.isPacking === false &&
                             <Button variant="ghost" colorScheme="teal" onClick={() => cancelHandler()}>Tolak Pesanan</Button>
                         }
                         {props.isPaid === false && props.isValid === true &&
@@ -195,8 +196,11 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                                 updateStatusPayment={updateStatusPayment}
                             />
                         }
-                        {props.isPacking === true && props.isSend === false &&
+                        {props.isPacking === true && props.isSend === false && props.isValid === true &&
                             <Button colorScheme="teal" onClick={() => updateStatusPayment({ isSend: true })}>Minta Penjemputan</Button>
+                        }
+                        {props.isPacking === true && props.isSend === true && props.isValid === true &&
+                            <Button colorScheme="teal" onClick={() => updateStatusPayment({ isDone: true })}>Pesanan Selesai</Button>
                         }
                     </HStack>
                 </Box>

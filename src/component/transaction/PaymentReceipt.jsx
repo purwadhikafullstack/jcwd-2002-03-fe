@@ -20,6 +20,7 @@ const PaymentReceipt = ({ transactionId }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState();
   const [imagePreview, setImagePreview] = useState();
+  const [loading, setIsLoading] = useState(false)
   const inputRef = useRef();
   const toast = useToast();
 
@@ -38,6 +39,7 @@ const PaymentReceipt = ({ transactionId }) => {
 
       formData.append("payment_receipts", selectedImage);
       formData.append("methode", "BCA VA")
+      setIsLoading(true)
 
       const res = await api.patch(`/payment/${transactionId}/payment-image`, formData);
       toast({
@@ -48,6 +50,8 @@ const PaymentReceipt = ({ transactionId }) => {
         position: "top-right",
         isClosable: true,
       });
+
+      await setIsLoading(false)
       onClose()
       setSelectedImage()
       setImagePreview()
@@ -118,6 +122,7 @@ const PaymentReceipt = ({ transactionId }) => {
             <Button
               colorScheme="teal"
               type="submit"
+              isLoading={loading}
               onClick={() => uploadHandler()}
             >
               Upload Gambar
