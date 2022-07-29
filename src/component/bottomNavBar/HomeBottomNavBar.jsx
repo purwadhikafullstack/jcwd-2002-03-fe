@@ -41,16 +41,6 @@ const HomeBottomNavBar = () => {
         return router.push("/auth/login");
     };
 
-    const accountButtonHandler = () => {
-        if (!profileActive) {
-            if (!authSelector.id || authSelector.role !== "user") {
-                router.push("/auth/login")
-            }
-        }
-        setProfileActive(true)
-    }
-
-
     useEffect(() => {
         scrollProgress()
     }, [currentScrollValue])
@@ -87,10 +77,18 @@ const HomeBottomNavBar = () => {
                         <Icon as={TbHeadset} boxSize="25px" color="#B4B9C7" />
                         <Text fontSize="12px">Bantuan</Text>
                     </Box>
-                    <Box alignItems="center" textAlign="center" onClick={() => accountButtonHandler()}>
-                        <Icon as={FaRegUserCircle} boxSize="25px" color="#B4B9C7" />
-                        <Text fontSize="12px">Account</Text>
-                    </Box>
+                    {authSelector.role !== "user" &&
+                        <Box alignItems="center" textAlign="center" onClick={() => router.push("/auth/login")}>
+                            <Icon as={FaRegUserCircle} boxSize="25px" color="#B4B9C7" />
+                            <Text fontSize="12px">Account</Text>
+                        </Box>
+                    }
+                    {authSelector.role === "user" &&
+                        <Box alignItems="center" textAlign="center" onClick={() => setProfileActive(true)}>
+                            <Icon as={FaRegUserCircle} boxSize="25px" color="#B4B9C7" />
+                            <Text fontSize="12px">Account</Text>
+                        </Box>
+                    }
                 </HStack >
             }
             {profileActive &&
