@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from "react"
-import { Button, Modal, ModalFooter, useDisclosure, ModalOverlay, ModalContent, ModalHeader, ModalBody, Input, Text, Select, useToast, Tabs, TabList, Tab, TabPanels, TabPanel, Box, Grid, GridItem, Img, AspectRatio, Divider } from "@chakra-ui/react";
+import React, { useRef, useState } from "react"
+import { Button, Modal, ModalFooter, useDisclosure, Divider, ModalOverlay, ModalContent, ModalHeader, ModalBody, Input, Text, Select, useToast, Tabs, TabList, Tab, TabPanels, TabPanel, Box, Grid, GridItem, Img, AspectRatio, } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FiDownload } from "react-icons/fi";
@@ -199,25 +199,6 @@ const AddProduct = ({ fetchData }) => {
       });
     }
   };
-
-  // const noMed = () => {
-  //     if (formik.values.categoryData) {
-  //         const medcode = "F-"
-  //         const nameCode = formik.values.med_name.slice(1, 4)
-  //         const bpomCode = formik.values.no_bpom.slice(-3)
-  //         const result = `${medcode}+${nameCode}+${bpomCode}`
-  //         return result
-  //     }
-  //     const medcode = "R-"
-  //     const nameCode = formik.values.name_med.slice(1, 4)
-  //     const bpomCode = formik.values.no_bpom.slice(-3)
-  //     const result = `${medcode}+${nameCode}+${bpomCode}`
-  //     return result
-  // }
-
-  useEffect(() => {
-    // fetchCategory()
-  }, []);
 
   return (
     <>

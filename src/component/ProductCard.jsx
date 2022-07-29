@@ -65,7 +65,7 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasa
           backgroundRepeat="no-repeat"
           backgroundSize="contain"
           backgroundPosition="center"
-          backgroundImage={productImage}
+          backgroundImage={`url(${productImage})`}
           display="flex"
           justifyContent="end"
           boxShadow="1px 2px 3px 4px rgba(237,248,248)"
@@ -74,21 +74,22 @@ const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasa
             <Icon as={BsSuitHeartFill} color={!love ? "gray.400" : "red.600"} boxSize="30px" mx="auto" my="auto" />
           </Box>
         </Box>
-
-        <Text
-          fontSize={{
-            base: "12px",
-            md: "14px",
-            lg: "14px",
-          }}
-          fontWeight="700"
-          fontFamily="sans-serif"
-          variant="mini-title"
-          onClick={() => router.push(`/product/detail/${id}`)}
-          cursor="pointer"
-        >
-          {medName}
-        </Text>
+        <Box height="28px">
+          <Text
+            fontSize={{
+              base: "12px",
+              md: "14px",
+              lg: "14px",
+            }}
+            fontWeight="700"
+            fontFamily="sans-serif"
+            variant="mini-title"
+            onClick={() => router.push(`/product/detail/${id}`)}
+            cursor="pointer"
+          >
+            {medName}
+          </Text>
+        </Box>
         <Box display="flex" alignItems="center" justifyContent="space-evenly">
           <Box
             border="1px"

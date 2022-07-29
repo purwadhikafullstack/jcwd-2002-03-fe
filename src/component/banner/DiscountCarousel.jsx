@@ -42,10 +42,10 @@ const DiscountCarousel = () => {
     <>
       <Box width="95%" display="flex" alignItems="center" justifyContent="space-between">
         <Text paddingX="20px" variant="title">Kejar Diskon Hari ini</Text>
-        <Text variant="subtitle" color="teal" fontWeight={600} onClick={() => router.push("/product-list")} _focus={{ outline: 0 }} justifyContent="center">lihat semua</Text>
+        <Text variant="subtitle" color="teal" cursor="pointer" fontWeight={600} onClick={() => router.push("/product-list")} _focus={{ outline: 0 }} justifyContent="center">lihat semua</Text>
       </Box>
       <Box
-        display={["grid", "grid"]}
+        display={["flex", "flex"]}
         paddingX="30px"
         py="10px"
         overflowX="scroll"
@@ -58,18 +58,7 @@ const DiscountCarousel = () => {
           },
         }}
       >
-
         <HStack spacing={["20px", "30px"]}>
-          < Box
-            backgroundRepeat="no-repeat"
-            backgroundSize="contain"
-            backgroundPosition="center"
-            backgroundImage="/yuk-buruan.svg"
-            w={["150px", "230px", "230px"]}
-            h={["100%", "360px", "360px"]}
-            mx="-40px"
-            py="-20px"
-          />
           {dataProduct && dataProduct.map((val) => {
             return (
               <ProductCard
@@ -80,7 +69,7 @@ const DiscountCarousel = () => {
                 discountPrice={val.selling_price - (val.discount * val.selling_price)}
                 sellingPrice={val.selling_price}
                 id={val.id}
-                productImage={val.Product_images[0].image_url}
+                productImage={val?.Product_images[0]?.image_url}
               />
 
             )

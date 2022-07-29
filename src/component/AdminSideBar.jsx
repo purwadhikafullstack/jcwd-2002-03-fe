@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 
 const { default: AdminNavbar } = require("./AdminNavbar");
 
-const AdminSideBar = () => {
+const AdminSideBar = ({ setTitlePage }) => {
   const router = useRouter()
   return (
     <SimpleGrid overflow="auto" zIndex="overlay">
@@ -87,44 +87,42 @@ const AdminSideBar = () => {
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
               >
-                <Text onClick={() => { router.push("/admin/transaction") }}>
+                <Text onClick={() => router.push("/admin/transaction") && setTitlePage("Semua Pesanan")}>
                   Semua Pesanan
                 </Text>
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
-                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isPaid: false } }) }}
+                onClick={() => router.push({ pathname: "/admin/transaction", query: { isPaid: false, isValid: true } }) && setTitlePage("Pesanan Baru")}
               >
-                <Text >
-                  Pesanan Baru
-                </Text>
+                Pesanan Baru
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
-                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isPacking: true, isSend: false } }) }}
+                onClick={() => router.push({ pathname: "/admin/transaction", query: { isPacking: true, isSend: false, isValid: true } }) && setTitlePage("Pesanan Siap Dikirim")}
               >
                 Siap Kirim
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
-                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isSend: true } }) }}
+                onClick={() => router.push({ pathname: "/admin/transaction", query: { isSend: true, isValid: true } }) && setTitlePage("Pesanan Dalam Pengiriman")}
               >
                 Dalam Pengiriman
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
-                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isDone: true } }) }}
+                onClick={() => router.push({ pathname: "/admin/transaction", query: { isDone: true, isValid: true } }) && setTitlePage("Pesanan Selesai")}
               >
                 Selesai
               </AccordionPanel>
               <AccordionPanel
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
-                onClick={() => { router.push({ pathname: "/admin/transaction", query: { isValid: false } }) }}
+                onClick={() => router.push({ pathname: "/admin/transaction", query: { isValid: false } }) && setTitlePage("Pesanan Dibatalkan")}
               >
                 Dibatalkan
               </AccordionPanel>

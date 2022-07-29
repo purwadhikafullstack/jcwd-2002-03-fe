@@ -42,7 +42,7 @@ const PopularPromotion = () => {
         <>
             <Box width="95%" display="flex" alignItems="center" justifyContent="space-between">
                 <Text paddingX="20px" variant="title">Produk Populer</Text>
-                <Text variant="subtitle" color="teal" fontWeight={600} onClick={() => router.push("/product-list")} _focus={{ outline: 0 }} justifyContent="center">lihat semua</Text>
+                <Text variant="subtitle" color="teal" cursor="pointer" fontWeight={600} onClick={() => router.push("/product-list")} _focus={{ outline: 0 }} justifyContent="center">lihat semua</Text>
             </Box>
             <Box
                 display={["grid", "grid"]}
@@ -71,7 +71,7 @@ const PopularPromotion = () => {
                                 discountPrice={val.selling_price - (val.discount * val.selling_price)}
                                 sellingPrice={val.selling_price}
                                 id={val.id}
-                                productImage={val.Product_images[0]?.image_url}
+                                productImage={val?.Product_images[0]?.image_url}
                             />
 
                         )

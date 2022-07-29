@@ -40,11 +40,12 @@ import {
   editPicture,
   editNama,
 } from "redux/reducer/profileSlice";
+import { useState, useEffect, useRef } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 // import { useRouter } from "next/router";
-import { useState, useEffect, useRef } from "react";
 import api from "../lib/api";
 import KotakAlamatProf from "./KotakAlamatProf";
+import { useRouter } from "next/router";
 // import { IoMailOutline } from "react-icons/io5";
 
 const MyProfileCom = () => {
@@ -53,6 +54,7 @@ const MyProfileCom = () => {
   const [Address, setAddress] = useState([]);
   // #pASSWORD1#
   const dispatch = useDispatch();
+  const router = useRouter();
   const inputFileRef = useRef();
   const {
     isOpen: namaIsOpen,
@@ -126,6 +128,7 @@ const MyProfileCom = () => {
       }
     },
   });
+
   const jkFormik = useFormik({
     initialValues: {
       pria: "",
@@ -255,6 +258,7 @@ const MyProfileCom = () => {
           kecamatan={val?.kecamatan}
           alamat={val?.alamat}
           kodePos={val?.kodePos}
+          mainAddress={val?.main_address}
         />
       );
     });
@@ -301,6 +305,7 @@ const MyProfileCom = () => {
                     // pl={15}
                     h={[270, 270, 270, 370, 460]}
                     boxShadow=" 1px 2px 3px 4px rgba(237,248,248)"
+                    borderRadius="16px"
                   >
                     {profileSelector.image_url ? (
                       <Image
@@ -337,7 +342,13 @@ const MyProfileCom = () => {
                     </FormControl>
                   </Box>
                   <Stack mt={10} alignItems="center">
-                    <Button variant="main-outline" w={150}>
+                    <Button
+                      variant="main-outline"
+                      w={150}
+                      onClick={() =>
+                        router.push("/auth/request-reset-password")
+                      }
+                    >
                       Ubah Password
                     </Button>
                   </Stack>
