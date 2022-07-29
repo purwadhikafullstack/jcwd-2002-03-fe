@@ -133,7 +133,7 @@ const PrescriptionsHandler = ({ image, orderDate, transactionId, fetchTransactio
                                 <Box
                                     height="300px"
                                     width="100%"
-                                    backgroundImage={image[0].image_url}
+                                    backgroundImage={`url(${image[0].image_url})`}
                                     backgroundRepeat="no-repeat"
                                     backgroundSize="cover"
                                     backgroundPosition="center"

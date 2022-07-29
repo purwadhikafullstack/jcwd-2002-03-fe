@@ -60,7 +60,7 @@ const DiscountCarousel = () => {
       >
         <Img
           display="flex"
-          src="/yuk-buruan.svg"
+          src="/yukBuruan.svg"
           w={["150px", "230px", "230px"]}
           mx="-40px"
           mt="30px" mr="20px"

@@ -10,10 +10,11 @@ const SlideShow = () => {
 
     // These are the images used in the slide
     const cards = [
-        "https://img.goapotik.com/banner-image-promo%20mylanta-61.jpeg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-TxFtdCvO1Xnz9LduQaNmQAt4fNXeiDpgTQ&usqp=CAU",
-        "https://katalogpromosi.com/wp-content/uploads/2021/08/promo17agustus-banner.jpg"
+        "https://katalogpromosi.com/wp-content/uploads/2021/08/promo17agustus-banner.jpg",
+        "https://assets.klikindomaret.com///products/promopage/MINI_BANNER_1212-OBAT-LOKAL.jpg"
     ];
+
+
 
     // Settings for the slider
     const settings = {
@@ -87,12 +88,13 @@ const SlideShow = () => {
                 {cards.map((url) => (
                     <Box
                         key={url}
-                        height="sm"
+                        height={["124px", "232px"]}
+                        width="100%"
                         position="relative"
                         backgroundPosition="center"
                         backgroundRepeat="no-repeat"
-                        backgroundSize="cover"
                         backgroundImage={`url(${url})`}
+                        backgroundColor="#dffefe"
                     />
                 ))}
             </Slider>

@@ -99,7 +99,7 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                             <Box
                                 width="100px"
                                 height="100px"
-                                backgroundImage={props?.Prescription_images[0]?.image_url}
+                                backgroundImage={`url(${props?.Prescription_images[0]?.image_url})`}
                                 backgroundRepeat="no-repeat"
                                 backgroundSize="cover"
                                 backgroundPosition="center"
@@ -116,9 +116,9 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                             <Box
                                 width="100px"
                                 height="100px"
-                                backgroundImage={props?.Transaction_items[0]?.Product?.Product_images[0]?.image_url}
+                                backgroundImage={`url(${props?.Transaction_items[0]?.Product?.Product_images[0]?.image_url})`}
                                 backgroundRepeat="no-repeat"
-                                backgroundSize="cover"
+                                backgroundSize="contain"
                                 backgroundPosition="center"
                                 mr={5}
                             />
