@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { Box, HStack, Img, Text, useToast } from "@chakra-ui/react"
+import { Box, HStack, Text, useToast } from "@chakra-ui/react"
 import ProductCard from "../ProductCard"
 import api from "../../lib/api"
 
@@ -58,13 +58,6 @@ const DiscountCarousel = () => {
           },
         }}
       >
-        <Img
-          display="flex"
-          src="/yukBuruan.svg"
-          w={["150px", "230px", "230px"]}
-          mx="-40px"
-          mt="30px" mr="20px"
-        />
         <HStack spacing={["20px", "30px"]}>
           {dataProduct && dataProduct.map((val) => {
             return (

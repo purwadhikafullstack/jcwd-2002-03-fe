@@ -64,6 +64,7 @@ const register = () => {
                     }
 
                     formik.setSubmitting(false);
+                    router.push("/")
                 } catch (err) {
                     toast({
                         status: "error",
