@@ -506,7 +506,7 @@ const checkout = () => {
             {!bcaBoolean ? (
               <>
                 <Stack direction="row" spacing={5} alignItems="center">
-                  <Image src="/bca.png" w="60px" h="50px" objectFit="contain" />
+                  <Image src="/bca1.png" w="60px" h="50px" objectFit="contain" />
                   <Text>BCA Virtual Account</Text>
                 </Stack>
                 <Box mt={5}>
@@ -707,7 +707,7 @@ const checkout = () => {
                   >
                     <Stack alignItems="center" direction="row" spacing={8}>
                       <Image
-                        src="/mandiri.png"
+                        src="/mandiri1.png"
                         h="60px"
                         w="50px"
                         objectFit="contain"
@@ -731,7 +731,7 @@ const checkout = () => {
                   >
                     <Stack alignItems="center" direction="row" spacing={8}>
                       <Image
-                        src="/permata.png"
+                        src="/permata1.png"
                         h="60px"
                         w="50px"
                         objectFit="contain"
@@ -755,7 +755,7 @@ const checkout = () => {
                   >
                     <Stack alignItems="center" direction="row" spacing={8}>
                       <Image
-                        src="/gopay.png"
+                        src="/gopay1.png"
                         h="60px"
                         w="50px"
                         objectFit="contain"
@@ -779,7 +779,7 @@ const checkout = () => {
                   >
                     <Stack alignItems="center" direction="row" spacing={8}>
                       <Image
-                        src="/ovo.png"
+                        src="/ovo1.png"
                         h="60px"
                         w="50px"
                         objectFit="contain"
