@@ -59,17 +59,7 @@ const detail = ({ productDetail }) => {
       setQuantity(res.data.result.quantity);
       setSubTotal(res.data.result.sub_total);
     } catch (err) {
-      console.log(err.response.data.message);
-      console.log(typeof err.response.status);
-      if (err.response.status === 401) {
-        setUserNotLogin(false);
-      }
-      // toast({
-      //   title: "error",
-      //   duration: 2000,
-      //   status: "error",
-      //   description: "error network",
-      // });
+      console.log(err);
     }
   };
   useEffect(() => {
@@ -231,7 +221,7 @@ const detail = ({ productDetail }) => {
   });
   const addToCartBtnHandler = async () => {
     try {
-      if (UserNotLogin) {
+      if (!authSelector.id) {
         return toast({
           title: "error",
           duration: 2000,
@@ -267,7 +257,7 @@ const detail = ({ productDetail }) => {
     }
   };
   const qtyBtnHandler = (dir) => {
-    if (UserNotLogin) {
+    if (!authSelector.id) {
       return toast({
         title: "error",
         duration: 2000,
