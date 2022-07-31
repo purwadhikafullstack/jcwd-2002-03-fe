@@ -59,8 +59,8 @@ const login = () => {
       password: "",
     },
     validationSchema: Yup.object().shape({
-      credential: Yup.string().required("This field is required"),
-      password: Yup.string().required("This field is required"),
+      credential: Yup.string().required("This field is required").email("invalid email"),
+      password: Yup.string().required("This field is required").min(5, "minimum 5 character").max(20, "maximum 20 character"),
     }),
     validateOnChange: false,
     onSubmit: (values) => {

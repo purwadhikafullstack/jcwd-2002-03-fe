@@ -54,27 +54,17 @@ const detail = ({ productDetail }) => {
   const fetchCartData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2003/cart/detail?UserId=${1}&ProductId=${
-          productDetail.id
-        }`
+        `https://jcwd200203api.purwadhikabootcamp.com/cart/detail?UserId=${authSelector.id}&ProductId=${productDetail.id}`
       );
       setQuantity(res.data.result.quantity);
       setSubTotal(res.data.result.sub_total);
     } catch (err) {
-      if (err.response.data.message === "jwt must be provided") {
-        setUserNotLogin(true);
-      }
-      // toast({
-      //   title: "error",
-      //   duration: 2000,
-      //   status: "error",
-      //   description: "error network",
-      // });
+      console.log(err);
     }
   };
   useEffect(() => {
     fetchCartData();
-  }, []);
+  }, [authSelector]);
   const settings = {
     dots: true,
     arrows: false,
@@ -231,7 +221,7 @@ const detail = ({ productDetail }) => {
   });
   const addToCartBtnHandler = async () => {
     try {
-      if (UserNotLogin) {
+      if (!authSelector.id) {
         return toast({
           title: "error",
           duration: 2000,
@@ -267,7 +257,7 @@ const detail = ({ productDetail }) => {
     }
   };
   const qtyBtnHandler = (dir) => {
-    if (UserNotLogin) {
+    if (!authSelector.id) {
       return toast({
         title: "error",
         duration: 2000,
@@ -410,18 +400,10 @@ const detail = ({ productDetail }) => {
           margin={[2, 4, 4]}
         >
           <Box>
-            <Text variant="mini-title">{productDetail.med_name}</Text>
-            <Text variant="caption-ligth">Bisolvon 8MG 4 Tablet</Text>
+            <Text variant="caption-ligth">{productDetail.med_name}</Text>
             <Box display="flex" alignItems="center">
               <Text variant="title">Rp.{productDetail.selling_price}</Text>{" "}
               &nbsp;
-              <Text variant="caption"> / per strip(4 tablet)</Text>
-            </Box>
-            <Box mt={3} display="flex" alignItems="center">
-              <Text as="s" variant="caption">
-                Rp.17.000
-              </Text>
-              <Badge ml={2}>{productDetail.discount}%</Badge>
             </Box>
           </Box>
           <Box alignItems="center" display="flex" mt={5}>
@@ -518,7 +500,9 @@ const detail = ({ productDetail }) => {
 export const getServerSideProps = async (context) => {
   try {
     const productId = context.query.id;
-    const res = await axios.get(`http://localhost:2003/product/${productId}`);
+    const res = await axios.get(
+      `https://jcwd200203api.purwadhikabootcamp.com/product/${productId}`
+    );
 
     return {
       props: {
