@@ -9,7 +9,7 @@ import api from "../../lib/api"
 
 const transaction = () => {
   const [dataTrasactions, setDataTransaction] = useState([])
-  const [titlePage, setTitlePage] = useState("Semua Pesanan")
+  const [titlePage, setTitlePage] = useState()
   const [pageNumber, setPageNumber] = useState(1)
   const [limitNumber, setLimitNumber] = useState(5)
   const [dirValue, setDirValue] = useState("DESC")
@@ -79,7 +79,7 @@ const transaction = () => {
       fetchTransaction()
     }
 
-  }, [pageNumber, limitNumber, dirValue, router.query])
+  }, [pageNumber, limitNumber, dirValue, router.query, titlePage])
 
 
   return (
@@ -94,7 +94,7 @@ const transaction = () => {
         <Box padding={8}>
           <Box mb={20}>
 
-            <Text variant="title">{titlePage}</Text>
+            <Text variant="title">{titlePage || "Semua Pesanan"}</Text>
 
           </Box>
           <Box mb={10}>

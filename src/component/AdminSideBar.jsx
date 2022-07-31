@@ -22,6 +22,7 @@ const { default: AdminNavbar } = require("./AdminNavbar");
 
 const AdminSideBar = ({ setTitlePage }) => {
   const router = useRouter()
+
   return (
     <SimpleGrid overflow="auto" zIndex="overlay">
       <Box w="full">
@@ -87,7 +88,7 @@ const AdminSideBar = ({ setTitlePage }) => {
                 _hover={{ cursor: "Pointer", bgColor: "gray.200" }}
                 pl="14"
               >
-                <Text onClick={() => router.push("/admin/transaction") && setTitlePage("Semua Pesanan")}>
+                <Text onClick={() => router.push("/admin/transaction") || setTitlePage("Semua Pesanan")}>
                   Semua Pesanan
                 </Text>
               </AccordionPanel>

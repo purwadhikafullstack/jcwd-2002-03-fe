@@ -4,6 +4,7 @@ import BottomBanner from "../component/banner/BotomBanner"
 import PromotionCard from "../component/banner/PromotionCard"
 import ResepBanner from "../component/ResepBanner"
 import SlideShow from "../component/SlideShow"
+import DiscountCarousel from "../component/banner/DiscountCarousel";
 import PopularPromotion from "../component/banner/PopularPromotion";
 
 const Index = () => {
@@ -12,6 +13,8 @@ const Index = () => {
       <SlideShow />
       <Divider />
       <ResepBanner />
+      <Divider />
+      <DiscountCarousel />
       <Divider />
       <PromotionCard />
       <Divider />

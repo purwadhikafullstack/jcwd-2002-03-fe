@@ -6,7 +6,6 @@ import {
   Stack,
   Text,
   InputGroup,
-  InputLeftAddon,
   InputRightAddon,
   Icon,
   GridItem,
@@ -19,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
@@ -217,15 +216,6 @@ const AddressFormComponent = () => {
           </Text>
         </FormLabel>
         <InputGroup>
-          <InputLeftAddon bg="white">
-            <Stack direction="row">
-              <Text pt="2px">+62</Text>
-              <Stack spacing="-0.5">
-                <Icon as={IoIosArrowUp} />
-                <Icon as={IoIosArrowDown} />
-              </Stack>
-            </Stack>
-          </InputLeftAddon>
           <Input
             mb="36px"
             type="number"

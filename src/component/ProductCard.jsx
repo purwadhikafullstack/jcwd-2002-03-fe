@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { selectAuth } from "../redux/reducer/authSlice";
 import api from "../lib/api"
 
-const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasan, discountPrice = 0 }) => {
+const ProductCard = ({ medName, discount, sellingPrice, productImage, id, kemasan, discountPrice }) => {
   const authSelector = useSelector(selectAuth)
   const router = useRouter()
   const [love, setLove] = useState(false)
