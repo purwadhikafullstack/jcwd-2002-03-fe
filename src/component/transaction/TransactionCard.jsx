@@ -199,8 +199,11 @@ const TransactionCard = ({ props, fetchTransaction }) => {
                         {props.isPacking === true && props.isSend === false && props.isValid === true &&
                             <Button colorScheme="teal" onClick={() => updateStatusPayment({ isSend: true })}>Minta Penjemputan</Button>
                         }
-                        {props.isPacking === true && props.isSend === true && props.isValid === true &&
+                        {props.isPacking === true && props.isSend === true && props.isValid === true && props.isDone === false &&
                             <Button colorScheme="teal" onClick={() => updateStatusPayment({ isDone: true })}>Pesanan Selesai</Button>
+                        }
+                        {props.isDone === true && props.isValid === true &&
+                            <Button variant="ghost" colorScheme="teal">Selesai</Button>
                         }
                     </HStack>
                 </Box>
