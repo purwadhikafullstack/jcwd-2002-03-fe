@@ -86,7 +86,6 @@ const PaymentReceipt = ({ transactionId }) => {
               </Button>
             </Box>
             <Input
-              accept="image/*"
               type="file"
               ref={inputRef}
               display="none"
