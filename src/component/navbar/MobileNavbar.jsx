@@ -22,8 +22,8 @@ const MobileNavbar = ({ title, icon1, icon2, link }) => {
             </GridItem>
             <GridItem colSpan={1} justifyContent="center" alignItems="center" display="flex" >
                 <HStack spacing={7}>
-                    {icon1 ? <Icon as={icon1} boxSize={5} onClick={() => router.push(link)} cursor="pointer" /> : undefined}
-                    {icon2 ? <Icon as={icon2} boxSize={5} cursor="pointer" /> : undefined}
+                    {icon1 ? <Icon as={icon1} boxSize={6} color="#008D8F" onClick={() => router.push(link)} cursor="pointer" /> : undefined}
+                    {icon2 ? <Icon as={icon2} boxSize={6} color="#008D8F" cursor="pointer" /> : undefined}
                 </HStack>
             </GridItem>
         </Grid>

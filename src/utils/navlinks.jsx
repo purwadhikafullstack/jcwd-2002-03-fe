@@ -9,6 +9,14 @@ import MobileNavbar from "../component/navbar/MobileNavbar"
 
 const navLinks = [
     {
+        name: "login",
+        path: "/auth/login",
+        base: <MobileNavbar key="home" icon1={HiHome} link="/" />,
+        md: <DesktopNavBar />,
+        bottomNav: undefined,
+        displayAboutCompany: <AboutCompany />
+    },
+    {
         name: "detail-Product",
         path: "/product/detail/[id]",
         base: <MobileNavbar key="kategori" title="Kategori" icon1={FaShoppingCart} icon2={HiDotsVertical} link="/cart" />,

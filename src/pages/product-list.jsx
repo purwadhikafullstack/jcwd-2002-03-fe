@@ -137,6 +137,7 @@ const ProductList = () => {
     selectedValue,
     router.query,
     router.isReady,
+    selectedProduct,
   ]);
   return (
     <Grid

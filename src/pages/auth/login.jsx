@@ -92,7 +92,7 @@ const login = () => {
 
 
   useEffect(() => {
-    if (authSelector.id) {
+    if (authSelector.role === "user") {
       router.push("/");
     }
   }, [authSelector]);
@@ -106,7 +106,7 @@ const login = () => {
       >
         <Img src="/login_image.svg" />
       </GridItem>
-      <GridItem colSpan={[2, 1, 1]} alignItems="center" mt={[4]}>
+      <GridItem colSpan={[2, 1, 1]} alignItems="center" mt={[0, 4]}>
         <Box width={["90%", "80%"]} margin="auto">
           <Box mt={["90px"]}>
             <Text variant="title" display={["none", "block", "block"]}>
