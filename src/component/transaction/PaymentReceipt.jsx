@@ -65,6 +65,7 @@ const PaymentReceipt = ({ transactionId }) => {
         isClosable: true,
       });
     }
+    setIsLoading(false)
   };
 
   return (
@@ -85,7 +86,7 @@ const PaymentReceipt = ({ transactionId }) => {
               </Button>
             </Box>
             <Input
-              accept="image/png, image/jpg, image/jpeg"
+              accept="image/*"
               type="file"
               ref={inputRef}
               display="none"
