@@ -12,9 +12,9 @@ const navLinks = [
         name: "login",
         path: "/auth/login",
         base: <MobileNavbar key="home" icon1={HiHome} link="/" />,
-        md: <DesktopNavBar />,
+        md: undefined,
         bottomNav: undefined,
-        displayAboutCompany: <AboutCompany />
+        displayAboutCompany: undefined,
     },
     {
         name: "detail-Product",
