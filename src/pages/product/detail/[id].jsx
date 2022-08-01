@@ -509,7 +509,9 @@ export const getServerSideProps = async (context) => {
         productDetail: res.data.result,
       },
     };
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export default detail;
